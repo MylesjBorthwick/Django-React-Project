@@ -1,1 +1,1 @@
-# Sjango-React-Project
+# Django-React-Project
