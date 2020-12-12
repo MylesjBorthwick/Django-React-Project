@@ -5,7 +5,7 @@ from echo.models import Echo
 
 # Create your views here.
 def echo_view(*args, **kwargs):
-    return HttpResponse("<h1>Please go to /api/echos/<h1>")
+    return redirect('/api/echos/')
 
 def echo_dynamic_lookup_view(request, id):
     obj = get_object_or_404(Echo,id=id)
