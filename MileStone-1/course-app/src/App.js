@@ -82,33 +82,38 @@ function App() {
 
                 <section class="section">
                   <div class="container">
+
                     <h1 class="title">Course Info</h1>
-                    <h2 class="subtitle">
-                      A survey of software design and development topics for Engineering students. Topics include: key features of an object-oriented programming language, especially inheritance and polymorphism; elements of object-oriented design; programming and application of common data structures; strategies and tools for testing and debugging.
-                    </h2>
-                    <table class="table">
-                      <thead>
-                        <tr>
-                          <th><abbr title=" "> </abbr></th>
-                          <th><abbr title=" "> </abbr></th>
-                        </tr>
-                      </thead>
-                      
-                      <tbody>
-                        <tr>
-                          <th>Course Hours</th>
-                          <td>3 units; H (3-2)</td>
-                         </tr>
-                        <tr>
-                          <th>Academic Credit</th>
-                          <td>3</td>
-                        </tr>
-                        <tr>
-                          <th>Calendar Reference: </th>
-                          <td><a href="https://www.ucalgary.ca/pubs/calendar/current/software-engineering-for-engineers.html#38252" title="2021-2022 Academic Calendar">Academic Calendar</a></td></tr>
-   
-                      </tbody>
-                    </table>
+
+                    <div class="field">
+                      <div class="control">
+                        <textarea class="textarea is-info" placeholder="Enter Course Name" rows="1"></textarea>
+                      </div>
+                    </div>
+
+                    <div class="field">
+                      <div class="control">
+                        <textarea class="textarea is-info" placeholder="Enter Course Number" rows="1"></textarea>
+                      </div>
+                    </div>
+
+                    <div class="field">
+                      <div class="control">
+                        <textarea class="textarea is-info" placeholder="Enter Course Description" rows="4"></textarea>
+                      </div>
+                    </div>
+
+                    <div class="field">
+                      <div class="control">
+                        <input class="input is-primary" type="text" placeholder="Course Hours"></input>
+                      </div>
+                    </div>
+
+                    <div class="field">
+                      <div class="control">
+                        <input class="input is-primary" type="text" placeholder="Academic Credit"></input>
+                      </div>
+                    </div>
                   </div>
                 </section>
 
@@ -129,7 +134,6 @@ function App() {
                           </tbody>
                       </table>
                     </h2>
-
                   </div>
                 </section>
 
@@ -143,10 +147,17 @@ function App() {
                   </div>
                 </section>
 
+                <section class="section">
+                  <div class="container">
+                    <h1 class="title">Submit Form?</h1>
+                    <div class="control">
+                      <button class="button is-primary">Submit</button>
+                    </div>
+
+                  </div>
+                </section>
 
               </body>
-
-
 
             </div>
           </div>
