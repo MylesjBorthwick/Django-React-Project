@@ -116,6 +116,10 @@ body {
   color: rgb(71, 136, 201);
 }
 
+#FinalGradesTable tr:hover {
+  background-color: rgb(170, 198, 231);
+}
+
 #courseObjectiveTable tr:hover {
   background-color: rgb(170, 198, 231);
 }
