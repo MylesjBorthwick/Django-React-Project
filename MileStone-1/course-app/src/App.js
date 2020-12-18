@@ -7,6 +7,170 @@ import ReactDOM from 'react-dom';
 
 const URL = 'https://jsonplaceholder.typicode.com/users'
 
+class FinalGrades extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {};
+    this.state.filterText = "";
+    this.state.finalGrades = [
+      {
+        id: 1,
+        weight: '',
+        finalGrade: '',
+        name: ''
+      }, 
+    ];
+
+  }
+  handleUserInput(filterText) {
+    this.setState({filterText: filterText});
+  };
+  handleRowDel(finalGrade) {
+    var index = this.state.finalGrades.indexOf(finalGrade);
+    this.state.finalGrades.splice(index, 1);
+    this.setState(this.state.finalGrades);
+  };
+
+  handleAddEvent(evt) {
+    var id = uuidv4();
+    var finalGrade = {
+      id: id,
+      name: "",
+      learningOutcome: "",
+      weight: "",
+    }
+    this.state.finalGrades.push(finalGrade);
+    this.setState(this.state.finalGrades);
+
+  }
+
+  handleFinalGradesTable(evt) {
+    var item = {
+      id: evt.target.id,
+      name: evt.target.name,
+      value: evt.target.value
+    };
+var finalGrades = this.state.finalGrades.slice();
+  var newFinalGrades = finalGrades.map(function(finalGrade) {
+
+    for (var key in finalGrade) {
+      if (key == item.name && finalGrade.id == item.id) {
+        finalGrade[key] = item.value;
+
+      }
+    }
+    return finalGrade;
+  });
+    this.setState({finalGrades:newFinalGrades});
+  };
+  render() {
+
+    return (
+      <div>
+        <FinalGradesTable onFinalGradesTableUpdate={this.handleFinalGradesTable.bind(this)} onRowAdd={this.handleAddEvent.bind(this)} onRowDel={this.handleRowDel.bind(this)} finalGrades={this.state.finalGrades} filterText={this.state.filterText}/>
+      </div>
+    );
+
+  }
+
+}
+
+
+class FinalGradesTable extends React.Component {
+
+  render() {
+    var onFinalGradesTableUpdate = this.props.onFinalGradesTableUpdate;
+    var rowDel = this.props.onRowDel;
+    var filterText = this.props.filterText;
+    var finalGrade = this.props.finalGrades.map(function(finalGrade) {
+      if (finalGrade.name.indexOf(filterText) === -1) {
+        return;
+      }
+      return (<FinalGradeRow onFinalGradesTableUpdate={onFinalGradesTableUpdate} finalGrade={finalGrade} onDelEvent={rowDel.bind(this)} key={finalGrade.id}/>)
+    });
+    return (
+      <div>
+
+
+        <table className="table table-bordered">
+          <thead>
+            <tr>
+              <th>Component</th>
+              <th>Learning Outcome(s) Evaluated</th>
+              <th>Weight</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {finalGrade}
+
+          </tbody>
+
+        </table>
+        <button type="button" onClick={this.props.onRowAdd} className="btn btn-success pull-right">Add</button>
+      </div>
+    );
+
+  }
+
+}
+
+class FinalGradeRow extends React.Component {
+  onDelEvent() {
+    this.props.onDelEvent(this.props.finalGrade);
+
+  }
+  render() {
+
+    return (
+      <tr className="eachRow">
+        <EditableFinalGradeCell onFinalGradesTableUpdate={this.props.onFinalGradesTableUpdate} cellData={{
+          "type": "name",
+          value: this.props.finalGrade.name,
+          id: this.props.finalGrade.id
+        }}/>
+        <EditableFinalGradeCell onFinalGradesTableUpdate={this.props.onFinalGradesTableUpdate} cellData={{
+          type: "learningOutcome",
+          value: this.props.finalGrade.learningOutcome,
+          id: this.props.finalGrade.id
+        }}/>
+        <EditableFinalGradeCell onFinalGradesTableUpdate={this.props.onFinalGradesTableUpdate} cellData={{
+          type: "weight",
+          value: this.props.finalGrade.weight,
+          id: this.props.finalGrade.id
+        }}/>
+        <td className="del-cell">
+          <input type="button" onClick={this.onDelEvent.bind(this)} value="Remove" className="del-btn"/>
+        </td>
+      </tr>
+    );
+
+  }
+
+}
+class EditableFinalGradeCell extends React.Component {
+
+  render() {
+    return (
+      <td>
+        <input type='text' name={this.props.cellData.type} id={this.props.cellData.id} value={this.props.cellData.value} onChange={this.props.onFinalGradesTableUpdate}/>
+      </td>
+    );
+
+  }
+
+}
+
+
+
+
+
+
+
+
+
 class CourseObjectives extends React.Component {
 
   constructor(props) {
@@ -130,7 +294,7 @@ class CourseObjectivesRow extends React.Component {
     return (
       <tr className="eachRow">
         <CourseObjectivesEditableCell onCourseObjectivesTableUpdate={this.props.onCourseObjectivesTableUpdate} cellData={{
-          "type": "category",
+          "type": "component",
           value: this.props.courseObjective.publicID,
           id: this.props.courseObjective.id
         }}/>
@@ -161,159 +325,12 @@ class CourseObjectivesEditableCell extends React.Component {
 
 }
 
-// class CourseObjectives extends Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       list: [
-//         { id: '1', objective: "" },
-//       ],
-//     };
-
-//     onUpdateItems = () => {
-//       this.setState(state => {
-//         const list = state.list.map(item => {id});
-   
-//         return {
-//           list,
-//         };
-//       });
-//     };
-
-//     onRemoveItems = i => {
-//       this.setState(state => {
-//         const list = state.list.filter((j, objective) => i !== j);
-//         if (list == []){
-//           list = [
-//             { id: '1', objective: "" }
-//           ]
-//         }
-//         return {
-//           list,
-//         };
-//       });
-//     };
-//   }
-// }
-
-
-// const courseObjectives = [
-//   {
-//     id: 1,
-//     name: ' ',
-//   },
-// ];
-
-// const listReducer = (state, action) => {
-//   switch (action.type) {
-//     case 'REMOVE_ITEM':
-//       return {
-//         ...state,
-//         list: state.list.filter((item) => item.id !== action.id),
-//       };
-//     default:
-//       throw new Error();
-//   }
-// };
-
 
 
 function App() {
 
 
-  // const [objectivesList, setObjectivesList] = React.useState({
-  //   list: courseObjectives,
-  //   isShowList: true,
-  // });
- 
-  // function handleChange(event, id) {
-  //   //setObjectivesList(event.target.value);
-  // }
-  // function handleRemove(id) {
-  //   setObjectivesList({ type: 'REMOVE_ITEM', id });
-  // }
-  // function handleAdd() {
-  //   const newList = objectivesList.concat({ name:" ", id: uuidv4() });
-  //   setObjectivesList(newList);
-  // }
-  // if (!objectivesList.isShowList) {
-  //   return null;
-  // }
 
-
-
-  const addRow = () => {
-
-}
-
-
-    const [employees, setEmployees] = useState([])
-
-    useEffect(() => {
-        getData()
-    }, [])
-
-    const getData = async () => {
-
-        const response = await axios.get(URL)
-        setEmployees(response.data)
-    }
-
-    const removeData = (id) => {
-
-        axios.delete(`${URL}/${id}`).then(res => {
-            const del = employees.filter(employee => id !== employee.id)
-            setEmployees(del)
-        })
-    }
-
-    const renderHeader = () => {
-        let headerElement = ['Objective Number', 'Objective Description', 'Remove']
-
-        return headerElement.map((key, index) => {
-            return <th key={index}>{key}</th>
-        })
-    }
-    const renderBody = () => {
-      return employees && employees.map(({ id, name}) => {
-        return (
-            <tr key={id}>
-                <td contenteditable='false'>{id}</td>
-                <td contenteditable='true'>{name}</td>
-                <td className='opration'>
-                    <button className='button' onClick={() => removeData(id)}>Delete</button>
-                </td>
-            </tr>
-            
-        )
-    })
-  }
-
-
-
-    const renderHeaderGrades = () => {
-      let headerElement = ['Component', 'Learning Outcome(s) Evaluated', 'Weight','Remove']
-
-      return headerElement.map((key, index) => {
-          return <th key={index}>{key.toUpperCase()}</th>
-      })
-  }
-
-  const renderBodyGrades = () => {
-    return employees && employees.map(({ id, name, email}) => {
-        return (
-            <tr key={id}>
-                <td contenteditable='false'>{id}</td>
-                <td contenteditable='true'>{name}</td>
-                <td contenteditable='true'>{email}</td>
-                <td className='opration'>
-                    <button className='button' onClick={() => removeData(id)}>Delete</button>
-                </td>
-            </tr>
-            
-        )
-    })
-}
 
 
 
@@ -392,14 +409,9 @@ function App() {
                     <h2 class="subtitle">
                     <h1 id='title'> </h1>
                       <table id='employee'>
-                          <thead>
-                              <tr>{renderHeaderGrades()}</tr>
-                          </thead>
                           <tbody>
-                              {renderBodyGrades()}
-                              <div>
-                                <button className='add-row-button' onClick={() => addRow()}>Add Row</button>
-                              </div>
+                            < FinalGrades / > 
+
                           </tbody>
                       </table>
                   
