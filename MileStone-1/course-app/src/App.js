@@ -1,6 +1,60 @@
 import 'bulma/css/bulma.css';
 import { useState } from "react";
-import React from "react";
+import React, { Component } from 'react'
+import ReactDOM from 'react-dom'; 
+
+class Table extends React.Component {
+  constructor(props) {
+     super(props)
+     this.state = {
+        students: [
+           { id: 1, name: 'Wasif', age: 21, email: 'wasif@email.com' },
+           { id: 2, name: 'Ali', age: 19, email: 'ali@email.com' },
+           { id: 3, name: 'Saad', age: 16, email: 'saad@email.com' },
+           { id: 4, name: 'Asad', age: 25, email: 'asad@email.com' }
+        ]
+     }
+  }
+
+  renderTableHeader() {
+     let header = Object.keys(this.state.students[0])
+     return header.map((key, index) => {
+        return <th key={index}>{key.toUpperCase()}</th>
+     })
+  }
+
+  renderTableData() {
+     return this.state.students.map((student, index) => {
+        const { id, name, age, email } = student //destructuring
+        return (
+           <tr key={id}>
+              <td>{id}</td>
+              <td>{name}</td>
+              <td>{age}</td>
+              <td>{email}</td>
+           </tr>
+        )
+     })
+  }
+
+  render() {
+     return (
+        <div>
+           <h1 id='title'>React Dynamic Table</h1>
+           <table id='students'>
+              <tbody>
+                 <tr>{this.renderTableHeader()}</tr>
+                 {this.renderTableData()}
+              </tbody>
+           </table>
+        </div>
+     )
+  }
+}
+
+
+
+
 function App() {
 
   const [counter, setCounter] = useState(0);
@@ -8,6 +62,7 @@ function App() {
 
   const decrement = () => { setCounter(counter - 1) }
   const increment = () => { setCounter(counter + 1) }
+  
 
   const handleKeyDown = (e) => {
     if (e.key == "Enter") {
@@ -59,29 +114,11 @@ function App() {
                   <div class="container">
                     <h1 class="title">Learning Outcomes</h1>
                     <h2 class="subtitle">
-                      Create dynamic outcome table here
-                    </h2>
-                    <table class="table">
-                      <thead>
-                        <tr>
-                          <th><abbr title="Number"> </abbr></th>
-                          <th><abbr title="Outcome">Outcome</abbr></th>
-                        </tr>
-                      </thead>
-                      
-                      <tbody>
-                        <tr>
-                          <th>1</th>
-                          <th>Have a deep understanding, and practical knowledge of object oriented analysis, design, and development.</th>
-                         </tr>
-                        <tr>
-                          <th>2</th>
-                          <td>Design and develop software programs in Java.</td>
 
-                        </tr>
-   
-                      </tbody>
-                    </table>
+                      ReactDOM.render(<Table />, document.getElementById('root'));
+
+                    </h2>
+
                   </div>
                 </section>
 
@@ -90,6 +127,7 @@ function App() {
                     <h1 class="title">Final Grade Determination</h1>
                     <h2 class="subtitle">
                       Create dynamic grade table here
+
                     </h2>
                   </div>
                 </section>
