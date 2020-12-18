@@ -18,7 +18,8 @@ class CourseObjectives extends React.Component {
       {
         id: 1,
         publicID: 1,
-        name: ''
+        name: '',
+
       },
       {
         id: 2,
@@ -254,7 +255,7 @@ function App() {
                  
                       <table id='employee'>
                           <tbody>
-                               < Products / > ;
+                               < CourseObjectives / > 
  
                           </tbody>
                          

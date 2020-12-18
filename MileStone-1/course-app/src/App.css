@@ -62,31 +62,34 @@ body {
 }
 
 #employee {
+  width: 100%;
   justify-content: center;
   border-collapse: collapse;
-  margin-left: auto;
-  margin-right: auto;
+
   border: 3px solid #ddd;
 }
 
 #employee td,
 #employee th {
   justify-content: center;
+  width: 100%;
   border: 1px solid #ddd;
   padding: 12px;
 }
 
 #employee tr:hover {
-  background-color: #ddd;
+  background-color: rgb(170, 198, 231);
 }
 
 #employee th {
+  
   align-items: center;
   padding: 10px;
+  
   text-align: center;
   justify-content: center;
-  background-color: #acb7f1;
-  color: rgb(61, 28, 248);
+  background-color: #d6ecff;
+  color: rgb(71, 136, 201);
 }
 
 .opration {
