@@ -94,9 +94,9 @@ class FinalGradesTable extends React.Component {
       <div>
 
 
-        <table className="table table-bordered">
+        <table className="table-bordered">
           <thead>
-            <tr>
+          <tr className="table-header">
               <th>Component</th>
               <th>Learning Outcome(s) Evaluated</th>
               <th>Weight</th>
@@ -109,7 +109,7 @@ class FinalGradesTable extends React.Component {
           </tbody>
 
         </table>
-        <button type="button" onClick={this.props.onRowAdd} className="btn btn-success pull-right">Add</button>
+        <button type="button" onClick={this.props.onRowAdd} className="btn-add">Add</button>
       </div>
     );
 
@@ -155,7 +155,7 @@ class EditableFinalGradeCell extends React.Component {
   render() {
     return (
       <td>
-        <input type='text' name={this.props.cellData.type} id={this.props.cellData.id} value={this.props.cellData.value} onChange={this.props.onFinalGradesTableUpdate}/>
+        <input type='text' className='EditableCell' name={this.props.cellData.type} id={this.props.cellData.id} value={this.props.cellData.value} onChange={this.props.onFinalGradesTableUpdate}/>
       </td>
     );
 
@@ -261,9 +261,9 @@ class CourseObjectivesTable extends React.Component {
       <div>
 
 
-        <table className="table table-bordered">
+        <table className="table-bordered">
           <thead>
-            <tr>
+            <tr className="table-header">
               <th>Id</th>
               <th>Description</th>
             </tr>
@@ -275,7 +275,7 @@ class CourseObjectivesTable extends React.Component {
           </tbody>
 
         </table>
-        <button type="button" onClick={this.props.onCourseObjectivesRowAdd} className="btn btn-success pull-right">Add</button>
+        <button type="button" onClick={this.props.onCourseObjectivesRowAdd} className="btn-add">Add</button>
 
       </div>
     );
@@ -317,7 +317,7 @@ class CourseObjectivesEditableCell extends React.Component {
   render() {
     return (
       <td>
-        <input type='text' name={this.props.cellData.type} id={this.props.cellData.id} value={this.props.cellData.value} onChange={this.props.onCourseObjectivesTableUpdate}/>
+        <input type='text' className='EditableCell' name={this.props.cellData.type} id={this.props.cellData.id} value={this.props.cellData.value} onChange={this.props.onCourseObjectivesTableUpdate}/>
       </td>
     );
 
@@ -330,9 +330,49 @@ class CourseObjectivesEditableCell extends React.Component {
 function App() {
 
 
+  const [employees, setEmployees] = React.useState([])
 
+  React.useEffect(() => {
+      getData()
+  }, [])
 
+  const getData = async () => {
 
+      const response = await axios.get(URL)
+      setEmployees(response.data)
+  }
+
+  const removeData = (id) => {
+
+      axios.delete(`${URL}/${id}`).then(res => {
+          const del = employees.filter(employee => id !== employee.id)
+          setEmployees(del)
+      })
+  }
+
+  const renderHeader = () => {
+      let headerElement = ['id', 'name', 'email', 'phone', 'operation']
+
+      return headerElement.map((key, index) => {
+          return <th key={index}>{key.toUpperCase()}</th>
+      })
+  }
+
+  const renderBody = () => {
+      return employees && employees.map(({ id, name, email, phone }) => {
+          return (
+              <tr key={id}>
+                  <td>{id}</td>
+                  <td>{name}</td>
+                  <td>{email}</td>
+                  <td>{phone}</td>
+                  <td className='opration'>
+                      <button className='button' onClick={() => removeData(id)}>Delete</button>
+                  </td>
+              </tr>
+          )
+      })
+  }
 
 
   return (
@@ -392,7 +432,7 @@ function App() {
 
                     <h1 class="title">Learning Outcomes</h1>
                     <h2 class="subtitle">
-                      <table id='employee'>
+                      <table id='courseObjectiveTable'>
 
                           <tbody>
                               < CourseObjectives / > 
@@ -408,7 +448,7 @@ function App() {
                     <h1 class="title">Final Grade Determination</h1>
                     <h2 class="subtitle">
                     <h1 id='title'> </h1>
-                      <table id='employee'>
+                      <table id='courseObjectiveTable'>
                           <tbody>
                             < FinalGrades / > 
 
