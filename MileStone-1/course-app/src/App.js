@@ -182,7 +182,8 @@ class CourseObjectives extends React.Component {
       {
         id: 1,
         publicID: 1,
-        name: ''
+        name: '',
+
       },
       {
         id: 2,
@@ -325,7 +326,9 @@ class CourseObjectivesEditableCell extends React.Component {
 
 }
 
-
+const refreshPage = () => {
+  window.location.reload();
+}
 
 function App() {
 
@@ -383,6 +386,14 @@ function App() {
             <div className="notification">
               <body>
 
+              <section class="section">
+                  <div class="container">
+
+                    <h1 class="title is-1">Course Creation Form</h1>
+                    
+                  </div>
+                </section>
+
 
                 <section class="section">
                   <div class="container">
@@ -431,6 +442,7 @@ function App() {
                   <div class="container">
 
                     <h1 class="title">Learning Outcomes</h1>
+                    
                     <h2 class="subtitle">
                       <table id='courseObjectiveTable'>
 
@@ -453,6 +465,7 @@ function App() {
                             < FinalGrades / > 
 
                           </tbody>
+                         
                       </table>
                   
 
@@ -462,9 +475,9 @@ function App() {
 
                 <section class="section">
                   <div class="container">
-                    <h1 class="title">Submit Form?</h1>
+                    <h1 class="title">Create Course?</h1>
                     <div class="control">
-                      <button class="button is-primary">Submit</button>
+                      <button class="button is-primary is-large" onClick={refreshPage}>Create</button>
                     </div>
 
                   </div>

@@ -72,28 +72,28 @@ body {
 #courseObjectiveTable td,
 #courseObjectiveTable th {
   justify-content: center;
+  width: 100%;
   border: 1px solid #ddd;
   padding: 12px;
   width: 100%;
 }
 
 #courseObjectiveTable tr:hover {
-  background-color: #ddd;
+  background-color: rgb(170, 198, 231);
 }
 
 #courseObjectiveTable th {
   align-items: center;
+  
   padding: 10px;
+  
   text-align: center;
   justify-content: center;
-  background-color: #acb7f1;
-  color: rgb(61, 28, 248);
-  width: 100%;
-
+  background-color: #d6ecff;
+  color: rgb(71, 136, 201);
 }
 
 .eachRow {
-  padding: 10px;
   align-items: center;
   text-align: center;
   justify-content: center;
@@ -105,6 +105,9 @@ body {
 .EditableCell{
   width: 200px;
   height: 100px;
+  justify-content: center;
+  border-collapse: collapse;
+
 }
 
 .del-btn {
