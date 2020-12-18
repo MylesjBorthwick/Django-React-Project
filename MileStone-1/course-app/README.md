@@ -4,6 +4,11 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Available Scripts
 
+
+### 'npm i axios'
+
+is needed before setup
+
 In the project directory, you can run:
 
 ### `npm start`

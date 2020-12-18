@@ -45,7 +45,7 @@ function App() {
     }
 
     const renderHeader = () => {
-        let headerElement = ['id', 'name', 'email', 'phone', 'operation']
+        let headerElement = ['Objective Number', 'Objective Description', 'Remove']
 
         return headerElement.map((key, index) => {
             return <th key={index}>{key.toUpperCase()}</th>
@@ -55,13 +55,11 @@ function App() {
 
 
     const renderBody = () => {
-        return employees && employees.map(({ id, name, email, phone }) => {
+        return employees && employees.map(({ id, name}) => {
             return (
                 <tr key={id}>
-                    <td contenteditable='true'>{id}</td>
+                    <td contenteditable='false'>{id}</td>
                     <td contenteditable='true'>{name}</td>
-                    <td contenteditable='true'>{email}</td>
-                    <td contenteditable='true'>{phone}</td>
                     <td className='opration'>
                         <button className='button' onClick={() => removeData(id)}>Delete</button>
                     </td>
