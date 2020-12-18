@@ -154,8 +154,8 @@ class EditableFinalGradeCell extends React.Component {
 
   render() {
     return (
-      <td>
-        <input type='text' className='EditableCell' name={this.props.cellData.type} id={this.props.cellData.id} value={this.props.cellData.value} onChange={this.props.onFinalGradesTableUpdate}/>
+      <td className='EditableCell'>
+        <textarea class="textarea is-info" rows="2" name={this.props.cellData.type} id={this.props.cellData.id} value={this.props.cellData.value} onChange={this.props.onFinalGradesTableUpdate}/>
       </td>
     );
 
@@ -317,8 +317,8 @@ class CourseObjectivesEditableCell extends React.Component {
 
   render() {
     return (
-      <td>
-        <input type='text' className='EditableCell' name={this.props.cellData.type} id={this.props.cellData.id} value={this.props.cellData.value} onChange={this.props.onCourseObjectivesTableUpdate}/>
+      <td className='EditableCell'>
+        <textarea class="textarea is-info" rows="2" name={this.props.cellData.type} id={this.props.cellData.id} value={this.props.cellData.value} onChange={this.props.onCourseObjectivesTableUpdate}/>
       </td>
     );
 
@@ -460,7 +460,7 @@ function App() {
                     <h1 class="title">Final Grade Determination</h1>
                     <h2 class="subtitle">
                     <h1 id='title'> </h1>
-                      <table id='courseObjectiveTable'>
+                      <table id='FinalGradesTable'>
                           <tbody>
                             < FinalGrades / > 
 
