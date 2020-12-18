@@ -1,58 +1,9 @@
 import 'bulma/css/bulma.css';
-import { useState } from "react";
-import React, { Component } from 'react'
-import ReactDOM from 'react-dom'; 
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
+import './App.css';
 
-class Table extends React.Component {
-  constructor(props) {
-     super(props)
-     this.state = {
-        students: [
-           { id: 1, name: 'Wasif', age: 21, email: 'wasif@email.com' },
-           { id: 2, name: 'Ali', age: 19, email: 'ali@email.com' },
-           { id: 3, name: 'Saad', age: 16, email: 'saad@email.com' },
-           { id: 4, name: 'Asad', age: 25, email: 'asad@email.com' }
-        ]
-     }
-  }
-
-  renderTableHeader() {
-     let header = Object.keys(this.state.students[0])
-     return header.map((key, index) => {
-        return <th key={index}>{key.toUpperCase()}</th>
-     })
-  }
-
-  renderTableData() {
-     return this.state.students.map((student, index) => {
-        const { id, name, age, email } = student //destructuring
-        return (
-           <tr key={id}>
-              <td>{id}</td>
-              <td>{name}</td>
-              <td>{age}</td>
-              <td>{email}</td>
-           </tr>
-        )
-     })
-  }
-
-  render() {
-     return (
-        <div>
-           <h1 id='title'>React Dynamic Table</h1>
-           <table id='students'>
-              <tbody>
-                 <tr>{this.renderTableHeader()}</tr>
-                 {this.renderTableData()}
-              </tbody>
-           </table>
-        </div>
-     )
-  }
-}
-
-
+const URL = 'https://jsonplaceholder.typicode.com/users'
 
 
 function App() {
@@ -69,6 +20,56 @@ function App() {
       setCounter(parseInt(inputValue))
     }
   }
+
+    const [employees, setEmployees] = useState([])
+
+    useEffect(() => {
+        getData()
+    }, [])
+
+    const getData = async () => {
+
+        const response = await axios.get(URL)
+        setEmployees(response.data)
+    }
+
+    const removeData = (id) => {
+
+        axios.delete(`${URL}/${id}`).then(res => {
+            const del = employees.filter(employee => id !== employee.id)
+            setEmployees(del)
+        })
+    }
+    const addRow = () =>{
+
+    }
+
+    const renderHeader = () => {
+        let headerElement = ['id', 'name', 'email', 'phone', 'operation']
+
+        return headerElement.map((key, index) => {
+            return <th key={index}>{key.toUpperCase()}</th>
+        })
+    }
+
+
+
+    const renderBody = () => {
+        return employees && employees.map(({ id, name, email, phone }) => {
+            return (
+                <tr key={id}>
+                    <td contenteditable='true'>{id}</td>
+                    <td contenteditable='true'>{name}</td>
+                    <td contenteditable='true'>{email}</td>
+                    <td contenteditable='true'>{phone}</td>
+                    <td className='opration'>
+                        <button className='button' onClick={() => removeData(id)}>Delete</button>
+                    </td>
+                </tr>
+                
+            )
+        })
+    }
 
   return (
     <div className="App">
@@ -105,6 +106,7 @@ function App() {
                         <tr>
                           <th>Calendar Reference: </th>
                           <td><a href="https://www.ucalgary.ca/pubs/calendar/current/software-engineering-for-engineers.html#38252" title="2021-2022 Academic Calendar">Academic Calendar</a></td></tr>
+   
                       </tbody>
                     </table>
                   </div>
@@ -114,9 +116,18 @@ function App() {
                   <div class="container">
                     <h1 class="title">Learning Outcomes</h1>
                     <h2 class="subtitle">
-
-                      ReactDOM.render(<Table />, document.getElementById('root'));
-
+                    <h1 id='title'>React Table</h1>
+                      <table id='employee'>
+                          <thead>
+                              <tr>{renderHeader()}</tr>
+                          </thead>
+                          <tbody>
+                              {renderBody()}
+                              <div>
+                                <button className='add-row-button' onClick={() => addRow()}>Add Row</button>
+                              </div>
+                          </tbody>
+                      </table>
                     </h2>
 
                   </div>
