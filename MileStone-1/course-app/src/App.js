@@ -85,7 +85,7 @@ function App() {
 
                     <h1 class="title">Course Info</h1>
 
-                    <div class="field">
+                    <div class="field has-addons">
                       <div class="control">
                         <textarea class="textarea is-info" placeholder="Enter Course Name" rows="1"></textarea>
                       </div>
@@ -103,15 +103,21 @@ function App() {
                       </div>
                     </div>
 
-                    <div class="field">
+                    <div class="field has-addons">
                       <div class="control">
                         <input class="input is-primary" type="text" placeholder="Course Hours"></input>
                       </div>
                     </div>
 
-                    <div class="field">
+                    <div class="field has-addons">
                       <div class="control">
                         <input class="input is-primary" type="text" placeholder="Academic Credit"></input>
+                      </div>
+                    </div>
+
+                    <div class="field has-addons">
+                      <div class="control">
+                        <input class="input is-primary" type="text" placeholder="Calendar Link"></input>
                       </div>
                     </div>
                   </div>
