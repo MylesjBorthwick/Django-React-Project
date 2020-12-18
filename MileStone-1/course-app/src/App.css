@@ -96,19 +96,18 @@ body {
 }
 
 .add-row-button{
-  border: none;
   outline: none;
-  font-size: 11px;
+  font-size: 14px;
   font-family: "Quicksand", sans-serif;
   color: #3936f4;
-  padding: 3px 10px;
+  padding: 8px 20px;
   border-radius: 8px;
   cursor: pointer;
-  border: 1px solid #3936f4;
+  border: 1.5px solid #3936f4;
   background-color: transparent;  
   justify-content: center;
 }
 
 .add-row-button:active {
-  border: 1px solid rgb(38, 170, 5);
+  border: 1.5px solid rgb(38, 170, 5);
 }
