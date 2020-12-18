@@ -3,7 +3,11 @@
 
 .App {
   text-align: center;
+  justify-content: center;
+  align-items: center;
 }
+
+
 
 .App-logo {
   height: 40vmin;
@@ -42,23 +46,32 @@
 
 
 body {
+  
   font-family: "Quicksand", sans-serif;
   justify-content: center;
   padding: 0;
   color: #4d4d4d;
+  align-items: center;
+
 }
+
+
 
 #title {
   text-align: center;
 }
 
 #employee {
+  justify-content: center;
   border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
   border: 3px solid #ddd;
 }
 
 #employee td,
 #employee th {
+  justify-content: center;
   border: 1px solid #ddd;
   padding: 12px;
 }
@@ -68,14 +81,18 @@ body {
 }
 
 #employee th {
+  align-items: center;
   padding: 10px;
   text-align: center;
-  background-color: #0827da;
-  color: white;
+  justify-content: center;
+  background-color: #acb7f1;
+  color: rgb(61, 28, 248);
 }
 
 .opration {
+  align-items: center;
   text-align: center;
+  justify-content: center;
 }
 
 .button {
@@ -99,8 +116,8 @@ body {
   outline: none;
   font-size: 14px;
   font-family: "Quicksand", sans-serif;
-  color: #3936f4;
   padding: 8px 20px;
+  color: hsl(242, 56%, 70%);
   border-radius: 8px;
   cursor: pointer;
   border: 1.5px solid #3936f4;

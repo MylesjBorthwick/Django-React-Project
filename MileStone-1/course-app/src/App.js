@@ -121,6 +121,30 @@ function App() {
         })
     }
 
+    const renderHeaderGrades = () => {
+      let headerElement = ['Component', 'Learning Outcome(s) Evaluated', 'Weight','Remove']
+
+      return headerElement.map((key, index) => {
+          return <th key={index}>{key.toUpperCase()}</th>
+      })
+  }
+
+  const renderBodyGrades = () => {
+    return employees && employees.map(({ id, name, email}) => {
+        return (
+            <tr key={id}>
+                <td contenteditable='false'>{id}</td>
+                <td contenteditable='true'>{name}</td>
+                <td contenteditable='true'>{email}</td>
+                <td className='opration'>
+                    <button className='button' onClick={() => removeData(id)}>Delete</button>
+                </td>
+            </tr>
+            
+        )
+    })
+}
+
 
 
     const renderBody = () => {
@@ -192,9 +216,9 @@ function App() {
 
                 <section class="section">
                   <div class="container">
+
                     <h1 class="title">Learning Outcomes</h1>
                     <h2 class="subtitle">
-                    <h1 id='title'>React Table</h1>
                       <table id='employee'>
                           <thead>
                               <tr>{renderHeader()}</tr>
@@ -214,7 +238,19 @@ function App() {
                   <div class="container">
                     <h1 class="title">Final Grade Determination</h1>
                     <h2 class="subtitle">
-                      Create dynamic grade table here
+                    <h1 id='title'> </h1>
+                      <table id='employee'>
+                          <thead>
+                              <tr>{renderHeaderGrades()}</tr>
+                          </thead>
+                          <tbody>
+                              {renderBodyGrades()}
+                              <div>
+                                <button className='add-row-button' onClick={() => addRow()}>Add Row</button>
+                              </div>
+                          </tbody>
+                      </table>
+                  
 
                     </h2>
                   </div>
