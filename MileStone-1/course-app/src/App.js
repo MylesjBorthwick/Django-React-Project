@@ -101,6 +101,14 @@ function App() {
             <div className="notification">
               <body>
 
+              <section class="section">
+                  <div class="container">
+
+                    <h1 class="title is-1">Course Creation Form</h1>
+                    
+                  </div>
+                </section>
+
 
                 <section class="section">
                   <div class="container">
@@ -149,8 +157,11 @@ function App() {
                   <div class="container">
 
                     <h1 class="title">Learning Outcomes</h1>
+                    
                     <h2 class="subtitle">
+                    <h1 id='title'>At the end of this course, you will be able to: </h1>
                       <table id='employee'>
+
                           <thead>
                               <tr>{renderHeader()}</tr>
                           </thead>
@@ -169,7 +180,9 @@ function App() {
                   <div class="container">
                     <h1 class="title">Final Grade Determination</h1>
                     <h2 class="subtitle">
-                    <h1 id='title'> </h1>
+                    <h1 id='title'>The final grade for this course will be based on the following: </h1>
+               
+                 
                       <table id='employee'>
                           <thead>
                               <tr>{renderHeaderGrades()}</tr>
@@ -189,9 +202,9 @@ function App() {
 
                 <section class="section">
                   <div class="container">
-                    <h1 class="title">Submit Form?</h1>
+                    <h1 class="title">Create Course?</h1>
                     <div class="control">
-                      <button class="button is-primary">Submit</button>
+                      <button class="button is-primary is-large">Create</button>
                     </div>
 
                   </div>
