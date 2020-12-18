@@ -133,7 +133,7 @@ class FinalGradeDeterminations extends React.Component {
             value: this.props.finalGrade.learningOutcome,
             id: this.props.finalGrade.id
           }}/>
-          <EditableFinalGradeCell onFinalGradesTableUpdate={this.props.onFinalGradesTableUpdate} cellData={{
+          <EditableFinalGradeCellNumbers onFinalGradesTableUpdate={this.props.onFinalGradesTableUpdate} cellData={{
             type: "weight",
             value: this.props.finalGrade.weight,
             id: this.props.finalGrade.id
@@ -155,9 +155,27 @@ class FinalGradeDeterminations extends React.Component {
           <textarea class="textarea is-info" rows="2" name={this.props.cellData.type} id={this.props.cellData.id} value={this.props.cellData.value} onChange={this.props.onFinalGradesTableUpdate}/>
         </td>
       );
-  
     }
-  
   }
   
+  class EditableFinalGradeCellNumbers extends React.Component {
   
+    render() {
+      return (
+        <td className='EditableCell'>
+          <input type='number' name={this.props.cellData.type} id={this.props.cellData.id} value={this.props.cellData.value} onChange={this.props.onFinalGradesTableUpdate}/>
+        </td>
+      );
+    }
+  }
+
+
+  /*
+(The MIT License)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the 'Software'), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/

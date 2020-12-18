@@ -16,7 +16,6 @@ class CourseObjectives extends React.Component {
           id: 1,
           publicID: 1,
           name: '',
-  
         },
         {
           id: 2,
@@ -127,8 +126,8 @@ class CourseObjectives extends React.Component {
   
       return (
         <tr className="eachRow">
-          <CourseObjectivesEditableCell onCourseObjectivesTableUpdate={this.props.onCourseObjectivesTableUpdate} cellData={{
-            "type": "component",
+          <CourseObjectivesEditableCellNumbers onCourseObjectivesTableUpdate={this.props.onCourseObjectivesTableUpdate} cellData={{
+            "type": "publicID",
             value: this.props.courseObjective.publicID,
             id: this.props.courseObjective.id
           }}/>
@@ -158,5 +157,33 @@ class CourseObjectives extends React.Component {
     }
   
   }
+
+  class CourseObjectivesEditableCellNumbers extends React.Component {
+  
+    render() {
+      return (
+        <td className='EditableCell'>
+          <input type='number' name={this.props.cellData.type} id={this.props.cellData.id} value={this.props.cellData.value} onChange={this.props.onCourseObjectivesTableUpdate}/>
+        </td>
+      );
+    }
+  }
   
   export default CourseObjectives
+
+
+
+
+
+  
+
+
+   /*
+(The MIT License)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the 'Software'), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
