@@ -7,103 +7,72 @@ import ReactDOM from 'react-dom';
 
 const URL = 'https://jsonplaceholder.typicode.com/users'
 
-class Products extends React.Component {
+class CourseObjectives extends React.Component {
 
   constructor(props) {
     super(props);
 
-    //  this.state.products = [];
     this.state = {};
     this.state.filterText = "";
-    this.state.products = [
+    this.state.courseObjectives = [
       {
         id: 1,
-        category: 'Sporting Goods',
-        price: '49.99',
-        qty: 12,
-        name: 'football'
-      }, {
+        publicID: 1,
+        name: ''
+      },
+      {
         id: 2,
-        category: 'Sporting Goods',
-        price: '9.99',
-        qty: 15,
-        name: 'baseball'
-      }, {
-        id: 3,
-        category: 'Sporting Goods',
-        price: '29.99',
-        qty: 14,
-        name: 'basketball'
-      }, {
-        id: 4,
-        category: 'Electronics',
-        price: '99.99',
-        qty: 34,
-        name: 'iPod Touch'
-      }, {
-        id: 5,
-        category: 'Electronics',
-        price: '399.99',
-        qty: 12,
-        name: 'iPhone 5'
-      }, {
-        id: 6,
-        category: 'Electronics',
-        price: '199.99',
-        qty: 23,
-        name: 'nexus 7'
-      }
+        publicID: 2,
+        name: ''
+      },
     ];
-
   }
   handleUserInput(filterText) {
     this.setState({filterText: filterText});
   };
-  handleRowDel(product) {
-    var index = this.state.products.indexOf(product);
-    this.state.products.splice(index, 1);
-    this.setState(this.state.products);
+  handleRowDel(courseObjective) {
+    var index = this.state.courseObjectives.indexOf(courseObjective);
+    this.state.courseObjectives.splice(index, 1);
+    this.setState(this.state.courseObjectives);
   };
 
   handleAddEvent(evt) {
-    var id = (+ new Date() + Math.floor(Math.random() * 999999)).toString(36);
-    var product = {
+    var id = uuidv4() ;
+    var courseObjective = {
       id: id,
       name: "",
-      price: "",
-      category: "",
-      qty: 0
+      publicID: 1+this.state.courseObjectives.length,
     }
-    this.state.products.push(product);
-    this.setState(this.state.products);
+    this.state.courseObjectives.push(courseObjective);
+    this.setState(this.state.courseObjectives);
 
   }
 
-  handleProductTable(evt) {
+  handleCourseObjectivesTable(evt) {
     var item = {
       id: evt.target.id,
       name: evt.target.name,
       value: evt.target.value
     };
-var products = this.state.products.slice();
-  var newProducts = products.map(function(product) {
+var courseObjectives = this.state.courseObjectives.slice();
+  var newCourseObjectives = courseObjectives.map(function(courseObjective) {
 
-    for (var key in product) {
-      if (key == item.name && product.id == item.id) {
-        product[key] = item.value;
+    for (var key in courseObjective) {
+      if (key == item.name && courseObjective.id == item.id) {
+        courseObjective[key] = item.value;
 
       }
     }
-    return product;
+    return courseObjective;
   });
-    this.setState({products:newProducts});
-  //  console.log(this.state.products);
+    this.setState({courseObjectives:newCourseObjectives});
+  //  console.log(this.state.courseObjectives);
   };
   render() {
 
     return (
       <div>
-        <ProductTable onProductTableUpdate={this.handleProductTable.bind(this)} onRowAdd={this.handleAddEvent.bind(this)} onRowDel={this.handleRowDel.bind(this)} products={this.state.products} filterText={this.state.filterText}/>
+        <CourseObjectivesTable onCourseObjectivesTableUpdate={this.handleCourseObjectivesTable.bind(this)} onCourseObjectivesRowAdd={this.handleAddEvent.bind(this)} onRowDel={this.handleRowDel.bind(this)} courseObjectives={this.state.courseObjectives} filterText={this.state.filterText}/>
       </div>
     );
 
@@ -112,17 +81,17 @@ var products = this.state.products.slice();
 }
 
 
-class ProductTable extends React.Component {
+class CourseObjectivesTable extends React.Component {
 
   render() {
-    var onProductTableUpdate = this.props.onProductTableUpdate;
+    var onCourseObjectivesTableUpdate = this.props.onCourseObjectivesTableUpdate;
     var rowDel = this.props.onRowDel;
     var filterText = this.props.filterText;
-    var product = this.props.products.map(function(product) {
-      if (product.name.indexOf(filterText) === -1) {
+    var courseObjective = this.props.courseObjectives.map(function(courseObjective) {
+      if (courseObjective.name.indexOf(filterText) === -1) {
         return;
       }
-      return (<ProductRow onProductTableUpdate={onProductTableUpdate} product={product} onDelEvent={rowDel.bind(this)} key={product.id}/>)
+      return (<CourseObjectivesRow onCourseObjectivesTableUpdate={onCourseObjectivesTableUpdate} courseObjective={courseObjective} onDelEvent={rowDel.bind(this)} key={courseObjective.id}/>)
     });
     return (
       <div>
@@ -131,20 +100,18 @@ class ProductTable extends React.Component {
         <table className="table table-bordered">
           <thead>
             <tr>
-              <th>Name</th>
-              <th>price</th>
-              <th>quantity</th>
-              <th>category</th>
+              <th>Id</th>
+              <th>Description</th>
             </tr>
           </thead>
 
           <tbody>
-            {product}
+            {courseObjective}
 
           </tbody>
 
         </table>
-        <button type="button" onClick={this.props.onRowAdd} className="btn btn-success pull-right">Add</button>
+        <button type="button" onClick={this.props.onCourseObjectivesRowAdd} className="btn btn-success pull-right">Add</button>
 
       </div>
     );
@@ -153,37 +120,27 @@ class ProductTable extends React.Component {
 
 }
 
-class ProductRow extends React.Component {
+class CourseObjectivesRow extends React.Component {
   onDelEvent() {
-    this.props.onDelEvent(this.props.product);
+    this.props.onDelEvent(this.props.courseObjective);
 
   }
   render() {
 
     return (
       <tr className="eachRow">
-        <EditableCell onProductTableUpdate={this.props.onProductTableUpdate} cellData={{
+        <CourseObjectivesEditableCell onCourseObjectivesTableUpdate={this.props.onCourseObjectivesTableUpdate} cellData={{
+          "type": "category",
+          value: this.props.courseObjective.publicID,
+          id: this.props.courseObjective.id
+        }}/>
+        <CourseObjectivesEditableCell onCourseObjectivesTableUpdate={this.props.onCourseObjectivesTableUpdate} cellData={{
           "type": "name",
-          value: this.props.product.name,
-          id: this.props.product.id
-        }}/>
-        <EditableCell onProductTableUpdate={this.props.onProductTableUpdate} cellData={{
-          type: "price",
-          value: this.props.product.price,
-          id: this.props.product.id
-        }}/>
-        <EditableCell onProductTableUpdate={this.props.onProductTableUpdate} cellData={{
-          type: "qty",
-          value: this.props.product.qty,
-          id: this.props.product.id
-        }}/>
-        <EditableCell onProductTableUpdate={this.props.onProductTableUpdate} cellData={{
-          type: "category",
-          value: this.props.product.category,
-          id: this.props.product.id
+          value: this.props.courseObjective.name,
+          id: this.props.courseObjective.id
         }}/>
         <td className="del-cell">
-          <input type="button" onClick={this.onDelEvent.bind(this)} value="X" className="del-btn"/>
+          <input type="button" onClick={this.onDelEvent.bind(this)} value="Remove" className="del-btn"/>
         </td>
       </tr>
     );
@@ -191,19 +148,18 @@ class ProductRow extends React.Component {
   }
 
 }
-class EditableCell extends React.Component {
+class CourseObjectivesEditableCell extends React.Component {
 
   render() {
     return (
       <td>
-        <input type='text' name={this.props.cellData.type} id={this.props.cellData.id} value={this.props.cellData.value} onChange={this.props.onProductTableUpdate}/>
+        <input type='text' name={this.props.cellData.type} id={this.props.cellData.id} value={this.props.cellData.value} onChange={this.props.onCourseObjectivesTableUpdate}/>
       </td>
     );
 
   }
 
-} 
-
+}
 
 // class CourseObjectives extends Component {
 //   constructor(props) {
@@ -422,7 +378,7 @@ function App() {
                       <table id='employee'>
 
                           <tbody>
-                              ReactDOM.render( < Products / > , document.getElementById('container'));
+                              < CourseObjectives / > 
  
                           </tbody>
                       </table>
