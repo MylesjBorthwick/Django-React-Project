@@ -3,164 +3,182 @@ import React, { useState, useEffect , Component} from 'react'
 import axios from 'axios'
 import './App.css';
 import { v4 as uuidv4 } from 'uuid';
+import ReactDOM from 'react-dom';
 
 const URL = 'https://jsonplaceholder.typicode.com/users'
 
- 
-// class CourseObjectives extends Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       list: [
-//         { id: '1', objective: "" },
-//       ],
-//     };
+class Products extends React.Component {
 
-//     onUpdateItems = () => {
-//       this.setState(state => {
-//         const list = state.list.map(item => {id});
-   
-//         return {
-//           list,
-//         };
-//       });
-//     };
+  constructor(props) {
+    super(props);
 
-//     onRemoveItems = i => {
-//       this.setState(state => {
-//         const list = state.list.filter((j, objective) => i !== j);
-//         if (list == []){
-//           list = [
-//             { id: '1', objective: "" }
-//           ]
-//         }
-//         return {
-//           list,
-//         };
-//       });
-//     };
-//   }
-// }
+    //  this.state.products = [];
+    this.state = {};
+    this.state.filterText = "";
+    this.state.products = [
+      {
+        id: 1,
+        price: 'Have a deep understanding, and practical knowledge of object oriented analysis, design, and development.',
+        name: 'football'
+      }, {
+        id: 2,
 
+        price: 'Design and develop software programs in Java.',
+        name: 'baseball'
+      }, {
+        id: 3,
+    
+        price: 'Define the concepts of object-oriented design, such as inheritance and polymorphism.',
+        name: 'basketball'
+      }, {
+        id: 4,
+        price: 'Design and develop client-server applications.',
+        name: 'iPod Touch'
+      }
+    ];
 
-const courseObjectives = [
-  {
-    id: 1,
-    name: ' ',
-  },
-];
-
-const listReducer = (state, action) => {
-  switch (action.type) {
-    case 'REMOVE_ITEM':
-      return {
-        ...state,
-        list: state.list.filter((item) => item.id !== action.id),
-      };
-    default:
-      throw new Error();
   }
-};
+  handleUserInput(filterText) {
+    this.setState({filterText: filterText});
+  };
+  handleRowDel(product) {
+    var index = this.state.products.indexOf(product);
+    this.state.products.splice(index, 1);
+    this.setState(this.state.products);
+  };
 
-
-
-function App() {
-
-
-
-  
-  const [objectivesList, setObjectivesList] = React.useState({
-    list: courseObjectives,
-    isShowList: true,
-  });
- 
-  function handleChange(event, id) {
-    //setObjectivesList(event.target.value);
-  }
-  function handleRemove(id) {
-    setObjectivesList({ type: 'REMOVE_ITEM', id });
-  }
-  function handleAdd() {
-    const newList = objectivesList.concat({ name:" ", id: uuidv4() });
-    setObjectivesList(newList);
-  }
-  if (!objectivesList.isShowList) {
-    return null;
-  }
-
-
-
-
-
-    // const [employees, setEmployees] = useState([])
-
-    // useEffect(() => {
-    //     getData()
-    // }, [])
-
-    // const getData = async () => {
-
-    //     const response = await axios.get(URL)
-    //     setEmployees(response.data)
-    // }
-
-    // const removeData = (id) => {
-
-    //     axios.delete(`${URL}/${id}`).then(res => {
-    //         const del = employees.filter(employee => id !== employee.id)
-    //         setEmployees(del)
-    //     })
-    // }
- 
-
-    const renderHeader = () => {
-        let headerElement = ['Objective Number', 'Objective Description', 'Remove']
-
-        return headerElement.map((key, index) => {
-            return <th key={index}>{key}</th>
-        })
+  handleAddEvent(evt) {
+    var id = 0;
+    var product = {
+      id: id,
+      name: "",
+      price: "",
     }
+    this.state.products.push(product);
+    this.setState(this.state.products);
 
-    const renderHeaderGrades = () => {
-      let headerElement = ['Component', 'Learning Outcome(s) Evaluated', 'Weight','Remove']
-
-      return headerElement.map((key, index) => {
-          return <th key={index}>{key.toUpperCase()}</th>
-      })
   }
 
-  const renderBodyGrades = () => {
-    return employees && employees.map(({ id, name, email}) => {
-        return (
-            <tr key={id}>
-                <td contenteditable='false'>{id}</td>
-                <td contenteditable='true'>{name}</td>
-                <td contenteditable='true'>{email}</td>
-                <td className='opration'>
-                    <button className='button' onClick={() => removeData(id)}>Delete</button>
-                </td>
-            </tr>
-            
-        )
-    })
+  handleProductTable(evt) {
+    var item = {
+      id: evt.target.id,
+      name: evt.target.name,
+      value: evt.target.value
+    };
+var products = this.state.products.slice();
+  var newProducts = products.map(function(product) {
+
+    for (var key in product) {
+      if (key == item.name && product.id == item.id) {
+        product[key] = item.value;
+
+      }
+    }
+    return product;
+  });
+    this.setState({products:newProducts});
+  //  console.log(this.state.products);
+  };
+  render() {
+
+    return (
+      <div>
+        <ProductTable onProductTableUpdate={this.handleProductTable.bind(this)} onRowAdd={this.handleAddEvent.bind(this)} onRowDel={this.handleRowDel.bind(this)} products={this.state.products} filterText={this.state.filterText}/>
+      </div>
+    );
+
+  }
+
 }
 
 
+class ProductTable extends React.Component {
 
-    const renderBody = () => {
-        return objectivesList.map((item) => {
-            return (
-                <tr key={item.id}>
-                    <td contenteditable='false'>{item.id}</td>
-                    <td contenteditable='true'>{item.name}</td>
-                    <td className='opration'>
-                        <button className='button' onClick={() => handleRemove(item.id)}>Delete</button>
-                    </td>
-                </tr>
-                
-            )
-          })
-    }
+  render() {
+    var onProductTableUpdate = this.props.onProductTableUpdate;
+    var rowDel = this.props.onRowDel;
+    var filterText = this.props.filterText;
+    var product = this.props.products.map(function(product) {
+      if (product.name.indexOf(filterText) === -1) {
+        return;
+      }
+      return (<ProductRow onProductTableUpdate={onProductTableUpdate} product={product} onDelEvent={rowDel.bind(this)} key={product.id}/>)
+    });
+    return (
+      <div>
+
+
+        <table className="table table-bordered">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Learning Outcome</th>
+              <th>Remove</th>
+          
+            </tr>
+          </thead>
+
+          <tbody>
+            {product}
+          </tbody>
+
+        </table>
+        <button type="button" onClick={this.props.onRowAdd} className="btn btn-success pull-right">Add</button>
+
+      </div>
+    );
+
+  }
+
+}
+
+class ProductRow extends React.Component {
+  onDelEvent() {
+    this.props.onDelEvent(this.props.product);
+
+  }
+  render() {
+
+    return (
+      <tr className="eachRow">
+        <EditableCell onProductTableUpdate={this.props.onProductTableUpdate} cellData={{
+          "type": "id",
+          value: this.props.product.id,
+          id: this.props.product.id
+        }}/>
+        <EditableCell onProductTableUpdate={this.props.onProductTableUpdate} cellData={{
+          type: "price",
+          value: this.props.product.price,
+          id: this.props.product.id
+        }}/>
+        <td className="del-cell">
+          <input type="button" onClick={this.onDelEvent.bind(this)} value="X" className="del-btn"/>
+        </td>
+      </tr>
+    );
+
+  }
+
+}
+class EditableCell extends React.Component {
+
+  render() {
+    return (
+      <td>
+        <input type='text' name={this.props.cellData.type} id={this.props.cellData.id} value={this.props.cellData.value} onChange={this.props.onProductTableUpdate}/>
+      </td>
+    );
+
+  }
+
+} 
+
+
+const refreshPage = () => {
+  window.location.reload();
+}
+
+function App() {
 
   return (
     <div className="App">
@@ -231,14 +249,9 @@ function App() {
                     <h1 id='title'>At the end of this course, you will be able to: </h1>
                       <table id='employee'>
 
-                          <thead>
-                              <tr>{renderHeader()}</tr>
-                          </thead>
                           <tbody>
-                              {renderBody()}
-                              <div>
-                                <button className='add-row-button' onClick={() => handleAdd()}>Add Row</button>
-                              </div>
+                            < Products / >
+ 
                           </tbody>
                       </table>
                     </h2>
@@ -253,15 +266,11 @@ function App() {
                
                  
                       <table id='employee'>
-                          <thead>
-                              <tr>{renderHeaderGrades()}</tr>
-                          </thead>
                           <tbody>
-                              {renderBodyGrades()}
-                              <div>
-                                <button className='add-row-button' onClick={() => addRow()}>Add Row</button>
-                              </div>
+                               < Products / > ;
+ 
                           </tbody>
+                         
                       </table>
                   
 
@@ -273,7 +282,7 @@ function App() {
                   <div class="container">
                     <h1 class="title">Create Course?</h1>
                     <div class="control">
-                      <button class="button is-primary is-large">Create</button>
+                      <button class="button is-primary is-large" onClick={refreshPage}>Create</button>
                     </div>
 
                   </div>
@@ -287,6 +296,9 @@ function App() {
       </div>
 
     </div>);
+
+
+
 }
 
 export default App;
