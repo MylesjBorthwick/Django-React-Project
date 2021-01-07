@@ -54,7 +54,12 @@ body {
 
 }
 
+.title2 {
+  text-align: center;
+  padding: 12px;
+  font-size: 26px;
 
+}
 
 #title {
   text-align: center;
@@ -158,6 +163,15 @@ body {
   word-wrap:break-word;
 }
 
+.last-table-cell{
+  justify-content: center;
+  border-collapse: collapse;
+  text-align: center;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  word-wrap:break-word; 
+}
 .del-btn {
   border: none;
   outline: none;
