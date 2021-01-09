@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Echo</title>
+</head>
+<body>
+    <h2>Echos:</h2>
+    <ul>
+        {% for item in list %}
+        <li>{{ item.id }} message : {{item.message}}
+        </li>
+        {% endfor %}
+    </ul>
+    <h3>Post New Echo:</h3>
+    <form method="POST">{% csrf_token %}
+        {{form.as_p}}
+        <input type = 'submit' value = 'post' />
+    </form>
+
+</body>
+
+</html>
+

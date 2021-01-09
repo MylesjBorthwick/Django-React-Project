@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>One Echo</title>
+</head>
+<body>
+    <h3>
+        message: {{object.message}}
+    </h3>
+    <h2>Update Echo:</h2>
+    <form method="POST">{% csrf_token %}
+        {{form.as_p}}
+        <input type = 'submit' value = 'put' />
+    </form>
+    <h2>Delete Echo:</h2>
+    <form method="POST">{% csrf_token %}
+        <input type = 'submit' value = 'delete' />
+    </form>
+</html>
+
