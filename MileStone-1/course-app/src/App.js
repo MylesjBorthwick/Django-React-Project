@@ -11,6 +11,7 @@ import Examinations from './Components/Examinations.js';
 import Sections from './Components/Sections.js';
 import CourseInstructors from './Components/CourseInstructors.js';
 import TextBook from './Components/TextBook.js';
+import GraduateAttributesTable from './Components/GraduateAttributesTable.js';
 
 
 
@@ -82,24 +83,37 @@ function App() {
                   </div>
                 </section>
 
-                <div class="is-divider"></div>
+              
 
                 <section class="section">
                   <div class="container">
 
-                    <h1 class="title">Learning Outcomes</h1>
+                  <h1 class="title">Learning Outcomes</h1>
+                  <h2 class="title2">Course Objectives</h2>
 
-                    <h2 class="subtitle">
+
                       <table id='courseObjectiveTable'>
 
                         <tbody>
                           < CourseObjectives />
+                         
 
                         </tbody>
                       </table>
-                    </h2>
+                      
+                      <h3 class="title2">Graduate Attributes</h3>
+
+                      <table id='FinalGradesTable'>
+
+                        <tbody>
+                          < GraduateAttributesTable />
+
+                        </tbody>
+                      </table>
+                      
                   </div>
                 </section>
+
 
 
                 <section class="section">
