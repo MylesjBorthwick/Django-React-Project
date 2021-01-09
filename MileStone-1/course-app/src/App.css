@@ -121,8 +121,100 @@ body {
   color: rgb(71, 136, 201);
 }
 
-#FinalGradesTable tr:hover {
-  background-color: rgb(170, 198, 231);
+#SectionTable {
+  justify-content: center;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  border: 3px solid #ddd;
+  word-wrap:break-word;
+  table-layout: fixed;
+}
+
+#SectionTable td,
+#SectionTable th {
+  justify-content: center;
+  border: 1px solid #ddd;
+  padding: 12px;
+  width: 25%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#SectionTable th {
+  align-items: center;
+  
+  padding: 10px;
+  
+  text-align: center;
+  justify-content: center;
+  background-color: #d6ecff;
+  color: rgb(71, 136, 201);
+}
+
+
+#InstructorTable {
+  justify-content: center;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  border: 3px solid #ddd;
+  word-wrap:break-word;
+  table-layout: fixed;
+}
+
+#InstructorTable td,
+#InstructorTable th {
+  justify-content: center;
+  border: 1px solid #ddd;
+  padding: 12px;
+  width: 15%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#InstructorTable th {
+  align-items: center;
+  
+  padding: 10px;
+  
+  text-align: center;
+  justify-content: center;
+  background-color: #d6ecff;
+  color: rgb(71, 136, 201);
+}
+#TextbookTable {
+  justify-content: center;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  border: 3px solid #ddd;
+  word-wrap:break-word;
+  table-layout: fixed;
+}
+
+#TextbookTable td,
+#TextbookTable th {
+  justify-content: center;
+  border: 1px solid #ddd;
+  padding: 12px;
+  width: 25%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#TextbookTable th {
+  align-items: center;
+  
+  padding: 10px;
+  
+  text-align: center;
+  justify-content: center;
+  background-color: #d6ecff;
+  color: rgb(71, 136, 201);
 }
 
 #courseObjectiveTable tr:hover {
@@ -130,6 +222,39 @@ body {
 }
 
 #courseObjectiveTable th {
+  align-items: center;
+  
+  padding: 10px;
+  
+  text-align: center;
+  justify-content: center;
+  background-color: #d6ecff;
+  color: rgb(71, 136, 201);
+}
+
+#examinationTable {
+  justify-content: center;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  width: 65%;
+  border: 3px solid #ddd;
+  word-wrap:break-word;
+  table-layout: fixed;
+
+}
+
+#examinationTable td,
+#examinationTable th {
+  justify-content: center;
+  border: 1px solid #ddd;
+  padding: 12px;
+  width: 50%;
+  margin-left: auto;
+
+  margin-right: auto;
+}
+#examinationTable th {
   align-items: center;
   
   padding: 10px;

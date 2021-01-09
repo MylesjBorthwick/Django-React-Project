@@ -8,16 +8,19 @@ class FinalGradeDeterminations extends React.Component {
     constructor(props) {
       super(props);
   
-      this.state = {};
-      this.state.filterText = "";
-      this.state.finalGrades = [
-        {
-          id: 1,
-          weight: '',
-          finalGrade: '',
-          name: ''
-        }, 
-      ];
+      this.state = {
+        filterText : "",
+        finalGrades : [
+          {
+            id: 1,
+            weight: '',
+            finalGrade: '',
+            name: ''
+          }, 
+        ]
+
+      };
+     
   
     }
     handleUserInput(filterText) {
@@ -40,6 +43,10 @@ class FinalGradeDeterminations extends React.Component {
       this.state.finalGrades.push(finalGrade);
       this.setState(this.state.finalGrades);
   
+    }
+
+    handleSend(evt){
+      console.log(this.state.finalGrades);
     }
   
     handleFinalGradesTable(evt) {
@@ -65,6 +72,7 @@ class FinalGradeDeterminations extends React.Component {
   
       return (
         <div>
+          <button onClick={this.handleSend}>Update</button>
           <FinalGradesTable onFinalGradesTableUpdate={this.handleFinalGradesTable.bind(this)} onRowAdd={this.handleAddEvent.bind(this)} onRowDel={this.handleRowDel.bind(this)} finalGrades={this.state.finalGrades} filterText={this.state.filterText}/>
         </div>
       );
@@ -91,9 +99,9 @@ class FinalGradeDeterminations extends React.Component {
         <div>
   
   
-          <table className="table-bordered">
+          <table className="table is-bordered">
             <thead>
-            <tr className="table-header">
+            <tr>
                 <th>Component</th>
                 <th>Learning Outcome(s) Evaluated</th>
                 <th>Weight</th>
@@ -122,7 +130,8 @@ class FinalGradeDeterminations extends React.Component {
     render() {
   
       return (
-        <tr className="eachRow">
+        // <tr className="eachRow">
+        <tr>
           <EditableFinalGradeCell onFinalGradesTableUpdate={this.props.onFinalGradesTableUpdate} cellData={{
             "type": "name",
             value: this.props.finalGrade.name,
@@ -151,7 +160,8 @@ class FinalGradeDeterminations extends React.Component {
   
     render() {
       return (
-        <td className='EditableCell'>
+        // <td className='EditableCell'>
+        <td>
           <textarea class="textarea is-info" rows="2" name={this.props.cellData.type} id={this.props.cellData.id} value={this.props.cellData.value} onChange={this.props.onFinalGradesTableUpdate}/>
         </td>
       );
@@ -162,7 +172,8 @@ class FinalGradeDeterminations extends React.Component {
   
     render() {
       return (
-        <td className='EditableCell'>
+        // <td className='EditableCell'>
+        <td>
           <input type='number' name={this.props.cellData.type} id={this.props.cellData.id} value={this.props.cellData.value} onChange={this.props.onFinalGradesTableUpdate}/>
         </td>
       );
