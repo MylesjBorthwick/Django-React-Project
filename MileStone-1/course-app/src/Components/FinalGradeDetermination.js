@@ -72,7 +72,7 @@ class FinalGradeDeterminations extends React.Component {
   
       return (
         <div>
-          <button onClick={this.handleSend}>Update</button>
+          
           <FinalGradesTable onFinalGradesTableUpdate={this.handleFinalGradesTable.bind(this)} onRowAdd={this.handleAddEvent.bind(this)} onRowDel={this.handleRowDel.bind(this)} finalGrades={this.state.finalGrades} filterText={this.state.filterText}/>
         </div>
       );
@@ -110,12 +110,13 @@ class FinalGradeDeterminations extends React.Component {
   
             <tbody>
               {finalGrade}
-  
+             
             </tbody>
-  
+            <button onClick={this.props.onRowAdd} className="button is-warning is-rounded">Add New</button>
           </table>
-          <button type="button" onClick={this.props.onRowAdd} className="btn-add">Add</button>
+          <button onClick={this.handleSend} className='button is-primary is-rounded is-fullwidth' >Update Form</button>
         </div>
+        
       );
   
     }
@@ -148,7 +149,8 @@ class FinalGradeDeterminations extends React.Component {
             id: this.props.finalGrade.id
           }}/>
           <td className="del-cell">
-            <input type="button" onClick={this.onDelEvent.bind(this)} value="Remove" className="del-btn"/>
+            <button onClick={this.onDelEvent.bind(this)} className="button is-danger is-rounded">Remove</button>
+            
           </td>
         </tr>
       );
