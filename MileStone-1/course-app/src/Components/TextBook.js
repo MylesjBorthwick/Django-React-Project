@@ -24,23 +24,24 @@ class TextBook extends React.Component {
     handleUserInput(filterText) {
         this.setState({ filterText: filterText });
     };
-    handleRowDel(title) {
-        var index = this.state.textbooks.indexOf(title);
+    handleRowDel(textbook) {
+        var index = this.state.textbooks.indexOf(textbook);
         this.state.textbooks.splice(index, 1);
         this.setState(this.state.textbooks);
     };
 
     handleAddEvent(evt) {
         var id = uuidv4();
-        var title = {
+        var textbook = {
             id: id,
-            edition: "",
-            publisher: "",
             title: "",
             author: "",
+            edition: "",
+            publisher: "",
+            
            
         }
-        this.state.textbooks.push(title);
+        this.state.textbooks.push(textbook);
         this.setState(this.state.textbooks);
 
     }
@@ -48,21 +49,21 @@ class TextBook extends React.Component {
     handleTextBookTable(evt) {
         var item = {
             id: evt.target.id,
-            edition: evt.target.edition,
+            name: evt.target.name,
             value: evt.target.value
         };
         var textbooks = this.state.textbooks.slice();
-        var newtextbooks = textbooks.map(function (title) {
+        var newTextbooks = textbooks.map(function (textbook) {
 
-            for (var key in title) {
-                if (key == item.edition && title.id == item.id) {
-                    title[key] = item.value;
+            for (var key in textbook) {
+                if (key == item.name && textbook.id == item.id) {
+                    textbook[key] = item.value;
 
                 }
             }
-            return title;
+            return textbook;
         });
-        this.setState({ textbooks: newtextbooks });
+        this.setState({ textbooks: newTextbooks });
     };
     render() {
 
@@ -84,19 +85,19 @@ class TextBookTable extends React.Component {
         var onTextBookTableUpdate = this.props.onTextBookTableUpdate;
         var rowDel = this.props.onRowDel;
         var filterText = this.props.filterText;
-        var title = this.props.textbooks.map(function (title) {
-            if (title.edition.indexOf(filterText) === -1) {
+        var textbook = this.props.textbooks.map(function (textbook) {
+            if (textbook.title.indexOf(filterText) === -1) {
                 return;
             }
-            return (<TextbookRow onTextBookTableUpdate={onTextBookTableUpdate} title={title} onDelEvent={rowDel.bind(this)} key={title.id} />)
+            return (<TextbookRow onTextBookTableUpdate={onTextBookTableUpdate} textbook={textbook} onDelEvent={rowDel.bind(this)} key={textbook.id} />)
         });
         return (
             <div>
 
 
-                <table classedition="table-bordered">
+                <table className="table-bordered">
                     <thead>
-                        <tr classedition="table-header">
+                        <tr className="table-header">
                             <th>Title</th>
                             <th>Author</th>
                             <th>Edition</th>
@@ -106,12 +107,12 @@ class TextBookTable extends React.Component {
                     </thead>
 
                     <tbody>
-                        {title}
+                        {textbook}
 
                     </tbody>
 
                 </table>
-                <button type="button" onClick={this.props.onRowAdd} classedition="btn-add">Add</button>
+                <button type="button" onClick={this.props.onRowAdd} className="btn-add">Add</button>
             </div>
         );
 
@@ -121,7 +122,7 @@ class TextBookTable extends React.Component {
 
 class TextbookRow extends React.Component {
     onDelEvent() {
-        this.props.onDelEvent(this.props.title);
+        this.props.onDelEvent(this.props.textbook);
 
     }
     render() {
@@ -131,28 +132,28 @@ class TextbookRow extends React.Component {
 
                 <TextBookEditableCell onTextBookTableUpdate={this.props.onTextBookTableUpdate} cellData={{
                     type: "title",
-                    value: this.props.title.title,
-                    id: this.props.title.id
+                    value: this.props.textbook.title,
+                    id: this.props.textbook.id
                 }} />
                 <TextBookEditableCell onTextBookTableUpdate={this.props.onTextBookTableUpdate} cellData={{
                     type: "author",
-                    value: this.props.title.author,
-                    id: this.props.title.id
+                    value: this.props.textbook.author,
+                    id: this.props.textbook.id
                 }} />
                 <TextBookEditableCell onTextBookTableUpdate={this.props.onTextBookTableUpdate} cellData={{
                     type: "edition",
-                    value: this.props.title.edition,
-                    id: this.props.title.id
+                    value: this.props.textbook.edition,
+                    id: this.props.textbook.id
                 }} />
 
                 <TextBookEditableCell onTextBookTableUpdate={this.props.onTextBookTableUpdate} cellData={{
                     type: "publisher",
-                    value: this.props.title.publisher,
-                    id: this.props.title.id
+                    value: this.props.textbook.publisher,
+                    id: this.props.textbook.id
                 }} />
 
                 <td className="del-cell">
-                    <input type="button" onClick={this.onDelEvent.bind(this)} value="Remove" classedition="del-btn" />
+                    <input type="button" onClick={this.onDelEvent.bind(this)} value="Remove" className="del-btn" />
                 </td>
             </tr>
         );

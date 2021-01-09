@@ -175,13 +175,13 @@ function App() {
                     <h1 class="title">Final Grade Determination</h1>
                     <h2 class="subtitle">
                       <h1 id='title'> </h1>
-                      <table id='FinalGradesTable'>
-                        <tbody>
+                      {/* <table id='FinalGradesTable'>
+                        <tbody> */}
                           < FinalGradeDetermination />
 
-                        </tbody>
+                        {/* </tbody>
 
-                      </table>
+                      </table> */}
 
 
                     </h2>
