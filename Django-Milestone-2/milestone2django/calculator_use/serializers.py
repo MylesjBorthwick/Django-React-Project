@@ -5,4 +5,4 @@ from .models import Calculator_Use
 class Calculator_Use_Serializer(serializers.ModelSerializer):
   class Meta:
     model = Calculator_Use
-    fields = ('rules')
+    fields = ('id','rules')
