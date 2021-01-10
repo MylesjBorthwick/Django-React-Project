@@ -106,8 +106,10 @@ class FinalGradeDeterminations extends React.Component {
             </tbody>
   
           </table>
+        
           <button type="button" onClick={this.props.onRowAdd} className="btn-add">Add</button>
-        </div>
+
+          </div>
       );
   
     }

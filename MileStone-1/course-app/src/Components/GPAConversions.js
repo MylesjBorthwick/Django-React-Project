@@ -2,6 +2,7 @@ import 'bulma/css/bulma.css';
 import React, { useState, useEffect , Component} from 'react'
 import { v4 as uuidv4 } from 'uuid';
 import './Components.css';
+import axios from "axios";
 
 class GPAConversions extends React.Component {
 
@@ -96,7 +97,61 @@ class GPAConversions extends React.Component {
       this.state.GPAConversions.splice(index, 1);
       this.setState(this.state.GPAConversions);
     };
-  
+    handleRowUpdate(evt) {
+      var item = {
+        id: evt.target.id,
+        lowerGrade: evt.target.lowerGrade,
+        upperGrade: evt.target.upperGrade,
+        T_sign: evt.target.T_sign,
+        name: evt.target.name
+      };
+      console.log("Hello World!");
+      // console.log(evt.T_sign);
+      // console.log(item);
+      console.log(this.state.GPAConversions);
+      var GPAConversions = this.state.GPAConversions.slice();
+      console.log("Sections:");
+
+      
+
+      var arrayLength = this.state.GPAConversions.length;
+      for (var i = 0; i < arrayLength; i++) {
+        console.log(this.state.GPAConversions[i]);
+        // console.log(this.state.GPAConversions[i].id);
+        // console.log(this.state.GPAConversions[i].lowerGrade);
+        // console.log(this.state.GPAConversions[i].upperGrade);
+        // console.log(this.state.GPAConversions[i].T_sign);
+        // console.log(this.state.GPAConversions[i].name);
+      //Do something
+      }
+      var newGPAConversions = GPAConversions.map(function(GPAConversion) {
+
+        
+        // for (var key in GPAConversions) {
+        //   console.log(key);
+        // }
+        // for (var key in GPAConversion) {
+        //   console.log(key);
+        // }
+      });
+    };
+    // handleSubmit(evt){
+    //   console.log();
+
+    //   if (evt.id) {
+    //     axios
+    //       .put(`http://localhost:8000/api/todos/${item.id}/`, evt)
+    //       .then(res => this.refreshList());
+    //     return;
+    //   }
+    //   axios
+    //     .post("http://localhost:8000/api/todos/", item)
+    //     .then(res => this.refreshList());
+    // };  
+    
+
+
+
     handleAddEvent(evt) {
       var id = uuidv4();
       var GPAConversion = {
@@ -117,7 +172,7 @@ class GPAConversions extends React.Component {
         name: evt.target.name,
         value: evt.target.value
       };
-  var GPAConversions = this.state.GPAConversions.slice();
+    var GPAConversions = this.state.GPAConversions.slice();
     var newGPAConversions = GPAConversions.map(function(GPAConversion) {
   
       for (var key in GPAConversion) {
@@ -130,11 +185,12 @@ class GPAConversions extends React.Component {
     });
       this.setState({GPAConversions:newGPAConversions});
     };
+
     render() {
   
       return (
         <div>
-          <GPAConversionTable onGPAConversionTableUpdate={this.handleGPAConversionTable.bind(this)} onRowAdd={this.handleAddEvent.bind(this)} onRowDel={this.handleRowDel.bind(this)} GPAConversions={this.state.GPAConversions} filterText={this.state.filterText}/>
+          <GPAConversionTable onGPAConversionTableUpdate={this.handleGPAConversionTable.bind(this)} onRowAdd={this.handleAddEvent.bind(this)} onRowDel={this.handleRowDel.bind(this)} onRowUpdate={this.handleRowUpdate.bind(this)} GPAConversions={this.state.GPAConversions} filterText={this.state.filterText}/>
         </div>
       );
   
@@ -159,8 +215,6 @@ class GPAConversions extends React.Component {
       });
       return (
         <div>
-  
-  
           <table className="table table-bordered">
             <thead>
               <tr>
@@ -177,7 +231,9 @@ class GPAConversions extends React.Component {
             </tbody>
   
           </table>
-  
+          <tr>
+          <button type="button" onClick={this.props.onRowUpdate} className="btn-add">Update</button>
+          </tr>
         </div>
       );
   
