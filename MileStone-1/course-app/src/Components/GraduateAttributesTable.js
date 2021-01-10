@@ -107,8 +107,9 @@ class GraduateAttributesTable extends React.Component {
             </tbody>
   
           </table>
-          <button type="button" onClick={this.props.onAttributesRowAdd} className="btn-add">Add</button>
-  
+
+          <button onClick={this.props.onAttributesRowAdd} className="button is-warning is-fullwidth">Add Attribute</button>
+          <button onClick={this.handleSend} className='button is-primary is-fullwidth' >Update</button>
         </div>
       );
   
