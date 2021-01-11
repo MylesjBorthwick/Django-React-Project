@@ -21,6 +21,11 @@ class TextBook extends React.Component {
         ];
 
     }
+
+    handleSend(evt){
+        console.log(this.state.textbooks);
+      }
+
     handleUserInput(filterText) {
         this.setState({ filterText: filterText });
     };
@@ -70,6 +75,7 @@ class TextBook extends React.Component {
         return (
             <div>
                 <TextBookTable onTextBookTableUpdate={this.handleTextBookTable.bind(this)} onRowAdd={this.handleAddEvent.bind(this)} onRowDel={this.handleRowDel.bind(this)} textbooks={this.state.textbooks} filterText={this.state.filterText} />
+                <button className = 'button is-warning is-rounded is-medium' onClick={this.handleSend.bind(this)}>Update Form</button>
             </div>
         );
 
@@ -92,12 +98,14 @@ class TextBookTable extends React.Component {
             return (<TextbookRow onTextBookTableUpdate={onTextBookTableUpdate} textbook={textbook} onDelEvent={rowDel.bind(this)} key={textbook.id} />)
         });
         return (
+
+            <div className="columns is-max-desktop is-centered">
             <div>
 
 
-                <table className="table-bordered">
+                <table className="table is-bordered">
                     <thead>
-                        <tr className="table-header">
+                        <tr>
                             <th>Title</th>
                             <th>Author</th>
                             <th>Edition</th>
@@ -112,7 +120,9 @@ class TextBookTable extends React.Component {
                     </tbody>
 
                 </table>
-                <button type="button" onClick={this.props.onRowAdd} className="btn-add">Add</button>
+                <button onClick={this.props.onRowAdd} className="button is-primary is-rounded">Add New Row</button>
+            </div>
+
             </div>
         );
 
@@ -128,7 +138,7 @@ class TextbookRow extends React.Component {
     render() {
 
         return (
-            <tr className="eachRow">
+            <tr>
 
                 <TextBookEditableCell onTextBookTableUpdate={this.props.onTextBookTableUpdate} cellData={{
                     type: "title",
@@ -152,9 +162,7 @@ class TextbookRow extends React.Component {
                     id: this.props.textbook.id
                 }} />
 
-                <td className="del-cell">
-                    <input type="button" onClick={this.onDelEvent.bind(this)} value="Remove" className="del-btn" />
-                </td>
+<button onClick={this.onDelEvent.bind(this)}  className="button is-danger is-rounded">Remove</button>
             </tr>
         );
 
@@ -165,7 +173,7 @@ class TextBookEditableCell extends React.Component {
 
     render() {
         return (
-            <td className='EditableCell'>
+            <td>
                 <textarea class="textarea is-info" rows="2" name={this.props.cellData.type} id={this.props.cellData.id} value={this.props.cellData.value} onChange={this.props.onTextBookTableUpdate} />
             </td>
         );

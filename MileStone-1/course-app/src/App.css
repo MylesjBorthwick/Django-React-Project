@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap");
 
 
+
 .App {
   text-align: center;
   justify-content: center;
@@ -14,11 +15,7 @@
   pointer-events: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
+
 
 .App-header {
   background-color: #282c34;
@@ -31,18 +28,7 @@
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
-}
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
 
 
 body {
@@ -61,209 +47,6 @@ body {
 
 }
 
-#title {
-  text-align: center;
-}
-
-#courseObjectiveTable {
-  justify-content: center;
-  border-collapse: collapse;
-  margin-left: auto;
-  margin-right: auto;
-  width: 65%;
-  border: 3px solid #ddd;
-  word-wrap:break-word;
-  table-layout: fixed;
-
-}
-
-#courseObjectiveTable td,
-#courseObjectiveTable th {
-  justify-content: center;
-  border: 1px solid #ddd;
-  padding: 12px;
-  width: 50%;
-  margin-left: auto;
-
-  margin-right: auto;
-}
-
-
-#FinalGradesTable {
-  justify-content: center;
-  border-collapse: collapse;
-  margin-left: auto;
-  margin-right: auto;
-  width: 100%;
-  border: 3px solid #ddd;
-  word-wrap:break-word;
-  table-layout: fixed;
-}
-
-#FinalGradesTable td,
-#FinalGradesTable th {
-  justify-content: center;
-  border: 1px solid #ddd;
-  padding: 12px;
-  width: 35%;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-#FinalGradesTable th {
-  align-items: center;
-  
-  padding: 10px;
-  
-  text-align: center;
-  justify-content: center;
-  background-color: #d6ecff;
-  color: rgb(71, 136, 201);
-}
-
-#SectionTable {
-  justify-content: center;
-  border-collapse: collapse;
-  margin-left: auto;
-  margin-right: auto;
-  width: 100%;
-  border: 3px solid #ddd;
-  word-wrap:break-word;
-  table-layout: fixed;
-}
-
-#SectionTable td,
-#SectionTable th {
-  justify-content: center;
-  border: 1px solid #ddd;
-  padding: 12px;
-  width: 25%;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-#SectionTable th {
-  align-items: center;
-  
-  padding: 10px;
-  
-  text-align: center;
-  justify-content: center;
-  background-color: #d6ecff;
-  color: rgb(71, 136, 201);
-}
-
-
-#InstructorTable {
-  justify-content: center;
-  border-collapse: collapse;
-  margin-left: auto;
-  margin-right: auto;
-  width: 100%;
-  border: 3px solid #ddd;
-  word-wrap:break-word;
-  table-layout: fixed;
-}
-
-#InstructorTable td,
-#InstructorTable th {
-  justify-content: center;
-  border: 1px solid #ddd;
-  padding: 12px;
-  width: 15%;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-#InstructorTable th {
-  align-items: center;
-  
-  padding: 10px;
-  
-  text-align: center;
-  justify-content: center;
-  background-color: #d6ecff;
-  color: rgb(71, 136, 201);
-}
-#TextbookTable {
-  justify-content: center;
-  border-collapse: collapse;
-  margin-left: auto;
-  margin-right: auto;
-  width: 100%;
-  border: 3px solid #ddd;
-  word-wrap:break-word;
-  table-layout: fixed;
-}
-
-#TextbookTable td,
-#TextbookTable th {
-  justify-content: center;
-  border: 1px solid #ddd;
-  padding: 12px;
-  width: 25%;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-#TextbookTable th {
-  align-items: center;
-  
-  padding: 10px;
-  
-  text-align: center;
-  justify-content: center;
-  background-color: #d6ecff;
-  color: rgb(71, 136, 201);
-}
-
-#courseObjectiveTable tr:hover {
-  background-color: rgb(170, 198, 231);
-}
-
-#courseObjectiveTable th {
-  align-items: center;
-  
-  padding: 10px;
-  
-  text-align: center;
-  justify-content: center;
-  background-color: #d6ecff;
-  color: rgb(71, 136, 201);
-}
-
-#examinationTable {
-  justify-content: center;
-  border-collapse: collapse;
-  margin-left: auto;
-  margin-right: auto;
-  width: 65%;
-  border: 3px solid #ddd;
-  word-wrap:break-word;
-  table-layout: fixed;
-
-}
-
-#examinationTable td,
-#examinationTable th {
-  justify-content: center;
-  border: 1px solid #ddd;
-  padding: 12px;
-  width: 50%;
-  margin-left: auto;
-
-  margin-right: auto;
-}
-#examinationTable th {
-  align-items: center;
-  
-  padding: 10px;
-  
-  text-align: center;
-  justify-content: center;
-  background-color: #d6ecff;
-  color: rgb(71, 136, 201);
-}
 
 .eachRow {
   align-items: center;
@@ -297,37 +80,3 @@ body {
   white-space: nowrap;
   word-wrap:break-word; 
 }
-.del-btn {
-  border: none;
-  outline: none;
-  font-size: 14px;
-  font-family: "Quicksand", sans-serif;
-  color: #f44336;
-  padding: 3px 10px;
-  border-radius: 8px;
-  cursor: pointer;
-  border: 1px solid #f44336;
-  background-color: transparent;
-}
-
-.del-btn:active {
-  border: 1px solid rgb(38, 170, 5);
-}
-
-.btn-add{
-  outline: none;
-  font-size: 16px;
-  font-family: "Quicksand", sans-serif;
-  padding: 3px 20px;
-  color: hsl(242, 56%, 70%);
-  border-radius: 8px;
-  cursor: pointer;
-  border: 1.5px solid #3936f4;
-  background-color: transparent;  
-  justify-content: center;
-}
-
-.btn-add:active {
-  border: 1.5px solid rgb(38, 170, 5);
-}
-
