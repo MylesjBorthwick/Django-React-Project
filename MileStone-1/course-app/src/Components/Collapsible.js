@@ -132,8 +132,6 @@ class Collapsible extends React.Component {
               
 
                     <CourseInstructors />
-              
-
                 
               </div>
             </div>
