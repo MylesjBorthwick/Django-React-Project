@@ -192,6 +192,7 @@ class CourseObjectivesEditableCell extends React.Component {
 class CourseObjectivesEditableCellNumbers extends React.Component {
   render() {
     return (
+  
       <td>
         <input
           type="number"

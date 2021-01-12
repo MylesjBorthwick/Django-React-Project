@@ -160,8 +160,8 @@ class GPAConversions extends React.Component {
       return (
         <div>
   
-  
-          <table className="table table-bordered">
+  <div className="columns is-max-desktop is-centered">
+          <table className="table is-bordered">
             <thead>
               <tr>
                 <th>Letter Grade</th>
@@ -179,6 +179,7 @@ class GPAConversions extends React.Component {
           </table>
   
         </div>
+        </div>
       );
   
     }
@@ -193,7 +194,7 @@ class GPAConversions extends React.Component {
     render() {
   
       return (
-        <tr className="eachRow">
+        <tr>
           <NonEditableCell onGPAConversionTableUpdate={this.props.onGPAConversionTableUpdate} cellData={{
             "type": "name",
             value: this.props.GPAConversion.name,
