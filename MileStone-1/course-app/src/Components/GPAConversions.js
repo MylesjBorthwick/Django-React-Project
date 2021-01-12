@@ -117,6 +117,8 @@ class GPAConversions extends React.Component {
       var arrayLength = this.state.GPAConversions.length;
       for (var i = 0; i < arrayLength; i++) {
         console.log(this.state.GPAConversions[i]);
+        //axios.put(`http://localhost:8000/api/gpa_conversions/${this.state.GPAConversions[i].id}/`, this.state.GPAConversions[i]);
+        axios.post("http://localhost:8000/api/gpa_conversions/", this.state.GPAConversions[i]);
         // console.log(this.state.GPAConversions[i].id);
         // console.log(this.state.GPAConversions[i].lowerGrade);
         // console.log(this.state.GPAConversions[i].upperGrade);

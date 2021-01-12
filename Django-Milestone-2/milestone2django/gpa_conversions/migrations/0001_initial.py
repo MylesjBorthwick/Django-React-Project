@@ -3,6 +3,11 @@
 from django.db import migrations, models
 
 
+def create_data(apps, schema_editor):
+    GPA_Conversions = apps.get_model('gpa_conversions', 'GPA_Conversions')
+    GPA_Conversions(id=1,course_outline_id=1000, lowerGrade="", upperGrade="", T_sign="", name="").save()
+
+
 class Migration(migrations.Migration):
 
     initial = True
@@ -15,7 +20,6 @@ class Migration(migrations.Migration):
             name='GPA_Conversions',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('gpa_conversions_id', models.IntegerField()),
                 ('course_outline_id', models.IntegerField()),
                 ('lowerGrade', models.TextField()),
                 ('upperGrade', models.TextField()),
