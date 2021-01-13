@@ -41,6 +41,10 @@ class GraduateAttributesTable extends React.Component {
       this.setState(this.state.attributes);
   
     }
+
+    handleSend(evt){
+      console.log(this.state.attributes);
+    }
   
     handleAttributesTable(evt) {
       var item = {
@@ -67,6 +71,7 @@ class GraduateAttributesTable extends React.Component {
       return (
         <div>
           <AttributesTable onAttributesTableUpdate={this.handleAttributesTable.bind(this)} onAttributesRowAdd={this.handleAddEvent.bind(this)} onRowDel={this.handleRowDel.bind(this)} attributes={this.state.attributes} filterText={this.state.filterText}/>
+          <button className = 'button is-warning is-rounded is-medium' onClick={this.handleSend.bind(this)}>Update Form</button>
         </div>
       );
   
@@ -88,12 +93,13 @@ class GraduateAttributesTable extends React.Component {
         return (<AttributesRow onAttributesTableUpdate={onAttributesTableUpdate} attribute={attribute} onDelEvent={rowDel.bind(this)} key={attribute.id}/>)
       });
       return (
+        <div className="columns is-max-desktop is-centered">
         <div>
   
   
-          <table className="table-bordered">
+          <table className="table is-bordered">
             <thead>
-              <tr className="table-header">
+              <tr>
                 <th>Id</th>
                 <th>Graduate Attribute</th>
                 <th>Instruction Level</th>
@@ -107,9 +113,9 @@ class GraduateAttributesTable extends React.Component {
             </tbody>
   
           </table>
-
-          <button onClick={this.props.onAttributesRowAdd} className="button is-warning is-fullwidth">Add Attribute</button>
-          <button onClick={this.handleSend} className='button is-primary is-fullwidth' >Update</button>
+          <button onClick={this.props.onAttributesRowAdd} className="button is-primary is-rounded">Add New</button>
+  
+        </div>
         </div>
       );
   
@@ -125,24 +131,24 @@ class GraduateAttributesTable extends React.Component {
     render() {
   
       return (
-        <tr className="eachRow">
+        <tr>
           <AttributesEditableCellNumbers onAttributesTableUpdate={this.props.onAttributesTableUpdate} cellData={{
-            "type": "publicID",
+            type: "publicID",
             value: this.props.attribute.publicID,
             id: this.props.attribute.id
           }}/>
           <AttributesEditableCell onAttributesTableUpdate={this.props.onAttributesTableUpdate} cellData={{
-            "type": "grad",
+            type: "grad",
             value: this.props.attribute.grad,
             id: this.props.attribute.id
           }}/>
             <AttributesEditableCell onAttributesTableUpdate={this.props.onAttributesTableUpdate} cellData={{
-            "type": "instruct",
+            type: "instruct",
             value: this.props.attribute.instruct,
             id: this.props.attribute.id
           }}/>
           <td className="del-cell">
-            <input type="button" onClick={this.onDelEvent.bind(this)} value="Remove" className="del-btn"/>
+          <button onClick={this.onDelEvent.bind(this)} className="button is-danger is-rounded is-fullwidth">Remove</button>
           </td>
         </tr>
       );
@@ -154,8 +160,8 @@ class GraduateAttributesTable extends React.Component {
   
     render() {
       return (
-        <td className='EditableCell'>
-          <textarea class="textarea is-info" rows="2" name={this.props.cellData.type} id={this.props.cellData.id} value={this.props.cellData.value} onChange={this.props.onAttributesTableUpdate}/>
+        <td>
+          <textarea class="textarea is-info is-large" rows="2" name={this.props.cellData.type} id={this.props.cellData.id} value={this.props.cellData.value} onChange={this.props.onAttributesTableUpdate}/>
         </td>
       );
   
@@ -167,7 +173,7 @@ class GraduateAttributesTable extends React.Component {
   
     render() {
       return (
-        <td className='EditableCell'>
+        <td>
           <input type='number' name={this.props.cellData.type} id={this.props.cellData.id} value={this.props.cellData.value} onChange={this.props.onAttributesTableUpdate}/>
         </td>
       );

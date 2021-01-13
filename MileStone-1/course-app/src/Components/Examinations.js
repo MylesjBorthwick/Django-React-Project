@@ -27,6 +27,11 @@ class Examinations extends React.Component {
     handleUserInput(filterText) {
       this.setState({filterText: filterText});
     };
+
+    handleSend(evt){
+      console.log(this.state.examinations);
+    }
+
     handleRowDel(examinations) {
       var index = this.state.examinations.indexOf(examinations);
       this.state.examinations.splice(index, 1);
@@ -70,6 +75,7 @@ class Examinations extends React.Component {
       return (
         <div>
           <ExaminationTable onExaminationTableUpdate={this.handleExaminationTable.bind(this)} onExaminationRowAdd={this.handleAddEvent.bind(this)} onRowDel={this.handleRowDel.bind(this)} examinations={this.state.examinations} filterText={this.state.filterText}/>
+          <button className = 'button is-warning is-rounded is-medium' onClick={this.handleSend.bind(this)}>Update Form</button>
         </div>
       );
   
@@ -91,25 +97,24 @@ class Examinations extends React.Component {
         return (<ExaminationRow onExaminationTableUpdate={onExaminationTableUpdate} examinations={examinations} onDelEvent={rowDel.bind(this)} key={examinations.id}/>)
       });
       return (
+
+        <div className="columns is-centered">
         <div>
   
-  
-          <table className="table-bordered">
+          <table className="table is-bordered">
             <thead>
-              <tr className="table-header">
-                <th></th>
-                <th>Examination Info</th>
-              </tr>
+                <th>#</th>
+                <th>Examination Info</th>            
             </thead>
   
             <tbody>
               {examinations}
   
             </tbody>
-  
           </table>
-          <button type="button" onClick={this.props.onExaminationRowAdd} className="btn-add">Add</button>
+          <button onClick={this.props.onExaminationRowAdd} className="button is-primary is-rounded">Add New Row</button>
   
+        </div>
         </div>
       );
   
@@ -125,7 +130,7 @@ class Examinations extends React.Component {
     render() {
   
       return (
-        <tr className="eachRow">
+        <tr>
           <ExaminationsEditableCellNumbers onExaminationTableUpdate={this.props.onExaminationTableUpdate} cellData={{
             "type": "publicID",
             value: this.props.examinations.publicID,
@@ -137,9 +142,10 @@ class Examinations extends React.Component {
             id: this.props.examinations.id
           }}/>
           <td className="del-cell">
-            <input type="button" onClick={this.onDelEvent.bind(this)} value="Remove" className="del-btn"/>
+           <button onClick={this.onDelEvent.bind(this)}  className="button is-danger is-rounded">Remove</button>
           </td>
-        </tr>
+          </tr>
+        
       );
   
     }
@@ -149,8 +155,8 @@ class Examinations extends React.Component {
   
     render() {
       return (
-        <td className='EditableCell'>
-          <textarea class="textarea is-info" rows="2" name={this.props.cellData.type} id={this.props.cellData.id} value={this.props.cellData.value} onChange={this.props.onExaminationTableUpdate}/>
+        <td>
+          <textarea class="textarea is-info is-large" rows="2" name={this.props.cellData.type} id={this.props.cellData.id} value={this.props.cellData.value} onChange={this.props.onExaminationTableUpdate}/>
         </td>
       );
   
@@ -162,7 +168,7 @@ class Examinations extends React.Component {
   
     render() {
       return (
-        <td className='EditableCell'>
+        <td>
           <input type='number' name={this.props.cellData.type} id={this.props.cellData.id} value={this.props.cellData.value} onChange={this.props.onExaminationTableUpdate}/>
         </td>
       );
