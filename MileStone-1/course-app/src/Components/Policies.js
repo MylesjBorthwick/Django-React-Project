@@ -7,6 +7,7 @@ class Policies extends React.Component {
     super(props);
 
     this.state = {
+      id: 1,
       notes: "",
     };
   }
