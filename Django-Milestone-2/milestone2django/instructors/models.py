@@ -3,12 +3,12 @@ from django.db import models
 # Create your models here.
 
 class Instructors(models.Model):
-    instructor_id           = models.IntegerField();
-    course_outline_id       = models.IntegerField();
-    section                 = models.TextField();
-    fname                   = models.TextField();
-    lname                   = models.TextField();
-    phone                   = models.TextField();
-    office                  = models.TextField();
-    email                   = models.TextField();
+    id          = models.IntegerField(primary_key=True);
+    course_outline_id       = models.IntegerField(blank=True,null=True);
+    section                 = models.TextField(blank=True,null=True);
+    fname                   = models.TextField(blank=True,null=True);
+    lname                   = models.TextField(blank=True,null=True);
+    phone                   = models.TextField(blank=True,null=True);
+    office                  = models.TextField(blank=True,null=True);
+    email                   = models.TextField(blank=True,null=True);
     

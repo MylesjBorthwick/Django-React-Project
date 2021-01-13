@@ -5,4 +5,4 @@ from .models import Course_Objectives
 class Course_Objectives_Serializer(serializers.ModelSerializer):
   class Meta:
     model = Course_Objectives
-    fields = ('course_objectives_id', 'publicID', 'name')
+    fields = ('id', 'publicID', 'name')

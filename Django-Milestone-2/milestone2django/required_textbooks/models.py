@@ -3,10 +3,10 @@ from django.db import models
 # Create your models here.
 
 class Required_Textbooks(models.Model):
-    textbook_id          = models.IntegerField();
-    course_outline_id    = models.IntegerField();
-    title       = models.TextField();
-    author      = models.TextField();
-    edition      = models.TextField();
-    publisher      = models.TextField();
+    id          = models.IntegerField(primary_key=True);
+    course_outline_id    = models.IntegerField(blank=True,null=True);
+    title       = models.TextField(blank=True,null=True);
+    author      = models.TextField(blank=True,null=True);
+    edition      = models.TextField(blank=True,null=True);
+    publisher      = models.TextField(blank=True,null=True);
     

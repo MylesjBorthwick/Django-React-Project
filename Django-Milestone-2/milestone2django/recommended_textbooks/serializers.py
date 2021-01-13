@@ -5,5 +5,5 @@ from .models import Recommended_Textbooks
 class Recommended_Textbooks_Serializer(serializers.ModelSerializer):
   class Meta:
     model = Recommended_Textbooks
-    fields = ('textbook_id', 'title', 'author', 'edition','publisher')
+    fields = ('id', 'title', 'author', 'edition','publisher')
 

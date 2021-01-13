@@ -3,10 +3,11 @@ from django.db import models
 # Create your models here.
 
 class GPA_Conversions(models.Model):
-    gpa_conversions_id          = models.IntegerField();
-    course_outline_id    = models.IntegerField();
-    lowerGrade       = models.TextField();
-    upperGrade      = models.TextField();
-    T_sign      = models.TextField();
-    name      = models.TextField();
-    
+    id          = models.IntegerField(primary_key=True);
+    course_outline_id    = models.IntegerField(blank=True,null=True);
+    lowerGrade       = models.TextField(blank=True,null=True);
+    upperGrade      = models.TextField(blank=True,null=True);
+    T_sign      = models.TextField(blank=True,null=True);
+    name      = models.TextField(blank=True,null=True);
+
+   
