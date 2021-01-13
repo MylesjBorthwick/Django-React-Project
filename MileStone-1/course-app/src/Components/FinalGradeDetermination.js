@@ -2,6 +2,7 @@ import 'bulma/css/bulma.css';
 import React, { useState, useEffect , Component} from 'react'
 import './Components.css';
 import { v4 as uuidv4 } from 'uuid';
+import axios from "axios";
 
 class FinalGradeDeterminations extends React.Component {
 
@@ -15,7 +16,8 @@ class FinalGradeDeterminations extends React.Component {
           id: 1,
           weight: '',
           finalGrade: '',
-          name: ''
+          name: '',
+          course_outline_id: 1000,
         }, 
       ];
   
@@ -29,13 +31,95 @@ class FinalGradeDeterminations extends React.Component {
       this.setState(this.state.finalGrades);
     };
   
+
+
+
+    handleRowUpdate(evt) {
+
+      console.log(this.state.finalGrades);
+
+      var API_URL = "http://localhost:8000/api/final_grades/";
+
+
+      axios
+      .get(API_URL)
+      .then(res => this.setState({ finalGrades: res.data }))
+      .catch(err => console.log(err));
+
+
+
+      var arrayLength = this.state.finalGrades.length;
+      for (var i = 0; i < arrayLength; i++) {
+        console.log(this.state.finalGrades[i]);
+        //axios.put(`http://localhost:8000/api/gpa_conversions/${this.state.GPAConversions[i].id}/`, this.state.GPAConversions[i]);
+
+        //axios.post("http://localhost:8000/api/gpa_conversions/", this.state.GPAConversions[i]);
+        
+        axios.post(API_URL, this.state.finalGrades[i])  .then((response) => {
+          console.log(response.data);
+          console.log(response.status);
+          console.log(response.statusText);
+          console.log(response.headers);
+          console.log(response.config);
+        }, (error) => {
+          console.log(error.request);
+          console.log(error);
+        });
+        
+        //may somehow get away with doing it without duplicates
+        axios.put(`http://localhost:8000/api/final_grades/${this.state.finalGrades[i].id}`, this.state.finalGrades[i])  .then((response) => {
+          console.log(response.data);
+          console.log(response.status);
+          console.log(response.statusText);
+          console.log(response.headers);
+          console.log(response.config);
+        }, (error) => {
+          console.log(error.request);
+          console.log(error);
+        });
+        
+
+        // axios.delete(`http://localhost:8000/api/final_grades/${this.state.finalGrades[i].id}`)  .then((response) => {
+        //   console.log(response.data);
+        //   console.log(response.status);
+        //   console.log(response.statusText);
+        //   console.log(response.headers);
+        //   console.log(response.config);
+        // }, (error) => {
+        //   console.log(error.request);
+        //   console.log(error);
+        // });
+
+
+      }
+
+
+      // axios.delete(API_URL)  .then((response) => {
+      //   console.log(response.data);
+      //   console.log(response.status);
+      //   console.log(response.statusText);
+      //   console.log(response.headers);
+      //   console.log(response.config);
+      // }, (error) => {
+      //   console.log(error.request);
+      //   console.log(error);
+      // });
+
+
+    };
+    
+
+
+
     handleAddEvent(evt) {
       var id = uuidv4();
+      id = this.state.finalGrades.length + 1;
       var finalGrade = {
         id: id,
-        name: "",
-        learningOutcome: "",
-        weight: "",
+        weight: '',
+        finalGrade: '',
+        name: '',
+        course_outline_id: 1000,
       }
       this.state.finalGrades.push(finalGrade);
       this.setState(this.state.finalGrades);
@@ -65,7 +149,7 @@ class FinalGradeDeterminations extends React.Component {
   
       return (
         <div>
-          <FinalGradesTable onFinalGradesTableUpdate={this.handleFinalGradesTable.bind(this)} onRowAdd={this.handleAddEvent.bind(this)} onRowDel={this.handleRowDel.bind(this)} finalGrades={this.state.finalGrades} filterText={this.state.filterText}/>
+          <FinalGradesTable onFinalGradesTableUpdate={this.handleFinalGradesTable.bind(this)} onRowAdd={this.handleAddEvent.bind(this)} onRowUpdate={this.handleRowUpdate.bind(this)} onRowDel={this.handleRowDel.bind(this)} finalGrades={this.state.finalGrades} filterText={this.state.filterText}/>
         </div>
       );
   
@@ -108,7 +192,9 @@ class FinalGradeDeterminations extends React.Component {
           </table>
         
           <button type="button" onClick={this.props.onRowAdd} className="btn-add">Add</button>
-
+          <tr>
+          <button type="button" onClick={this.props.onRowUpdate} className="btn-add">Update</button>
+          </tr>
           </div>
       );
   

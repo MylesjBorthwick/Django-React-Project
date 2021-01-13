@@ -4,6 +4,8 @@ import { v4 as uuidv4 } from 'uuid';
 import './Components.css';
 import axios from "axios";
 
+
+
 class GPAConversions extends React.Component {
 
     constructor(props) {
@@ -15,76 +17,98 @@ class GPAConversions extends React.Component {
       this.state.GPAConversions = [
         {
           id: 1,
-          lowerGrade: '',
-          upperGrade: '',
+          lowerGrade: '95',
+          upperGrade: '100',
           T_sign: 'T >=',
-          name: 'A+'
+          name: 'A+',
+          course_outline_id: 1000
         }, {
           id: 2,
-          lowerGrade: '',
-          upperGrade: '',
+          lowerGrade: '90',
+          upperGrade: '95',
           T_sign: '=< T <',
-          name: 'A'
+          name: 'A',
+          course_outline_id: 1000
         }, {
           id: 3,
-          lowerGrade: '',
-          upperGrade: '',
+          lowerGrade: '85',
+          upperGrade: '90',
           T_sign: '=< T <',
-          name: 'A-'
+          name: 'A-',
+          course_outline_id: 1000
+
         }, {
           id: 4,
-          lowerGrade: '',
-          upperGrade: '',
+          lowerGrade: '80',
+          upperGrade: '85',
           T_sign: '=< T <',
-          name: 'B+'
+          name: 'B+',
+          course_outline_id: 1000
+
         }, {
           id: 5,
-          lowerGrade: '',
-          upperGrade: '',
+          lowerGrade: '75',
+          upperGrade: '80',
           T_sign: '=< T <',
-          name: 'B'
+          name: 'B',
+          course_outline_id: 1000
+
         }, {
           id: 6,
-          lowerGrade: '',
-          upperGrade: '',
+          lowerGrade: '70',
+          upperGrade: '75',
           T_sign: '=< T <',
-          name: 'B-'
+          name: 'B-',
+          course_outline_id: 1000
+
         }, {
           id: 7,
-          lowerGrade: '',
-          upperGrade: '',
+          lowerGrade: '65',
+          upperGrade: '70',
           T_sign: '=< T <',
-          name: 'C+'
+          name: 'C+',
+          course_outline_id: 1000
+
         },{
           id: 8,
-          lowerGrade: '',
-          upperGrade: '',
+          lowerGrade: '60',
+          upperGrade: '65',
           T_sign: '=< T <',
-          name: 'C'
+          name: 'C',
+          course_outline_id: 1000
+
         }, {
           id: 9,
-          lowerGrade: '',
-          upperGrade: '',
+          lowerGrade: '55',
+          upperGrade: '60',
           T_sign: '=< T <',
-          name: 'C-'
+          name: 'C-',
+          course_outline_id: 1000
+
         }, {
           id: 10,
-          lowerGrade: '',
-          upperGrade: '',
+          lowerGrade: '50',
+          upperGrade: '55',
           T_sign: '=< T <',
-          name: 'D+'
+          name: 'D+',
+          course_outline_id: 1000
+
         }, {
           id: 11,
-          lowerGrade: '',
-          upperGrade: '',
+          lowerGrade: '45',
+          upperGrade: '50',
           T_sign: '=< T <',
-          name: 'D'
+          name: 'D',
+          course_outline_id: 1000
+
         }, {
-          id: 13,
-          lowerGrade: '',
-          upperGrade: '',
+          id: 12,
+          lowerGrade: '0',
+          upperGrade: '45',
           T_sign: 'T <',
-          name: 'F'
+          name: 'F',
+          course_outline_id: 1000
+
         }
       ];
   
@@ -98,58 +122,78 @@ class GPAConversions extends React.Component {
       this.setState(this.state.GPAConversions);
     };
     handleRowUpdate(evt) {
-      var item = {
-        id: evt.target.id,
-        lowerGrade: evt.target.lowerGrade,
-        upperGrade: evt.target.upperGrade,
-        T_sign: evt.target.T_sign,
-        name: evt.target.name
-      };
-      console.log("Hello World!");
-      // console.log(evt.T_sign);
-      // console.log(item);
-      console.log(this.state.GPAConversions);
-      var GPAConversions = this.state.GPAConversions.slice();
-      console.log("Sections:");
 
-      
+      console.log(this.state.GPAConversions);
+
+      var API_URL = "http://localhost:8000/api/gpa_conversions/";
+
+
+      axios
+      .get(API_URL)
+      .then(res => this.setState({ GPAConversions: res.data }))
+      .catch(err => console.log(err));
+
+
 
       var arrayLength = this.state.GPAConversions.length;
       for (var i = 0; i < arrayLength; i++) {
         console.log(this.state.GPAConversions[i]);
         //axios.put(`http://localhost:8000/api/gpa_conversions/${this.state.GPAConversions[i].id}/`, this.state.GPAConversions[i]);
-        axios.post("http://localhost:8000/api/gpa_conversions/", this.state.GPAConversions[i]);
-        // console.log(this.state.GPAConversions[i].id);
-        // console.log(this.state.GPAConversions[i].lowerGrade);
-        // console.log(this.state.GPAConversions[i].upperGrade);
-        // console.log(this.state.GPAConversions[i].T_sign);
-        // console.log(this.state.GPAConversions[i].name);
-      //Do something
-      }
-      var newGPAConversions = GPAConversions.map(function(GPAConversion) {
 
+        //axios.post("http://localhost:8000/api/gpa_conversions/", this.state.GPAConversions[i]);
         
-        // for (var key in GPAConversions) {
-        //   console.log(key);
-        // }
-        // for (var key in GPAConversion) {
-        //   console.log(key);
-        // }
-      });
-    };
-    // handleSubmit(evt){
-    //   console.log();
+        axios.post(API_URL, this.state.GPAConversions[i])  .then((response) => {
+          console.log(response.data);
+          console.log(response.status);
+          console.log(response.statusText);
+          console.log(response.headers);
+          console.log(response.config);
+        }, (error) => {
+          console.log(error.request);
+          console.log(error);
+        });
+        
+        //may somehow get away with doing it without duplicates
+        axios.put(`http://localhost:8000/api/gpa_conversions/${this.state.GPAConversions[i].id}`, this.state.GPAConversions[i])  .then((response) => {
+          console.log(response.data);
+          console.log(response.status);
+          console.log(response.statusText);
+          console.log(response.headers);
+          console.log(response.config);
+        }, (error) => {
+          console.log(error.request);
+          console.log(error);
+        });
+        
 
-    //   if (evt.id) {
-    //     axios
-    //       .put(`http://localhost:8000/api/todos/${item.id}/`, evt)
-    //       .then(res => this.refreshList());
-    //     return;
-    //   }
-    //   axios
-    //     .post("http://localhost:8000/api/todos/", item)
-    //     .then(res => this.refreshList());
-    // };  
+        axios.delete(`http://localhost:8000/api/gpa_conversions/${this.state.GPAConversions[i].id}`)  .then((response) => {
+          console.log(response.data);
+          console.log(response.status);
+          console.log(response.statusText);
+          console.log(response.headers);
+          console.log(response.config);
+        }, (error) => {
+          console.log(error.request);
+          console.log(error);
+        });
+
+
+      }
+
+
+      axios.delete(API_URL)  .then((response) => {
+        console.log(response.data);
+        console.log(response.status);
+        console.log(response.statusText);
+        console.log(response.headers);
+        console.log(response.config);
+      }, (error) => {
+        console.log(error.request);
+        console.log(error);
+      });
+
+
+    };
     
 
 

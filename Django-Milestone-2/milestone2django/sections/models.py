@@ -3,9 +3,9 @@ from django.db import models
 
 class Sections(models.Model):
     id          = models.IntegerField(primary_key=True);
-    course_outline_id    = models.IntegerField();
-    location       = models.TextField();
-    name      = models.TextField();
-    days      = models.TextField();
-    time      = models.TextField();
-    
+    course_outline_id    = models.IntegerField(blank=True,null=True);
+    location       = models.TextField(blank=True,null=True);
+    name      = models.TextField(blank=True,null=True);
+    days      = models.TextField(blank=True,null=True);
+    time      = models.TextField(blank=True,null=True);
+        

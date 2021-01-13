@@ -15,7 +15,6 @@ class Migration(migrations.Migration):
             name='Final_Grades',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('final_grades_id', models.IntegerField()),
                 ('course_outline_id', models.IntegerField()),
                 ('weight', models.TextField()),
                 ('finalGrade', models.TextField()),
