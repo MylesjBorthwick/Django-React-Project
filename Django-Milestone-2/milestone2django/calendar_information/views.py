@@ -11,7 +11,7 @@ from .models import Calendar_Information
 @api_view(['GET', 'POST','DELETE'])
 def Calendar_Information_list(request):
     if request.method == 'GET':
-        data = Calendar_Information.objects.all()
+        data = Calendar_Information.objects.filter(id<100)
 
         serializer = Calendar_Information_Serializer(data, context={'request': request}, many=True)
 

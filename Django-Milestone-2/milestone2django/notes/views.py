@@ -11,7 +11,7 @@ from .models import Notes
 @api_view(['GET', 'POST','DELETE'])
 def Notes_list(request):
     if request.method == 'GET':
-        data = Notes.objects.all()
+        data = Notes.objects.filter(id<100)
 
         serializer = Notes_Serializer(data, context={'request': request}, many=True)
 

@@ -1,7 +1,7 @@
 import 'bulma/css/bulma.css';
 import React, { useState, useEffect , Component} from 'react'
 import './Components.css';
-import { v4 as uuidv4 } from 'uuid';
+import axios from "axios";
 
 
 class Sections extends React.Component {
@@ -14,31 +14,49 @@ class Sections extends React.Component {
       this.state.sections = [
         {
           id: 1,
-          sec: '',
+          name: '',
           days: '',
           time: '',
           location: '',
+          course_outline_id: 101,
         },
      
       ];
+
+      var API_URL = "http://localhost:8000/api/sections/";
+      axios
+      .get(API_URL)
+      .then(res => this.setState({ sections: res.data }))
+      .catch(err => console.log(err));
     }
     handleUserInput(filterText) {
       this.setState({filterText: filterText});
     };
     handleRowDel(section) {
       var index = this.state.sections.indexOf(section);
+      axios.delete(`http://localhost:8000/api/sections/${this.state.sections[index].id}`).then((response) => {
+        console.log(response.data);
+        console.log(response.status);
+        console.log(response.statusText);
+        console.log(response.headers);
+        console.log(response.config);
+      }, (error) => {
+        console.log(error.request);
+        console.log(error);
+      });
       this.state.sections.splice(index, 1);
       this.setState(this.state.sections);
     };
   
     handleAddEvent(evt) {
-      var id = uuidv4() ;
+      var id = this.state.sections.length+1 ;
       var section = {
         id: id,
-        sec: '',
+        name: '',
         days: '',
         time: '',
         location: '',
+        course_outline_id: 101,
         
       }
       this.state.sections.push(section);
@@ -48,6 +66,34 @@ class Sections extends React.Component {
 
     handleSend(evt){
       console.log(this.state.sections);
+      var API_URL = "http://localhost:8000/api/sections/";
+
+      var arrayLength = this.state.sections.length;
+      for (var i = 0; i < arrayLength; i++) {
+        
+        axios.post(API_URL, this.state.sections[i]).then((response) => {
+          console.log(response.data);
+          console.log(response.status);
+          console.log(response.statusText);
+          console.log(response.headers);
+          console.log(response.config);
+        }, (error) => {
+          console.log(error.request);
+          console.log(error);
+        });
+        
+        //may somehow get away with doing it without duplicates
+        axios.put(`http://localhost:8000/api/sections/${this.state.sections[i].id}`, this.state.sections[i]).then((response) => {
+          console.log(response.data);
+          console.log(response.status);
+          console.log(response.statusText);
+          console.log(response.headers);
+          console.log(response.config);
+        }, (error) => {
+          console.log(error.request);
+          console.log(error);
+        });
+    }
     }
   
     handleSectionsTable(evt) {
@@ -91,7 +137,7 @@ class Sections extends React.Component {
       var rowDel = this.props.onRowDel;
       var filterText = this.props.filterText;
       var section = this.props.sections.map(function(section) {
-        if (section.sec.indexOf(filterText) === -1) {
+        if (section.name.indexOf(filterText) === -1) {
           return;
         }
         return (<SectionsRow onSectionsTableUpdate={onSectionsTableUpdate} section={section} onDelEvent={rowDel.bind(this)} key={section.id}/>)
@@ -138,7 +184,7 @@ class Sections extends React.Component {
         <tr>
           <SectionsEditableCell onSectionsTableUpdate={this.props.onSectionsTableUpdate} cellData={{
             type: "sec",
-            value: this.props.section.sec,
+            value: this.props.section.name,
             id: this.props.section.id
           }}/>
           <SectionsEditableCell onSectionsTableUpdate={this.props.onSectionsTableUpdate} cellData={{

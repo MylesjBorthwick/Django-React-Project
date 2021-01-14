@@ -13,6 +13,7 @@ import FinalGradeDeterminations from "./FinalGradeDetermination";
 import Notes from "./Notes";
 import GPAConversions from "./GPAConversions";
 import TextBook from "./TextBook";
+import ReqTextBook from "./ReqTextBook";
 import Policies from "./Policies";
 
 class Collapsible extends React.Component {
@@ -224,7 +225,7 @@ class Collapsible extends React.Component {
            
             <h2 class="title2">Required Textbooks</h2>
 
-                    <TextBook />
+                    <ReqTextBook />
                     <h2 class="title2">Recommended Textbooks</h2>
                     <TextBook/>
 

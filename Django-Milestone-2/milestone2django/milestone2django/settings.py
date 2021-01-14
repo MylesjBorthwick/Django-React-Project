@@ -53,7 +53,8 @@ INSTALLED_APPS = [
     'calendar_information',
     'calculator_use',
     'policies',
-    'graduate_attributes'
+    'graduate_attributes',
+    'master_update'
 ]
 
 MIDDLEWARE = [

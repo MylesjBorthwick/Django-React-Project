@@ -5,5 +5,5 @@ from .models import Notes
 class Notes_Serializer(serializers.ModelSerializer):
   class Meta:
     model = Notes
-    fields = ('id','note')
+    fields = ('id','course_outline_id','note')
 

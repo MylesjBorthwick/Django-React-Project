@@ -11,7 +11,7 @@ from .models import Instructors
 @api_view(['GET', 'POST','DELETE'])
 def Instructors_list(request):
     if request.method == 'GET':
-        data = Instructors.objects.all()
+        data = Instructors.objects.filter(id<100)
 
         serializer = Instructors_Serializer(data, context={'request': request}, many=True)
 

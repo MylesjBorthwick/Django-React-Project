@@ -11,7 +11,7 @@ from .models import Recommended_Textbooks
 @api_view(['GET', 'POST','DELETE'])
 def Recommended_Textbooks_list(request):
     if request.method == 'GET':
-        data = Recommended_Textbooks.objects.all()
+        data = Recommended_Textbooks.objects.filter(id<100)
 
         serializer = Recommended_Textbooks_Serializer(data, context={'request': request}, many=True)
 
