@@ -63,9 +63,6 @@ def Final_Grades_detail(request, pk):
 
 
 
-
-
-
 class Final_Grades_View(viewsets.ModelViewSet):      
   serializer_class = Final_Grades_Serializer          
   queryset = Final_Grades.objects.all()             

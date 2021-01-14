@@ -1,7 +1,7 @@
 import 'bulma/css/bulma.css';
 import React, { useState, useEffect , Component} from 'react'
 import './Components.css';
-import { v4 as uuidv4 } from 'uuid';
+import axios from "axios";
 
 
 class CourseInstructors extends React.Component {
@@ -14,6 +14,7 @@ class CourseInstructors extends React.Component {
       this.state.instructors = [
         {
           id: 1,
+          course_outline_id: 101,
           section: '',
           fname: '',
           lname: '',
@@ -23,27 +24,77 @@ class CourseInstructors extends React.Component {
         },
      
       ];
+      var API_URL = "http://localhost:8000/api/instructors/";
+      axios
+      .get(API_URL)
+      .then(res => this.setState({ instructors: res.data }))
+      .catch(err => console.log(err));
+
     }
     handleUserInput(filterText) {
       this.setState({filterText: filterText});
     };
     handleRowDel(instructor) {
       var index = this.state.instructors.indexOf(instructor);
+      axios.delete(`http://localhost:8000/api/instructors/${this.state.instructors[index].id}`).then((response) => {
+        console.log(response.data);
+        console.log(response.status);
+        console.log(response.statusText);
+        console.log(response.headers);
+        console.log(response.config);
+      }, (error) => {
+        console.log(error.request);
+        console.log(error);
+      });
+
       this.state.instructors.splice(index, 1);
       this.setState(this.state.instructors);
+
     };
+
+    handleSend(evt){
+      console.log(this.state.instructors);
+      var API_URL = "http://localhost:8000/api/instructors/";
+
+      var arrayLength = this.state.instructors.length;
+      for (var i = 0; i < arrayLength; i++) {
+        console.log(this.state.instructors[i]);
+        
+        axios.post(API_URL, this.state.instructors[i]).then((response) => {
+          console.log(response.data);
+          console.log(response.status);
+          console.log(response.statusText);
+          console.log(response.headers);
+          console.log(response.config);
+        }, (error) => {
+          console.log(error.request);
+          console.log(error);
+        });
+        
+        //may somehow get away with doing it without duplicates
+        axios.put(`http://localhost:8000/api/instructors/${this.state.instructors[i].id}`, this.state.instructors[i]).then((response) => {
+          console.log(response.data);
+          console.log(response.status);
+          console.log(response.statusText);
+          console.log(response.headers);
+          console.log(response.config);
+        }, (error) => {
+          console.log(error.request);
+          console.log(error);
+        });
+    }}
   
     handleAddEvent(evt) {
-      var id = uuidv4() ;
+      var id = this.state.instructors.length + 1;
       var instructor = {
         id: id,
+        course_outline_id: 101,
         section: '',
         fname: '',
         lname: '',
         phone: '',
         office: '',
         email: '',
-    
       }
       this.state.instructors.push(instructor);
       this.setState(this.state.instructors);
@@ -75,6 +126,7 @@ class CourseInstructors extends React.Component {
       return (
         <div>
           <InstructorsTable onInstructorsTableUpdate={this.handleInstructorsTable.bind(this)} onInstructorRowAdd={this.handleAddEvent.bind(this)} onRowDel={this.handleRowDel.bind(this)} instructors={this.state.instructors} filterText={this.state.filterText}/>
+          <button className = 'button is-warning is-rounded is-medium' onClick={this.handleSend.bind(this)}>Update Form</button>
         </div>
       );
   
@@ -96,12 +148,13 @@ class CourseInstructors extends React.Component {
         return (<InstructorRow onInstructorsTableUpdate={onInstructorsTableUpdate} instructor={instructor} onDelEvent={rowDel.bind(this)} key={instructor.id}/>)
       });
       return (
+        <div className="columns is-max-desktop is-centered">
         <div>
   
   
-          <table className="table-bordered">
+          <table className="table is-bordered">
             <thead>
-              <tr className="table-header">
+              <tr>
                 <th>Section</th>
                 <th>First Name</th>
                 <th>Last Name</th>
@@ -117,8 +170,9 @@ class CourseInstructors extends React.Component {
             </tbody>
   
           </table>
-          <button type="button" onClick={this.props.onInstructorRowAdd} className="btn-add">Add</button>
+          <button onClick={this.props.onInstructorRowAdd} className="button is-primary is-rounded">Add New Row</button>
   
+        </div>
         </div>
       );
   
@@ -134,40 +188,38 @@ class CourseInstructors extends React.Component {
     render() {
   
       return (
-        <tr className="eachRow">
+        <tr>
           <InstructorEditableCell onInstructorsTableUpdate={this.props.onInstructorsTableUpdate} cellData={{
-            "type": "section",
+            type: "section",
             value: this.props.instructor.section,
             id: this.props.instructor.id
           }}/>
           <InstructorEditableCell onInstructorsTableUpdate={this.props.onInstructorsTableUpdate} cellData={{
-            "type": "fname",
+            type: "fname",
             value: this.props.instructor.fname,
             id: this.props.instructor.id
           }}/>
            <InstructorEditableCell onInstructorsTableUpdate={this.props.onInstructorsTableUpdate} cellData={{
-            "type": "lname",
+            type: "lname",
             value: this.props.instructor.lname,
             id: this.props.instructor.id
           }}/>
             <InstructorEditableCellNumbers onInstructorsTableUpdate={this.props.onInstructorsTableUpdate} cellData={{
-            "type": "phone",
+            type: "phone",
             value: this.props.instructor.phone,
             id: this.props.instructor.id
           }}/>
           <InstructorEditableCell onInstructorsTableUpdate={this.props.onInstructorsTableUpdate} cellData={{
-            "type": "office",
+            type: "office",
             value: this.props.instructor.office,
             id: this.props.instructor.id
           }}/>
              <InstructorEditableCell onInstructorsTableUpdate={this.props.onInstructorsTableUpdate} cellData={{
-            "type": "email",
+            type: "email",
             value: this.props.instructor.email,
             id: this.props.instructor.id
           }}/>
-          <td className="del-cell">
-            <input type="button" onClick={this.onDelEvent.bind(this)} value="Remove" className="del-btn"/>
-          </td>
+           <button onClick={this.onDelEvent.bind(this)}  className="button is-danger is-rounded">Remove</button>
         </tr>
       );
   
@@ -178,7 +230,7 @@ class CourseInstructors extends React.Component {
   
     render() {
       return (
-        <td className='EditableCell'>
+        <td>
           <textarea class="textarea is-info" rows="2" name={this.props.cellData.type} id={this.props.cellData.id} value={this.props.cellData.value} onChange={this.props.onInstructorsTableUpdate}/>
         </td>
       );
@@ -191,7 +243,6 @@ class CourseInstructors extends React.Component {
   
     render() {
       return (
-        // <td className='EditableCell'>
         <td>
           <input type='number' name={this.props.cellData.type} id={this.props.cellData.id} value={this.props.cellData.value} onChange={this.props.onInstructorsTableUpdate}/>
         </td>

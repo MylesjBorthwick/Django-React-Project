@@ -26,10 +26,13 @@ from instructors import views as instructors_views
 from gpa_conversions import views as gpa_conversions_views
 from final_grades import views as final_grades_views
 from examinations import views as examinations_views
-from course_policies import views as course_policies_views
+
 from course_objectives import views as course_objectives_views
 from calendar_information import views as calendar_information_views
 from calculator_use import views as calculator_use_views
+from policies import views as policies_views  
+
+from graduate_attributes import views as graduate_attributes_views
 
 from echo.views import echo_view,echo_response_view,echo_dynamic_lookup_view
 
@@ -95,8 +98,8 @@ urlpatterns = [
     path('api/final_grades/<int:pk>', final_grades_views.Final_Grades_detail), 
     re_path(r'^api/examinations/$', examinations_views.Examinations_list),
     path('api/examinations/<int:pk>', examinations_views.Examinations_detail),
-    re_path(r'^api/course_policies/$', course_policies_views.Course_Policies_list),
-    path('api/course_policies/<int:pk>', course_policies_views.Course_Policies_detail),  
+    re_path(r'^api/policies/$', policies_views.Policies_list),
+    path('api/policies/<int:pk>', policies_views.Policies_detail),  
     re_path(r'^api/course_objectives/$', course_objectives_views.Course_Objectives_list),
     path('api/course_objectives/<int:pk>', course_objectives_views.Course_Objectives_detail), 
 
@@ -105,4 +108,9 @@ urlpatterns = [
 
     re_path(r'^api/calculator_use/$', calculator_use_views.Calculator_Use_list),
     path('api/calculator_use/<int:pk>', calculator_use_views.Calculator_Use_detail), 
+
+    re_path(r'^api/graduate_attributes/$', graduate_attributes_views.Graduate_Attributes_list),
+    path('api/graduate_attributes/<int:pk>', graduate_attributes_views.Graduate_Attributes_detail), 
 ]
+
+

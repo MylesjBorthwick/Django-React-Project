@@ -45,6 +45,10 @@ class Sections extends React.Component {
       this.setState(this.state.sections);
   
     }
+
+    handleSend(evt){
+      console.log(this.state.sections);
+    }
   
     handleSectionsTable(evt) {
       var item = {
@@ -71,6 +75,7 @@ class Sections extends React.Component {
       return (
         <div>
           <SectionsTable onSectionsTableUpdate={this.handleSectionsTable.bind(this)} onSectionsRowAdd={this.handleAddEvent.bind(this)} onRowDel={this.handleRowDel.bind(this)} sections={this.state.sections} filterText={this.state.filterText}/>
+          <button className = 'button is-warning is-rounded is-medium' onClick={this.handleSend.bind(this)}>Update Form</button>
         </div>
       );
   
@@ -92,12 +97,13 @@ class Sections extends React.Component {
         return (<SectionsRow onSectionsTableUpdate={onSectionsTableUpdate} section={section} onDelEvent={rowDel.bind(this)} key={section.id}/>)
       });
       return (
+        <div className="columns is-max-desktop is-centered">
         <div>
   
   
-          <table className="table-bordered">
+          <table className="table is-bordered">
             <thead>
-              <tr className="table-header">
+              <tr>
                 <th>Section</th>
                 <th>Day(s) of the Week</th>
                 <th>Time</th>
@@ -111,8 +117,9 @@ class Sections extends React.Component {
             </tbody>
   
           </table>
-          <button type="button" onClick={this.props.onSectionsRowAdd} className="btn-add">Add</button>
+          <button onClick={this.props.onSectionsRowAdd} className="button is-primary is-rounded">Add New Row</button>
   
+        </div>
         </div>
       );
   
@@ -128,30 +135,30 @@ class Sections extends React.Component {
     render() {
   
       return (
-        <tr className="eachRow">
+        <tr>
           <SectionsEditableCell onSectionsTableUpdate={this.props.onSectionsTableUpdate} cellData={{
-            "type": "sec",
+            type: "sec",
             value: this.props.section.sec,
             id: this.props.section.id
           }}/>
           <SectionsEditableCell onSectionsTableUpdate={this.props.onSectionsTableUpdate} cellData={{
-            "type": "days",
+            type: "days",
             value: this.props.section.days,
             id: this.props.section.id
           }}/>
             <SectionsEditableCell onSectionsTableUpdate={this.props.onSectionsTableUpdate} cellData={{
-            "type": "time",
+            type: "time",
             value: this.props.section.time,
             id: this.props.section.id
           }}/>
           <SectionsEditableCell onSectionsTableUpdate={this.props.onSectionsTableUpdate} cellData={{
-            "type": "location",
+            type: "location",
             value: this.props.section.location,
             id: this.props.section.id
           }}/>
-          <td className="del-cell">
-            <input type="button" onClick={this.onDelEvent.bind(this)} value="Remove" className="del-btn"/>
-          </td>
+         
+            <button onClick={this.onDelEvent.bind(this)}  className="button is-danger is-rounded">Remove</button>
+        
         </tr>
       );
   
@@ -162,7 +169,7 @@ class Sections extends React.Component {
   
     render() {
       return (
-        <td className='EditableCell'>
+        <td>
           <textarea class="textarea is-info" rows="2" name={this.props.cellData.type} id={this.props.cellData.id} value={this.props.cellData.value} onChange={this.props.onSectionsTableUpdate}/>
         </td>
       );

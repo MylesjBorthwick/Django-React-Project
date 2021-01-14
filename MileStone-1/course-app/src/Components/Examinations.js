@@ -1,7 +1,7 @@
 import 'bulma/css/bulma.css';
 import React, { useState, useEffect , Component} from 'react'
 import './Components.css';
-import { v4 as uuidv4 } from 'uuid';
+import axios from "axios";
 
 
 class Examinations extends React.Component {
@@ -14,31 +14,82 @@ class Examinations extends React.Component {
       this.state.examinations = [
         {
           id: 1,
+          course_outline_id: 101,
           publicID: 1,
           name: '',
         },
         {
           id: 2,
+          course_outline_id: 101,
           publicID: 2,
           name: ''
         },
       ];
+      var API_URL = "http://localhost:8000/api/examinations/";
+      axios
+      .get(API_URL)
+      .then(res => this.setState({ examinations: res.data }))
+      .catch(err => console.log(err));
     }
     handleUserInput(filterText) {
       this.setState({filterText: filterText});
     };
+
+    handleSend(evt){
+      console.log(this.state.examinations);
+      var API_URL = "http://localhost:8000/api/examinations/";
+
+      var arrayLength = this.state.examinations.length;
+      for (var i = 0; i < arrayLength; i++) {
+        
+        axios.post(API_URL, this.state.examinations[i]).then((response) => {
+          console.log(response.data);
+          console.log(response.status);
+          console.log(response.statusText);
+          console.log(response.headers);
+          console.log(response.config);
+        }, (error) => {
+          console.log(error.request);
+          console.log(error);
+        });
+        
+        //may somehow get away with doing it without duplicates
+        axios.put(`http://localhost:8000/api/examinations/${this.state.examinations[i].id}`, this.state.examinations[i]).then((response) => {
+          console.log(response.data);
+          console.log(response.status);
+          console.log(response.statusText);
+          console.log(response.headers);
+          console.log(response.config);
+        }, (error) => {
+          console.log(error.request);
+          console.log(error);
+        });
+    }
+    }
+
     handleRowDel(examinations) {
       var index = this.state.examinations.indexOf(examinations);
+      axios.delete(`http://localhost:8000/api/examinations/${this.state.examinations[index].id}`).then((response) => {
+        console.log(response.data);
+        console.log(response.status);
+        console.log(response.statusText);
+        console.log(response.headers);
+        console.log(response.config);
+      }, (error) => {
+        console.log(error.request);
+        console.log(error);
+      });
       this.state.examinations.splice(index, 1);
       this.setState(this.state.examinations);
     };
   
     handleAddEvent(evt) {
-      var id = uuidv4() ;
+      var id = 1+this.state.examinations.length;
       var examinations = {
         id: id,
+        course_outline_id: 101,
         name: "",
-        publicID: 1+this.state.examinations.length,
+        publicID: id,
       }
       this.state.examinations.push(examinations);
       this.setState(this.state.examinations);
@@ -70,6 +121,7 @@ class Examinations extends React.Component {
       return (
         <div>
           <ExaminationTable onExaminationTableUpdate={this.handleExaminationTable.bind(this)} onExaminationRowAdd={this.handleAddEvent.bind(this)} onRowDel={this.handleRowDel.bind(this)} examinations={this.state.examinations} filterText={this.state.filterText}/>
+          <button className = 'button is-warning is-rounded is-medium' onClick={this.handleSend.bind(this)}>Update Form</button>
         </div>
       );
   
@@ -91,25 +143,24 @@ class Examinations extends React.Component {
         return (<ExaminationRow onExaminationTableUpdate={onExaminationTableUpdate} examinations={examinations} onDelEvent={rowDel.bind(this)} key={examinations.id}/>)
       });
       return (
+
+        <div className="columns is-centered">
         <div>
   
-  
-          <table className="table-bordered">
+          <table className="table is-bordered">
             <thead>
-              <tr className="table-header">
-                <th></th>
-                <th>Examination Info</th>
-              </tr>
+                <th>#</th>
+                <th>Examination Info</th>            
             </thead>
   
             <tbody>
               {examinations}
   
             </tbody>
-  
           </table>
-          <button type="button" onClick={this.props.onExaminationRowAdd} className="btn-add">Add</button>
+          <button onClick={this.props.onExaminationRowAdd} className="button is-primary is-rounded">Add New Row</button>
   
+        </div>
         </div>
       );
   
@@ -125,7 +176,7 @@ class Examinations extends React.Component {
     render() {
   
       return (
-        <tr className="eachRow">
+        <tr>
           <ExaminationsEditableCellNumbers onExaminationTableUpdate={this.props.onExaminationTableUpdate} cellData={{
             "type": "publicID",
             value: this.props.examinations.publicID,
@@ -137,9 +188,10 @@ class Examinations extends React.Component {
             id: this.props.examinations.id
           }}/>
           <td className="del-cell">
-            <input type="button" onClick={this.onDelEvent.bind(this)} value="Remove" className="del-btn"/>
+           <button onClick={this.onDelEvent.bind(this)}  className="button is-danger is-rounded">Remove</button>
           </td>
-        </tr>
+          </tr>
+        
       );
   
     }
@@ -149,8 +201,8 @@ class Examinations extends React.Component {
   
     render() {
       return (
-        <td className='EditableCell'>
-          <textarea class="textarea is-info" rows="2" name={this.props.cellData.type} id={this.props.cellData.id} value={this.props.cellData.value} onChange={this.props.onExaminationTableUpdate}/>
+        <td>
+          <textarea class="textarea is-info is-large" rows="2" name={this.props.cellData.type} id={this.props.cellData.id} value={this.props.cellData.value} onChange={this.props.onExaminationTableUpdate}/>
         </td>
       );
   
@@ -162,7 +214,7 @@ class Examinations extends React.Component {
   
     render() {
       return (
-        <td className='EditableCell'>
+        <td>
           <input type='number' name={this.props.cellData.type} id={this.props.cellData.id} value={this.props.cellData.value} onChange={this.props.onExaminationTableUpdate}/>
         </td>
       );
