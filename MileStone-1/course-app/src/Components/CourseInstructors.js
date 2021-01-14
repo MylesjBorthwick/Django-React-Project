@@ -1,7 +1,7 @@
 import 'bulma/css/bulma.css';
 import React, { useState, useEffect , Component} from 'react'
 import './Components.css';
-import { v4 as uuidv4 } from 'uuid';
+import axios from "axios";
 
 
 class CourseInstructors extends React.Component {
@@ -14,6 +14,7 @@ class CourseInstructors extends React.Component {
       this.state.instructors = [
         {
           id: 1,
+          course_outline_id: 101,
           section: '',
           fname: '',
           lname: '',
@@ -23,31 +24,77 @@ class CourseInstructors extends React.Component {
         },
      
       ];
+      var API_URL = "http://localhost:8000/api/instructors/";
+      axios
+      .get(API_URL)
+      .then(res => this.setState({ instructors: res.data }))
+      .catch(err => console.log(err));
+
     }
     handleUserInput(filterText) {
       this.setState({filterText: filterText});
     };
     handleRowDel(instructor) {
       var index = this.state.instructors.indexOf(instructor);
+      axios.delete(`http://localhost:8000/api/instructors/${this.state.instructors[index].id}`).then((response) => {
+        console.log(response.data);
+        console.log(response.status);
+        console.log(response.statusText);
+        console.log(response.headers);
+        console.log(response.config);
+      }, (error) => {
+        console.log(error.request);
+        console.log(error);
+      });
+
       this.state.instructors.splice(index, 1);
       this.setState(this.state.instructors);
+
     };
 
     handleSend(evt){
       console.log(this.state.instructors);
-    }
+      var API_URL = "http://localhost:8000/api/instructors/";
+
+      var arrayLength = this.state.instructors.length;
+      for (var i = 0; i < arrayLength; i++) {
+        console.log(this.state.instructors[i]);
+        
+        axios.post(API_URL, this.state.instructors[i]).then((response) => {
+          console.log(response.data);
+          console.log(response.status);
+          console.log(response.statusText);
+          console.log(response.headers);
+          console.log(response.config);
+        }, (error) => {
+          console.log(error.request);
+          console.log(error);
+        });
+        
+        //may somehow get away with doing it without duplicates
+        axios.put(`http://localhost:8000/api/instructors/${this.state.instructors[i].id}`, this.state.instructors[i]).then((response) => {
+          console.log(response.data);
+          console.log(response.status);
+          console.log(response.statusText);
+          console.log(response.headers);
+          console.log(response.config);
+        }, (error) => {
+          console.log(error.request);
+          console.log(error);
+        });
+    }}
   
     handleAddEvent(evt) {
-      var id = uuidv4() ;
+      var id = this.state.instructors.length + 1;
       var instructor = {
         id: id,
+        course_outline_id: 101,
         section: '',
         fname: '',
         lname: '',
         phone: '',
         office: '',
         email: '',
-    
       }
       this.state.instructors.push(instructor);
       this.setState(this.state.instructors);

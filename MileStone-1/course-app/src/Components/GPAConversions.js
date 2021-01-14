@@ -1,7 +1,7 @@
 import 'bulma/css/bulma.css';
 import React, { useState, useEffect , Component} from 'react'
-import { v4 as uuidv4 } from 'uuid';
 import './Components.css';
+import axios from "axios";
 
 class GPAConversions extends React.Component {
 
@@ -11,82 +11,197 @@ class GPAConversions extends React.Component {
       //  this.state.GPAConversions = [];
       this.state = {};
       this.state.filterText = "";
+
+      var API_URL = "http://localhost:8000/api/gpa_conversions/";
+
       this.state.GPAConversions = [
         {
           id: 1,
           lowerGrade: '',
           upperGrade: '',
           T_sign: 'T >=',
-          name: 'A+'
+          name: 'A+',
+          course_outline_id: 101
         }, {
           id: 2,
           lowerGrade: '',
           upperGrade: '',
           T_sign: '=< T <',
-          name: 'A'
+          name: 'A',
+          course_outline_id: 101
         }, {
           id: 3,
           lowerGrade: '',
           upperGrade: '',
           T_sign: '=< T <',
-          name: 'A-'
+          name: 'A-',
+          course_outline_id: 101
         }, {
           id: 4,
           lowerGrade: '',
           upperGrade: '',
           T_sign: '=< T <',
-          name: 'B+'
+          name: 'B+',
+          course_outline_id: 101
         }, {
           id: 5,
           lowerGrade: '',
           upperGrade: '',
           T_sign: '=< T <',
-          name: 'B'
+          name: 'B',
+          course_outline_id: 101
         }, {
           id: 6,
           lowerGrade: '',
           upperGrade: '',
           T_sign: '=< T <',
-          name: 'B-'
+          name: 'B-',
+          course_outline_id: 101
         }, {
           id: 7,
           lowerGrade: '',
           upperGrade: '',
           T_sign: '=< T <',
-          name: 'C+'
+          name: 'C+',
+          course_outline_id: 101
         },{
           id: 8,
           lowerGrade: '',
           upperGrade: '',
           T_sign: '=< T <',
-          name: 'C'
+          name: 'C',
+          course_outline_id: 101
         }, {
           id: 9,
           lowerGrade: '',
           upperGrade: '',
           T_sign: '=< T <',
-          name: 'C-'
+          name: 'C-',
+          course_outline_id: 101
         }, {
           id: 10,
           lowerGrade: '',
           upperGrade: '',
           T_sign: '=< T <',
-          name: 'D+'
+          name: 'D+',
+          course_outline_id: 101
         }, {
           id: 11,
           lowerGrade: '',
           upperGrade: '',
           T_sign: '=< T <',
-          name: 'D'
+          name: 'D',
+          course_outline_id: 101
         }, {
-          id: 13,
+          id: 12,
           lowerGrade: '',
           upperGrade: '',
           T_sign: 'T <',
-          name: 'F'
+          name: 'F',
+          course_outline_id: 101
         }
-      ];
-  
+      ];     
+      axios
+      .get(API_URL)
+      .then(res => this.setState({ GPAConversions: res.data }))
+      .catch(err => console.log(err));
+
+      console.log("Length of the GPA:");
+      console.log(this.state.GPAConversions.length);
+      console.log(this.state.GPAConversions);
+
+
+      if(this.state.GPAConversions.length< 10){                 ////////////////////////////DOESN'T WORK
+        console.log("Length of the GPA:");
+
+        this.setState([
+          {
+            id: 1,
+            lowerGrade: '',
+            upperGrade: '',
+            T_sign: 'T >=',
+            name: 'A+',
+            course_outline_id: 101
+          }, {
+            id: 2,
+            lowerGrade: '',
+            upperGrade: '',
+            T_sign: '=< T <',
+            name: 'A',
+            course_outline_id: 101
+          }, {
+            id: 3,
+            lowerGrade: '',
+            upperGrade: '',
+            T_sign: '=< T <',
+            name: 'A-',
+            course_outline_id: 101
+          }, {
+            id: 4,
+            lowerGrade: '',
+            upperGrade: '',
+            T_sign: '=< T <',
+            name: 'B+',
+            course_outline_id: 101
+          }, {
+            id: 5,
+            lowerGrade: '',
+            upperGrade: '',
+            T_sign: '=< T <',
+            name: 'B',
+            course_outline_id: 101
+          }, {
+            id: 6,
+            lowerGrade: '',
+            upperGrade: '',
+            T_sign: '=< T <',
+            name: 'B-',
+            course_outline_id: 101
+          }, {
+            id: 7,
+            lowerGrade: '',
+            upperGrade: '',
+            T_sign: '=< T <',
+            name: 'C+',
+            course_outline_id: 101
+          },{
+            id: 8,
+            lowerGrade: '',
+            upperGrade: '',
+            T_sign: '=< T <',
+            name: 'C',
+            course_outline_id: 101
+          }, {
+            id: 9,
+            lowerGrade: '',
+            upperGrade: '',
+            T_sign: '=< T <',
+            name: 'C-',
+            course_outline_id: 101
+          }, {
+            id: 10,
+            lowerGrade: '',
+            upperGrade: '',
+            T_sign: '=< T <',
+            name: 'D+',
+            course_outline_id: 101
+          }, {
+            id: 11,
+            lowerGrade: '',
+            upperGrade: '',
+            T_sign: '=< T <',
+            name: 'D',
+            course_outline_id: 101
+          }, {
+            id: 12,
+            lowerGrade: '',
+            upperGrade: '',
+            T_sign: 'T <',
+            name: 'F',
+            course_outline_id: 101
+          }
+        ]);
+      }
     }
     handleUserInput(filterText) {
       this.setState({filterText: filterText});
@@ -98,19 +213,53 @@ class GPAConversions extends React.Component {
     };
   
     handleAddEvent(evt) {
-      var id = uuidv4();
+      var id = this.state.GPAConversions.length + 1;
       var GPAConversion = {
         id: id,
         name: "",
         upperGrade: "",
         lowerGrade: "",
         T_sign: "=< T <",
+        course_outline_id: 101,
       }
       this.state.GPAConversions.push(GPAConversion);
       this.setState(this.state.GPAConversions);
   
     }
   
+
+    handleSend(evt) {
+      console.log(this.state.GPAConversions);
+      var API_URL = "http://localhost:8000/api/gpa_conversions/";
+  
+      var arrayLength = this.state.GPAConversions.length;
+      for (var i = 0; i < arrayLength; i++) {
+        
+        axios.post(API_URL, this.state.GPAConversions[i]).then((response) => {
+          console.log(response.data);
+          console.log(response.status);
+          console.log(response.statusText);
+          console.log(response.headers);
+          console.log(response.config);
+        }, (error) => {
+          console.log(error.request);
+          console.log(error);
+        });
+        
+        //may somehow get away with doing it without duplicates
+        axios.put(`http://localhost:8000/api/gpa_conversions/${this.state.GPAConversions[i].id}`, this.state.GPAConversions[i]).then((response) => {
+          console.log(response.data);
+          console.log(response.status);
+          console.log(response.statusText);
+          console.log(response.headers);
+          console.log(response.config);
+        }, (error) => {
+          console.log(error.request);
+          console.log(error);
+        });
+    }
+    }
+
     handleGPAConversionTable(evt) {
       var item = {
         id: evt.target.id,
@@ -134,13 +283,16 @@ class GPAConversions extends React.Component {
   
       return (
         <div>
-          <GPAConversionTable onGPAConversionTableUpdate={this.handleGPAConversionTable.bind(this)} onRowAdd={this.handleAddEvent.bind(this)} onRowDel={this.handleRowDel.bind(this)} GPAConversions={this.state.GPAConversions} filterText={this.state.filterText}/>
+          <GPAConversionTable onGPAConversionTableUpdate={this.handleGPAConversionTable.bind(this)} onRowUpdate={this.handleSend.bind(this)} onRowAdd={this.handleAddEvent.bind(this)} onRowDel={this.handleRowDel.bind(this)} GPAConversions={this.state.GPAConversions} filterText={this.state.filterText}/>
         </div>
       );
   
     }
   
   }
+
+
+
   export default GPAConversions;
 
   
@@ -177,7 +329,13 @@ class GPAConversions extends React.Component {
             </tbody>
   
           </table>
-  
+               <button
+        className="button is-rounded is-warning is-medium"
+        onClick={this.props.onRowUpdate}
+      >
+        Update Form
+      </button>
+        </div>
         </div>
         </div>
       );
@@ -185,6 +343,7 @@ class GPAConversions extends React.Component {
     }
   
   }
+
   
   class GPAConversionRow extends React.Component {
     onDelEvent() {

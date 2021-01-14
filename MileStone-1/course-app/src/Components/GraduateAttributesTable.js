@@ -1,7 +1,7 @@
 import 'bulma/css/bulma.css';
 import React, { useState, useEffect , Component} from 'react'
 import './Components.css';
-import { v4 as uuidv4 } from 'uuid';
+import axios from "axios";
 
 
 class GraduateAttributesTable extends React.Component {
@@ -17,25 +17,44 @@ class GraduateAttributesTable extends React.Component {
           publicID: 1,
           grad: '',
           instruct: '',
+          course_outline_id: 101,
         },
       ];
+      var API_URL = "http://localhost:8000/api/graduate_attributes/";
+      axios
+      .get(API_URL)
+      .then(res => this.setState({ attributes: res.data }))
+      .catch(err => console.log(err));
     }
+
     handleUserInput(filterText) {
       this.setState({filterText: filterText});
     };
     handleRowDel(attribute) {
       var index = this.state.attributes.indexOf(attribute);
+      axios.delete(`http://localhost:8000/api/graduate_attributes/${this.state.attributes[index].id}`).then((response) => {
+        console.log(response.data);
+        console.log(response.status);
+        console.log(response.statusText);
+        console.log(response.headers);
+        console.log(response.config);
+      }, (error) => {
+        console.log(error.request);
+        console.log(error);
+      });
       this.state.attributes.splice(index, 1);
       this.setState(this.state.attributes);
     };
   
     handleAddEvent(evt) {
-      var id = uuidv4() ;
+      var id = 1+this.state.attributes.length;
       var attribute = {
         id: id,
-        publicID: 1+this.state.attributes.length,
+        publicID: id,
         grad: '',
         instruct: '',
+        course_outline_id: 101,
+
       }
       this.state.attributes.push(attribute);
       this.setState(this.state.attributes);
@@ -44,6 +63,34 @@ class GraduateAttributesTable extends React.Component {
 
     handleSend(evt){
       console.log(this.state.attributes);
+      var API_URL = "http://localhost:8000/api/graduate_attributes/";
+
+      var arrayLength = this.state.attributes.length;
+      for (var i = 0; i < arrayLength; i++) {
+        
+        axios.post(API_URL, this.state.attributes[i]).then((response) => {
+          console.log(response.data);
+          console.log(response.status);
+          console.log(response.statusText);
+          console.log(response.headers);
+          console.log(response.config);
+        }, (error) => {
+          console.log(error.request);
+          console.log(error);
+        });
+        
+        //may somehow get away with doing it without duplicates
+        axios.put(`http://localhost:8000/api/graduate_attributes/${this.state.attributes[i].id}`, this.state.attributes[i]).then((response) => {
+          console.log(response.data);
+          console.log(response.status);
+          console.log(response.statusText);
+          console.log(response.headers);
+          console.log(response.config);
+        }, (error) => {
+          console.log(error.request);
+          console.log(error);
+        });
+    }
     }
   
     handleAttributesTable(evt) {

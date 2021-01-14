@@ -49,10 +49,11 @@ INSTALLED_APPS = [
     'gpa_conversions',
     'final_grades',
     'examinations',
-    'course_policies',
     'course_objectives',
     'calendar_information',
     'calculator_use',
+    'policies',
+    'graduate_attributes'
 ]
 
 MIDDLEWARE = [

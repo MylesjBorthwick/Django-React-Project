@@ -1,7 +1,7 @@
 import 'bulma/css/bulma.css';
 import React, { useState, useEffect , Component} from 'react'
 import './Components.css';
-import { v4 as uuidv4 } from 'uuid';
+import axios from "axios";
 
 
 class Examinations extends React.Component {
@@ -14,15 +14,22 @@ class Examinations extends React.Component {
       this.state.examinations = [
         {
           id: 1,
+          course_outline_id: 101,
           publicID: 1,
           name: '',
         },
         {
           id: 2,
+          course_outline_id: 101,
           publicID: 2,
           name: ''
         },
       ];
+      var API_URL = "http://localhost:8000/api/examinations/";
+      axios
+      .get(API_URL)
+      .then(res => this.setState({ examinations: res.data }))
+      .catch(err => console.log(err));
     }
     handleUserInput(filterText) {
       this.setState({filterText: filterText});
@@ -30,20 +37,59 @@ class Examinations extends React.Component {
 
     handleSend(evt){
       console.log(this.state.examinations);
+      var API_URL = "http://localhost:8000/api/examinations/";
+
+      var arrayLength = this.state.examinations.length;
+      for (var i = 0; i < arrayLength; i++) {
+        
+        axios.post(API_URL, this.state.examinations[i]).then((response) => {
+          console.log(response.data);
+          console.log(response.status);
+          console.log(response.statusText);
+          console.log(response.headers);
+          console.log(response.config);
+        }, (error) => {
+          console.log(error.request);
+          console.log(error);
+        });
+        
+        //may somehow get away with doing it without duplicates
+        axios.put(`http://localhost:8000/api/examinations/${this.state.examinations[i].id}`, this.state.examinations[i]).then((response) => {
+          console.log(response.data);
+          console.log(response.status);
+          console.log(response.statusText);
+          console.log(response.headers);
+          console.log(response.config);
+        }, (error) => {
+          console.log(error.request);
+          console.log(error);
+        });
+    }
     }
 
     handleRowDel(examinations) {
       var index = this.state.examinations.indexOf(examinations);
+      axios.delete(`http://localhost:8000/api/examinations/${this.state.examinations[index].id}`).then((response) => {
+        console.log(response.data);
+        console.log(response.status);
+        console.log(response.statusText);
+        console.log(response.headers);
+        console.log(response.config);
+      }, (error) => {
+        console.log(error.request);
+        console.log(error);
+      });
       this.state.examinations.splice(index, 1);
       this.setState(this.state.examinations);
     };
   
     handleAddEvent(evt) {
-      var id = uuidv4() ;
+      var id = 1+this.state.examinations.length;
       var examinations = {
         id: id,
+        course_outline_id: 101,
         name: "",
-        publicID: 1+this.state.examinations.length,
+        publicID: id,
       }
       this.state.examinations.push(examinations);
       this.setState(this.state.examinations);

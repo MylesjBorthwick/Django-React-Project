@@ -1,37 +1,57 @@
 import "bulma/css/bulma.css";
 import React, { useState, useEffect, Component } from "react";
 import "./Components.css";
-import { v4 as uuidv4 } from "uuid";
+import axios from "axios";
+
 
 class FinalGradeDeterminations extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {};
 
     this.state = {
       filterText: "",
       finalGrades: [
         {
           id: 1,
+          course_outline_id: 101,
           weight: "",
+          learningOutcome: "",
           finalGrade: "",
           name: "",
         },
       ],
     };
+    var API_URL = "http://localhost:8000/api/final_grades/";
+    axios
+    .get(API_URL)
+    .then(res => this.setState({ finalGrades: res.data }))
+    .catch(err => console.log(err));
   }
   handleUserInput(filterText) {
     this.setState({ filterText: filterText });
   }
   handleRowDel(finalGrade) {
     var index = this.state.finalGrades.indexOf(finalGrade);
+    axios.delete(`http://localhost:8000/api/final_grades/${this.state.finalGrades[index].id}`).then((response) => {
+      console.log(response.data);
+      console.log(response.status);
+      console.log(response.statusText);
+      console.log(response.headers);
+      console.log(response.config);
+    }, (error) => {
+      console.log(error.request);
+      console.log(error);
+    });
     this.state.finalGrades.splice(index, 1);
     this.setState(this.state.finalGrades);
   }
 
   handleAddEvent(evt) {
-    var id = uuidv4();
+    var id = this.state.finalGrades.length+1;
     var finalGrade = {
       id: id,
+      course_outline_id: 101,
       name: "",
       learningOutcome: "",
       weight: "",
@@ -42,6 +62,34 @@ class FinalGradeDeterminations extends React.Component {
 
   handleSend(evt) {
     console.log(this.state.finalGrades);
+    var API_URL = "http://localhost:8000/api/final_grades/";
+
+    var arrayLength = this.state.finalGrades.length;
+    for (var i = 0; i < arrayLength; i++) {
+      
+      axios.post(API_URL, this.state.finalGrades[i]).then((response) => {
+        console.log(response.data);
+        console.log(response.status);
+        console.log(response.statusText);
+        console.log(response.headers);
+        console.log(response.config);
+      }, (error) => {
+        console.log(error.request);
+        console.log(error);
+      });
+      
+      //may somehow get away with doing it without duplicates
+      axios.put(`http://localhost:8000/api/final_grades/${this.state.finalGrades[i].id}`, this.state.finalGrades[i]).then((response) => {
+        console.log(response.data);
+        console.log(response.status);
+        console.log(response.statusText);
+        console.log(response.headers);
+        console.log(response.config);
+      }, (error) => {
+        console.log(error.request);
+        console.log(error);
+      });
+  }
   }
 
   handleFinalGradesTable(evt) {

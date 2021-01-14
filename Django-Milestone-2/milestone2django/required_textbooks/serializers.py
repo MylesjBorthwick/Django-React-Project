@@ -5,5 +5,5 @@ from .models import Required_Textbooks
 class Required_Textbooks_Serializer(serializers.ModelSerializer):
   class Meta:
     model = Required_Textbooks
-    fields = ('textbook_id', 'title', 'author', 'edition','publisher')
+    fields = ('id', 'title', 'author', 'edition','publisher')
 

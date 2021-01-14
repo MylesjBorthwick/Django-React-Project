@@ -1,7 +1,8 @@
 import "bulma/css/bulma.css";
 import React, { useState, useEffect, Component } from "react";
 import "./Components.css";
-import { v4 as uuidv4 } from "uuid";
+import axios from "axios";
+
 
 class CourseObjectives extends React.Component {
   constructor(props) {
@@ -13,37 +14,82 @@ class CourseObjectives extends React.Component {
       {
         id: 1,
         publicID: 1,
+        course_outline_id: 101,
         name: "",
       },
       {
         id: 2,
         publicID: 2,
+        course_outline_id: 101,
         name: "",
       },
     ];
+    var API_URL = "http://localhost:8000/api/course_objectives/";
+    axios
+    .get(API_URL)
+    .then(res => this.setState({ courseObjectives: res.data }))
+    .catch(err => console.log(err));
   }
   handleUserInput(filterText) {
     this.setState({ filterText: filterText });
   }
   handleRowDel(courseObjective) {
     var index = this.state.courseObjectives.indexOf(courseObjective);
+    axios.delete(`http://localhost:8000/api/course_objectives/${this.state.courseObjectives[index].id}`).then((response) => {
+      console.log(response.data);
+      console.log(response.status);
+      console.log(response.statusText);
+      console.log(response.headers);
+      console.log(response.config);
+    }, (error) => {
+      console.log(error.request);
+      console.log(error);
+    });
     this.state.courseObjectives.splice(index, 1);
     this.setState(this.state.courseObjectives);
   }
 
   handleAddEvent(evt) {
-    var id = uuidv4();
+    var id = this.state.courseObjectives.length + 1;
     var courseObjective = {
       id: id,
       name: "",
-      publicID: 1 + this.state.courseObjectives.length,
+      course_outline_id: 101,
+      publicID: id,
     };
     this.state.courseObjectives.push(courseObjective);
     this.setState(this.state.courseObjectives);
   }
 
   handleSend(evt) {
+    var API_URL = "http://localhost:8000/api/course_objectives/";
     console.log(this.state.courseObjectives);
+    var arrayLength = this.state.courseObjectives.length;
+    for (var i = 0; i < arrayLength; i++) {
+            
+      axios.post(API_URL, this.state.courseObjectives[i]).then((response) => {
+        console.log(response.data);
+        console.log(response.status);
+        console.log(response.statusText);
+        console.log(response.headers);
+        console.log(response.config);
+      }, (error) => {
+        console.log(error.request);
+        console.log(error);
+      });
+      
+      //may somehow get away with doing it without duplicates
+      axios.put(`http://localhost:8000/api/course_objectives/${this.state.courseObjectives[i].id}`, this.state.courseObjectives[i]).then((response) => {
+        console.log(response.data);
+        console.log(response.status);
+        console.log(response.statusText);
+        console.log(response.headers);
+        console.log(response.config);
+      }, (error) => {
+        console.log(error.request);
+        console.log(error);
+      });
+  }
   }
 
   handleCourseObjectivesTable(evt) {

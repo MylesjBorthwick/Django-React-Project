@@ -1,24 +1,59 @@
 import "bulma/css/bulma.css";
 import React, { useState, useEffect, Component } from "react";
 import "./Components.css";
+import axios from "axios";
 
 class Calendar extends React.Component {
   constructor(props) {
     super(props);
+    var API_URL = "http://localhost:8000/api/calendar_information/";
 
     this.state = {
       id: 1,
       num: "",
-      courseName: "",
-      descript: "",
+      course_name: "",
+      description: "",
       hours: "",
-      cred: "",
+      credit: "",
       link: "",
+      course_outline_id:101,
     };
+    axios
+    .get(API_URL)
+    .then(res => {
+        this.setState(res.data[0]);  
+      })
+    .catch(err => console.log(err));   
+
   }
 
   handleClick = () => {
     console.log(this.state);
+    var API_URL = "http://localhost:8000/api/calendar_information/";
+    axios.post(API_URL, this.state).then((response) => {
+        console.log(response.data);
+        console.log(response.status);
+        console.log(response.statusText);
+        console.log(response.headers);
+        console.log(response.config);
+      }, (error) => {
+        console.log(error.request);
+        console.log(error);
+      });
+      
+      //may somehow get away with doing it without duplicates
+      axios.put(`http://localhost:8000/api/calendar_information/${this.state.id}`, this.state).then((response) => {
+        console.log(response.data);
+        console.log(response.status);
+        console.log(response.statusText);
+        console.log(response.headers);
+        console.log(response.config);
+      }, (error) => {
+        console.log(error.request);
+        console.log(error);
+      });
+
+
   };
 
   handleChange = (e) => {
@@ -48,8 +83,8 @@ class Calendar extends React.Component {
             class="textarea is-info"
             placeholder="Enter Course Name"
             rows="1"
-            name="courseName"
-            value={this.state.courseName}
+            name="course_name"
+            value={this.state.course_name}
             onChange={this.handleChange}
           />
         </div>
@@ -57,10 +92,10 @@ class Calendar extends React.Component {
         <div class="field">
           <textarea
             class="textarea is-info"
-            placeholder="Enter Course Description"
+            placeholder="Enter Course descriptionion"
             rows="4"
-            name="descript"
-            value={this.state.descript}
+            name="description"
+            value={this.state.description}
             onChange={this.handleChange}
           />
         </div>
@@ -83,9 +118,9 @@ class Calendar extends React.Component {
             <input
               class="input is-primary"
               type="text"
-              name="cred"
-              value={this.state.cred}
-              placeholder="Academic Credit"
+              name="credit"
+              value={this.state.credit}
+              placeholder="Academic credit"
               onChange={this.handleChange}
             />
           </div>
