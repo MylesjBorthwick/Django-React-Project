@@ -14,8 +14,12 @@ import Notes from "./Notes";
 import GPAConversions from "./GPAConversions";
 import TextBook from "./TextBook";
 import Policies from "./Policies";
+import CreateNew from "./CreateNew";
 
 class Collapsible extends React.Component {
+
+    
+
     componentDidMount() {
       this.collapsibles = bulmaCollapsible.attach(".is-collapsible", {
         container: this.refs.collapsibles
@@ -42,7 +46,7 @@ class Collapsible extends React.Component {
             >
               <div className="message-body-content">
 
-                <Calendar/>
+                <Calendar isClicked ={this.props.isClicked}/>
                
               </div>
             </div>
@@ -261,6 +265,7 @@ class Collapsible extends React.Component {
             </div>
           </div>
         </article>
+
 
           
       

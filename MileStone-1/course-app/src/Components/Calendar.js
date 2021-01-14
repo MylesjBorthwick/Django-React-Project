@@ -17,6 +17,28 @@ class Calendar extends React.Component {
     };
   }
 
+  componentDidUpdate(prevProps){
+   if(this.props.isClicked !== prevProps.isClicked){
+      this.setState({
+      id: 1,
+      num: "",
+      courseName: "",
+      descript: "",
+      hours: "",
+      cred: "",
+      link: "",
+    });
+
+
+  
+
+   }
+
+  }
+
+
+
+
   handleClick = () => {
     console.log(this.state);
   };

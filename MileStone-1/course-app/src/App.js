@@ -1,17 +1,29 @@
 import "bulma/css/bulma.css";
-import React, { useState, useEffect, Component } from "react";
+import React, { useState, useEffect } from "react";
 
 import "./App.scss";
 
 import Collapsible from "./Components/Collapsible";
 
-const refreshPage = () => {
-  window.location.reload();
-};
 
-function App() {
+
+
+const App =()=> {
+
+  const [isClicked, setIsClicked] = useState(false); 
+
+  const createNew = () => {
+    
+    setIsClicked(!isClicked);
+    
+    console.log('button pressed')
+  };
+
+
   return (
+
     <div className="App">
+      {isClicked}
       <section class="hero is-dark is-bold">
         <div class="hero-body">
           <div class="container">
@@ -20,7 +32,7 @@ function App() {
 
             
             <div className="container is full-width">
-              <Collapsible />
+              <Collapsible isClicked={isClicked} />
             </div>
 
             <div className="container">
@@ -32,11 +44,13 @@ function App() {
                   <div class="control">
                     <button
                       class="button is-primary is-large is-rounded is-halfwidth"
-                      onClick={refreshPage}
+                      onClick={createNew}
                     >
                       Create
                     </button>
                   </div>
+
+                
                 </div>
               </div>
             </div>
