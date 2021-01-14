@@ -1,7 +1,8 @@
 import 'bulma/css/bulma.css';
 import React, { useState, useEffect, Component } from 'react'
 import './Components.css';
-import { v4 as uuidv4 } from 'uuid';
+import axios from "axios";
+
 
 class TextBook extends React.Component {
 
@@ -17,13 +18,46 @@ class TextBook extends React.Component {
                 author: '',
                 edition: '',
                 publisher: '',
+                course_outline_id:101,
             },
         ];
-
+        var API_URL = "http://localhost:8000/api/recommended_textbooks/";
+        axios
+        .get(API_URL)
+        .then(res => this.setState({ textbooks: res.data }))
+        .catch(err => console.log(err));
     }
 
     handleSend(evt){
         console.log(this.state.textbooks);
+        var API_URL = "http://localhost:8000/api/recommended_textbooks/";
+
+        var arrayLength = this.state.textbooks.length;
+        for (var i = 0; i < arrayLength; i++) {
+          
+          axios.post(API_URL, this.state.textbooks[i]).then((response) => {
+            console.log(response.data);
+            console.log(response.status);
+            console.log(response.statusText);
+            console.log(response.headers);
+            console.log(response.config);
+          }, (error) => {
+            console.log(error.request);
+            console.log(error);
+          });
+          
+          //may somehow get away with doing it without duplicates
+          axios.put(`http://localhost:8000/api/recommended_textbooks/${this.state.textbooks[i].id}`, this.state.textbooks[i]).then((response) => {
+            console.log(response.data);
+            console.log(response.status);
+            console.log(response.statusText);
+            console.log(response.headers);
+            console.log(response.config);
+          }, (error) => {
+            console.log(error.request);
+            console.log(error);
+          });
+      }
       }
 
     handleUserInput(filterText) {
@@ -31,19 +65,29 @@ class TextBook extends React.Component {
     };
     handleRowDel(textbook) {
         var index = this.state.textbooks.indexOf(textbook);
+        axios.delete(`http://localhost:8000/api/recommended_textbooks/${this.state.textbooks[index].id}`).then((response) => {
+            console.log(response.data);
+            console.log(response.status);
+            console.log(response.statusText);
+            console.log(response.headers);
+            console.log(response.config);
+          }, (error) => {
+            console.log(error.request);
+            console.log(error);
+          });
         this.state.textbooks.splice(index, 1);
         this.setState(this.state.textbooks);
     };
 
     handleAddEvent(evt) {
-        var id = uuidv4();
+        var id = this.state.textbooks.length+1;
         var textbook = {
             id: id,
             title: "",
             author: "",
             edition: "",
             publisher: "",
-            
+            course_outline_id:101,
            
         }
         this.state.textbooks.push(textbook);

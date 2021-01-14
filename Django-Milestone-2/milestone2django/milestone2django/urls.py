@@ -36,6 +36,9 @@ from graduate_attributes import views as graduate_attributes_views
 
 from echo.views import echo_view,echo_response_view,echo_dynamic_lookup_view
 
+from master_update import views as master_views  
+
+
 # router1 = routers.DefaultRouter()                      
 # router1.register(r'required_textbooks', required_textbooks_views.Required_Textbooks_View, 'required_textbooks')     
 # router2 = routers.DefaultRouter()                      
@@ -111,6 +114,7 @@ urlpatterns = [
 
     re_path(r'^api/graduate_attributes/$', graduate_attributes_views.Graduate_Attributes_list),
     path('api/graduate_attributes/<int:pk>', graduate_attributes_views.Graduate_Attributes_detail), 
+
+    re_path(r'^api/master_update/$', master_views.Master_increase),
+
 ]
-
-

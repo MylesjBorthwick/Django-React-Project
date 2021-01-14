@@ -11,7 +11,7 @@ from .models import Calculator_Use
 @api_view(['GET', 'POST','DELETE'])
 def Calculator_Use_list(request):
     if request.method == 'GET':
-        data = Calculator_Use.objects.all()
+        data = Calculator_Use.objects.filter(id<100)
 
         serializer = Calculator_Use_Serializer(data, context={'request': request}, many=True)
 
