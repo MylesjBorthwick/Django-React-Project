@@ -27,6 +27,24 @@ class GraduateAttributesTable extends React.Component {
       .catch(err => console.log(err));
     }
 
+    componentDidUpdate(prevProps){
+      if(this.props.isClicked !== prevProps.isClicked){
+         this.setState({
+          filterText : '',
+          attributes:[
+            {
+              id: 1,
+              publicID: 1,
+              grad: '',
+              instruct: '',
+              course_outline_id: 101,
+            }
+          ]
+       });
+      }
+   
+    }
+
     handleUserInput(filterText) {
       this.setState({filterText: filterText});
     };

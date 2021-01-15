@@ -28,6 +28,25 @@ class TextBook extends React.Component {
         .catch(err => console.log(err));
     }
 
+    componentDidUpdate(prevProps){
+        if(this.props.isClicked !== prevProps.isClicked){
+           this.setState({
+            filterText : '',
+            textbooks:[
+              {
+                id: 1,
+                title: '',
+                author: '',
+                edition: '',
+                publisher: '',
+                course_outline_id:101,
+              }
+            ]
+         });
+        }
+     
+      }
+
     handleSend(evt){
         console.log(this.state.textbooks);
         var API_URL = "http://localhost:8000/api/recommended_textbooks/";

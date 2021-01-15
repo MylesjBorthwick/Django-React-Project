@@ -43,7 +43,7 @@ class Collapsible extends React.Component {
             >
               <div className="message-body-content">
 
-                <Calendar/>
+                <Calendar isClicked ={this.props.isClicked}/>
                
               </div>
             </div>
@@ -69,13 +69,13 @@ class Collapsible extends React.Component {
                
                 <h2 class="title2">Course Objectives</h2>
 
-                    <CourseObjectives />
+                    <CourseObjectives isClicked ={this.props.isClicked} />
               
 
                 <h3 class="title2">Graduate Attributes</h3>
 
               
-                    <GraduateAttributesTable />
+                    <GraduateAttributesTable isClicked ={this.props.isClicked} />
                 
               </div>
             </div>
@@ -102,7 +102,7 @@ class Collapsible extends React.Component {
             <h1 class="title2">Timetable</h1>
               
 
-                    <Sections />
+                    <Sections isClicked ={this.props.isClicked}/>
               
 
                 
@@ -132,7 +132,7 @@ class Collapsible extends React.Component {
             <h1 class="title2">Instructors</h1>
               
 
-                    <CourseInstructors />
+                    <CourseInstructors isClicked ={this.props.isClicked}/>
                 
               </div>
             </div>
@@ -160,9 +160,9 @@ class Collapsible extends React.Component {
            
             <h2 class="title2">Examinations</h2>
 
-                    <Examinations />
+                    <Examinations isClicked ={this.props.isClicked}/>
                     <h2 class="title2">Use of Calculators in Examinations</h2>
-                    <Calculator/>
+                    <Calculator isClicked ={this.props.isClicked}/>
 
                 
               </div>
@@ -191,11 +191,11 @@ class Collapsible extends React.Component {
             
             <h2 class="title2">Grade Determination</h2>
 
-                    <FinalGradeDeterminations />
+                    <FinalGradeDeterminations isClicked ={this.props.isClicked}/>
                     <h2 class="title2">Extra Notes</h2>
-                    <Notes/>
+                    <Notes isClicked ={this.props.isClicked}/>
                     <h2 class="title2">GPA Conversions</h2>
-                    <GPAConversions/>
+                    <GPAConversions isClicked ={this.props.isClicked}/>
 
                 
               </div>
@@ -225,9 +225,9 @@ class Collapsible extends React.Component {
            
             <h2 class="title2">Required Textbooks</h2>
 
-                    <ReqTextBook />
+                    <ReqTextBook isClicked ={this.props.isClicked}/>
                     <h2 class="title2">Recommended Textbooks</h2>
-                    <TextBook/>
+                    <TextBook isClicked ={this.props.isClicked}/>
 
                 
               </div>
@@ -255,7 +255,7 @@ class Collapsible extends React.Component {
            
             <h2 class="title2">Course Policies</h2>
 
-                    <Policies/>
+                    <Policies isClicked ={this.props.isClicked}/>
 
                 
               </div>

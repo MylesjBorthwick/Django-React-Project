@@ -22,6 +22,17 @@ class Notes extends React.Component {
 
   }
 
+  componentDidUpdate(prevProps){
+    if(this.props.isClicked !== prevProps.isClicked){
+       this.setState({
+        id: 1,
+        note: "",
+        course_outline_id:101,
+     });
+    }
+ 
+   }
+
   handleClick = () => {
     console.log(this.state);
     var API_URL = "http://localhost:8000/api/notes/";
@@ -66,7 +77,7 @@ class Notes extends React.Component {
               class="textarea is-info"
               placeholder="Enter notes about additional pass-requirements, sickness exemptions, or grade conversion scale (below)"
               rows="6"
-              name="notes"
+              name="note"
               value={this.state.note}
               onChange={this.handleChange}
             ></textarea>

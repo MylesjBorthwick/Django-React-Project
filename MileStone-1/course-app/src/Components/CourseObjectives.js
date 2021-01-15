@@ -8,28 +8,50 @@ class CourseObjectives extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
-    this.state.filterText = "";
-    this.state.courseObjectives = [
-      {
-        id: 1,
-        publicID: 1,
-        course_outline_id: 101,
-        name: "",
-      },
-      {
-        id: 2,
-        publicID: 2,
-        course_outline_id: 101,
-        name: "",
-      },
-    ];
+    this.state = {
+      filterText : "",
+      courseObjectives : [
+        {
+          id: 1,
+          publicID: 1,
+          course_outline_id: 101,
+          name: "",
+        },
+        {
+          id: 2,
+          publicID: 2,
+          course_outline_id: 101,
+          name: "",
+        },
+      ],
+    };
+
     var API_URL = "http://localhost:8000/api/course_objectives/";
     axios
     .get(API_URL)
     .then(res => this.setState({ courseObjectives: res.data }))
     .catch(err => console.log(err));
   }
+
+
+  componentDidUpdate(prevProps){
+    if(this.props.isClicked !== prevProps.isClicked){
+       this.setState({
+        filterText : '',
+        courseObjectives:[
+          {
+          id: 1,
+          publicID: 1,
+          course_outline_id: 101,
+          name: "",
+          }
+        ]
+     });
+    }
+ 
+  }
+
+
   handleUserInput(filterText) {
     this.setState({ filterText: filterText });
   }

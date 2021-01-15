@@ -28,6 +28,26 @@ class FinalGradeDeterminations extends React.Component {
     .then(res => this.setState({ finalGrades: res.data }))
     .catch(err => console.log(err));
   }
+
+  componentDidUpdate(prevProps){
+    if(this.props.isClicked !== prevProps.isClicked){
+       this.setState({
+        filterText : '',
+        finalGrades:[
+          {
+            id: 1,
+            course_outline_id: 101,
+            weight: "",
+            learningOutcome: "",
+            finalGrade: "",
+            name: "",
+          }
+        ]
+     });
+    }
+ 
+  }
+
   handleUserInput(filterText) {
     this.setState({ filterText: filterText });
   }

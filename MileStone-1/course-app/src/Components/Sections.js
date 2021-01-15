@@ -29,6 +29,25 @@ class Sections extends React.Component {
       .then(res => this.setState({ sections: res.data }))
       .catch(err => console.log(err));
     }
+
+    componentDidUpdate(prevProps){
+      if(this.props.isClicked !== prevProps.isClicked){
+         this.setState({
+          filterText : '',
+          sections:[
+            {
+              id: 1,
+              name: '',
+              days: '',
+              time: '',
+              location: '',
+              course_outline_id: 101,
+            }
+          ]
+       });
+      }
+   
+    }
     handleUserInput(filterText) {
       this.setState({filterText: filterText});
     };
@@ -183,7 +202,7 @@ class Sections extends React.Component {
       return (
         <tr>
           <SectionsEditableCell onSectionsTableUpdate={this.props.onSectionsTableUpdate} cellData={{
-            type: "sec",
+            type: "name",
             value: this.props.section.name,
             id: this.props.section.id
           }}/>

@@ -27,6 +27,23 @@ class Calendar extends React.Component {
 
   }
 
+  componentDidUpdate(prevProps){
+    if(this.props.isClicked !== prevProps.isClicked){
+       this.setState({
+       id: 1,
+       num: "",
+       course_name: "",
+       description: "",
+       hours: "",
+       credit: "",
+       link: "",
+       course_outline_id:101,
+
+     });
+    }
+ 
+   }
+
   handleClick = () => {
     console.log(this.state);
     var API_URL = "http://localhost:8000/api/calendar_information/";

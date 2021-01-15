@@ -4,7 +4,7 @@ import './Components.css';
 import axios from "axios";
 
 
-class CourseInstructors extends React.Component {
+class Coordinator extends React.Component {
 
     constructor(props) {
       super(props);
@@ -24,7 +24,7 @@ class CourseInstructors extends React.Component {
         },
      
       ];
-      var API_URL = "http://localhost:8000/api/instructors/";
+      var API_URL = "http://localhost:8000/api/course_coordinators/";
       axios
       .get(API_URL)
       .then(res => this.setState({ instructors: res.data }))
@@ -60,7 +60,7 @@ class CourseInstructors extends React.Component {
     };
     handleRowDel(instructor) {
       var index = this.state.instructors.indexOf(instructor);
-      axios.delete(`http://localhost:8000/api/instructors/${this.state.instructors[index].id}`).then((response) => {
+      axios.delete(`http://localhost:8000/api/course_coordinators/${this.state.instructors[index].id}`).then((response) => {
         console.log(response.data);
         console.log(response.status);
         console.log(response.statusText);
@@ -78,7 +78,7 @@ class CourseInstructors extends React.Component {
 
     handleSend(evt){
       console.log(this.state.instructors);
-      var API_URL = "http://localhost:8000/api/instructors/";
+      var API_URL = "http://localhost:8000/api/course_coordinators/";
 
       var arrayLength = this.state.instructors.length;
       for (var i = 0; i < arrayLength; i++) {
@@ -96,7 +96,7 @@ class CourseInstructors extends React.Component {
         });
         
         //may somehow get away with doing it without duplicates
-        axios.put(`http://localhost:8000/api/instructors/${this.state.instructors[i].id}`, this.state.instructors[i]).then((response) => {
+        axios.put(`http://localhost:8000/api/course_coordinators/${this.state.instructors[i].id}`, this.state.instructors[i]).then((response) => {
           console.log(response.data);
           console.log(response.status);
           console.log(response.statusText);
@@ -275,7 +275,7 @@ class CourseInstructors extends React.Component {
   }
 
 
-  export default CourseInstructors
+  export default Coordinator
 
 
 

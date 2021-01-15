@@ -21,6 +21,16 @@ class Policies extends React.Component {
     .catch(err => console.log(err));   
 
   }
+  componentDidUpdate(prevProps){
+    if(this.props.isClicked !== prevProps.isClicked){
+       this.setState({
+        id: 1,
+        notes: "",
+        course_outline_id:101,
+     });
+    }
+ 
+   }
 
   handleClick = () => {
     console.log(this.state);
