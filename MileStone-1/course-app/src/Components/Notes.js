@@ -3,6 +3,37 @@ import React, { useState, useEffect, Component } from "react";
 import "./Components.css";
 import axios from "axios";
 
+async function update_Django_backend(state) {
+  var API_URL = "http://localhost:8000/api/notes/";
+  axios.post(API_URL, state).then((response) => {
+      console.log(response.data);
+      console.log(response.status);
+      console.log(response.statusText);
+      console.log(response.headers);
+      console.log(response.config);
+    }, (error) => {
+      console.log(error.request);
+      console.log(error);
+    });
+    
+    //may somehow get away with doing it without duplicates
+    axios.put(`http://localhost:8000/api/notes/${state.id}`, state).then((response) => {
+      console.log(response.data);
+      console.log(response.status);
+      console.log(response.statusText);
+      console.log(response.headers);
+      console.log(response.config);
+    }, (error) => {
+      console.log(error.request);
+      console.log(error);
+    });
+}
+
+async function update_Django(state) {
+  const response = await update_Django_backend(state);
+  return response;
+}
+
 class Notes extends React.Component {
   constructor(props) {
     super(props);
@@ -29,35 +60,13 @@ class Notes extends React.Component {
         note: "",
         course_outline_id:101,
      });
+    //  console.log(update_Django(this.state));
     }
- 
    }
 
   handleClick = () => {
     console.log(this.state);
-    var API_URL = "http://localhost:8000/api/notes/";
-    axios.post(API_URL, this.state).then((response) => {
-        console.log(response.data);
-        console.log(response.status);
-        console.log(response.statusText);
-        console.log(response.headers);
-        console.log(response.config);
-      }, (error) => {
-        console.log(error.request);
-        console.log(error);
-      });
-      
-      //may somehow get away with doing it without duplicates
-      axios.put(`http://localhost:8000/api/notes/${this.state.id}`, this.state).then((response) => {
-        console.log(response.data);
-        console.log(response.status);
-        console.log(response.statusText);
-        console.log(response.headers);
-        console.log(response.config);
-      }, (error) => {
-        console.log(error.request);
-        console.log(error);
-      });
+    console.log(update_Django(this.state));
 
   };
 

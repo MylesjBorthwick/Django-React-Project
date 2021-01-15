@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',           
     'rest_framework',  
-    'echo',
     'required_textbooks',
     'recommended_textbooks',
     'sections',
@@ -54,7 +53,9 @@ INSTALLED_APPS = [
     'calculator_use',
     'policies',
     'graduate_attributes',
-    'master_update'
+    'master_update',
+    'teaching_assistant',
+    'course_coordinator'
 ]
 
 MIDDLEWARE = [

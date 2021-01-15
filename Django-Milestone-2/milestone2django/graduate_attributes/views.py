@@ -12,7 +12,7 @@ from .models import Graduate_Attributes
 @api_view(['GET', 'POST','DELETE'])
 def Graduate_Attributes_list(request):
     if request.method == 'GET':
-        data = Graduate_Attributes.objects.filter(id<100)
+        data = Graduate_Attributes.objects.filter(id__lt=100)
 
         serializer = Graduate_Attributes_Serializer(data, context={'request': request}, many=True)
 

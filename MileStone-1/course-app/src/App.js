@@ -4,16 +4,40 @@ import React, { useState, useEffect, Component } from "react";
 import "./App.scss";
 
 import Collapsible from "./Components/Collapsible";
+import axios from "axios";
 
 const App =()=> {
 
   const [isClicked, setIsClicked] = useState(false); 
 
+  async function update_Django_backend() {
+    var API_URL = "http://localhost:8000/api/master_update/";
+
+    return  axios.delete(API_URL).then((response) => {
+      console.log(response.data);
+      console.log(response.status);
+      console.log(response.statusText);
+      console.log(response.headers);
+      console.log(response.config);
+    }, (error) => {
+      console.log(error.request);
+      console.log(error);
+    }); 
+  }
+
+  async function update_Django() {
+    const response = await update_Django_backend();
+    return response;
+  }
+
+
   const createNew = () => {
-    
+    const response = update_Django();
+
     setIsClicked(!isClicked);
-    
-    console.log('button pressed')
+
+    console.log('button pressed');
+    console.log(response);
   };
 
   return (

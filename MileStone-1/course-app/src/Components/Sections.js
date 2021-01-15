@@ -4,6 +4,42 @@ import './Components.css';
 import axios from "axios";
 
 
+async function update_Django_backend(state) {
+  var API_URL = "http://localhost:8000/api/sections/";
+
+  var arrayLength = state.sections.length;
+  for (var i = 0; i < arrayLength; i++) {
+    
+    axios.post(API_URL, state.sections[i]).then((response) => {
+      console.log(response.data);
+      console.log(response.status);
+      console.log(response.statusText);
+      console.log(response.headers);
+      console.log(response.config);
+    }, (error) => {
+      console.log(error.request);
+      console.log(error);
+    });
+    
+    //may somehow get away with doing it without duplicates
+    axios.put(`http://localhost:8000/api/sections/${state.sections[i].id}`, state.sections[i]).then((response) => {
+      console.log(response.data);
+      console.log(response.status);
+      console.log(response.statusText);
+      console.log(response.headers);
+      console.log(response.config);
+    }, (error) => {
+      console.log(error.request);
+      console.log(error);
+    });
+}
+}
+
+async function update_Django(state) {
+  const response = await update_Django_backend(state);
+  return response;
+}
+
 class Sections extends React.Component {
 
     constructor(props) {
@@ -31,7 +67,7 @@ class Sections extends React.Component {
     }
 
     componentDidUpdate(prevProps){
-      if(this.props.isClicked !== prevProps.isClicked){
+      if(this.props.isClicked !== prevProps.isClicked || this.state.sections.length< 1){
          this.setState({
           filterText : '',
           sections:[
@@ -45,8 +81,8 @@ class Sections extends React.Component {
             }
           ]
        });
+        console.log(update_Django(this.state));
       }
-   
     }
     handleUserInput(filterText) {
       this.setState({filterText: filterText});
@@ -64,7 +100,13 @@ class Sections extends React.Component {
         console.log(error);
       });
       this.state.sections.splice(index, 1);
-      this.setState(this.state.sections);
+      var temp_state = this.state.sections;
+      var arrayLength = temp_state.length;
+      for (var i = 0; i < arrayLength; i++) {
+        temp_state[i].id = i+1;
+      }
+  
+      this.setState(temp_state);      
     };
   
     handleAddEvent(evt) {
@@ -85,34 +127,8 @@ class Sections extends React.Component {
 
     handleSend(evt){
       console.log(this.state.sections);
-      var API_URL = "http://localhost:8000/api/sections/";
+      console.log(update_Django(this.state));
 
-      var arrayLength = this.state.sections.length;
-      for (var i = 0; i < arrayLength; i++) {
-        
-        axios.post(API_URL, this.state.sections[i]).then((response) => {
-          console.log(response.data);
-          console.log(response.status);
-          console.log(response.statusText);
-          console.log(response.headers);
-          console.log(response.config);
-        }, (error) => {
-          console.log(error.request);
-          console.log(error);
-        });
-        
-        //may somehow get away with doing it without duplicates
-        axios.put(`http://localhost:8000/api/sections/${this.state.sections[i].id}`, this.state.sections[i]).then((response) => {
-          console.log(response.data);
-          console.log(response.status);
-          console.log(response.statusText);
-          console.log(response.headers);
-          console.log(response.config);
-        }, (error) => {
-          console.log(error.request);
-          console.log(error);
-        });
-    }
     }
   
     handleSectionsTable(evt) {

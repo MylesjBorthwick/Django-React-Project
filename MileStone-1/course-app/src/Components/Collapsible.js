@@ -15,6 +15,8 @@ import GPAConversions from "./GPAConversions";
 import TextBook from "./TextBook";
 import ReqTextBook from "./ReqTextBook";
 import Policies from "./Policies";
+import Coordinator from "./Coordinator";
+import TA from "./TA";
 
 class Collapsible extends React.Component {
     componentDidMount() {
@@ -133,7 +135,10 @@ class Collapsible extends React.Component {
               
 
                     <CourseInstructors isClicked ={this.props.isClicked}/>
-                
+                    <h2 class="title2">Teaching Assistants</h2>
+                    <TA isClicked ={this.props.isClicked}/>
+                    <h2 class="title2">Course Coordinators</h2>
+                    <Coordinator isClicked ={this.props.isClicked}/>
               </div>
             </div>
           </div>

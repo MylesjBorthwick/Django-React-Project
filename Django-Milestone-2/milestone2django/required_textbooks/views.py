@@ -11,7 +11,7 @@ from .models import Required_Textbooks
 @api_view(['GET', 'POST','DELETE'])
 def Required_Textbooks_list(request):
     if request.method == 'GET':
-        data = Required_Textbooks.objects.filter(id<100)
+        data = Required_Textbooks.objects.filter(id__lt=100)
 
         serializer = Required_Textbooks_Serializer(data, context={'request': request}, many=True)
 

@@ -11,7 +11,7 @@ from .models import GPA_Conversions
 @api_view(['GET', 'POST','DELETE'])
 def GPA_Conversions_list(request):
     if request.method == 'GET':
-        data = GPA_Conversions.objects.filter(id<100)
+        data = GPA_Conversions.objects.filter(id__lt=100)
 
         serializer = GPA_Conversions_Serializer(data, context={'request': request}, many=True)
 

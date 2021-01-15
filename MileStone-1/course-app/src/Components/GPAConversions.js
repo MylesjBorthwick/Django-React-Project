@@ -3,6 +3,44 @@ import React, { useState, useEffect , Component} from 'react'
 import './Components.css';
 import axios from "axios";
 
+async function update_Django_backend(state) {
+  var API_URL = "http://localhost:8000/api/gpa_conversions/";
+
+  var arrayLength = state.GPAConversions.length;
+  for (var i = 0; i < arrayLength; i++) {
+    console.log('In for loop');
+
+    axios.post(API_URL, state.GPAConversions[i]).then((response) => {
+      console.log(response.data);
+      console.log(response.status);
+      console.log(response.statusText);
+      console.log(response.headers);
+      console.log(response.config);
+    }, (error) => {
+      console.log(error.request);
+      console.log(error);
+    });
+    
+    //may somehow get away with doing it without duplicates
+    axios.put(`http://localhost:8000/api/gpa_conversions/${state.GPAConversions[i].id}`, state.GPAConversions[i]).then((response) => {
+      console.log(response.data);
+      console.log(response.status);
+      console.log(response.statusText);
+      console.log(response.headers);
+      console.log(response.config);
+    }, (error) => {
+      console.log(error.request);
+      console.log(error);
+    });
+}}
+
+
+
+async function update_Django(state) {
+  const response = update_Django_backend(state);
+  return response;
+}
+
 class GPAConversions extends React.Component {
 
     constructor(props) {
@@ -109,11 +147,11 @@ class GPAConversions extends React.Component {
     }
 
     componentDidUpdate(prevProps){
-      if(this.props.isClicked !== prevProps.isClicked){
+      if(this.props.isClicked !== prevProps.isClicked || this.state.GPAConversions.length< 10){
          this.setState({
           filterText : '',
           GPAConversions:[
-
+  
             {
               id: 1,
               lowerGrade: '',
@@ -202,65 +240,21 @@ class GPAConversions extends React.Component {
            
           ]
        });
+        console.log(update_Django(this.state));
       }
-   
+
     }
   
     handleUserInput(filterText) {
       this.setState({filterText: filterText});
     };
-    handleRowDel(GPAConversion) {
-      var index = this.state.GPAConversions.indexOf(GPAConversion);
-      this.state.GPAConversions.splice(index, 1);
-      this.setState(this.state.GPAConversions);
-    };
-  
-    handleAddEvent(evt) {
-      var id = this.state.GPAConversions.length + 1;
-      var GPAConversion = {
-        id: id,
-        name: "",
-        upperGrade: "",
-        lowerGrade: "",
-        T_sign: "=< T <",
-        course_outline_id: 101,
-      }
-      this.state.GPAConversions.push(GPAConversion);
-      this.setState(this.state.GPAConversions);
-  
-    }
+
   
 
     handleSend(evt) {
       console.log(this.state.GPAConversions);
-      var API_URL = "http://localhost:8000/api/gpa_conversions/";
-  
-      var arrayLength = this.state.GPAConversions.length;
-      for (var i = 0; i < arrayLength; i++) {
-        
-        axios.post(API_URL, this.state.GPAConversions[i]).then((response) => {
-          console.log(response.data);
-          console.log(response.status);
-          console.log(response.statusText);
-          console.log(response.headers);
-          console.log(response.config);
-        }, (error) => {
-          console.log(error.request);
-          console.log(error);
-        });
-        
-        //may somehow get away with doing it without duplicates
-        axios.put(`http://localhost:8000/api/gpa_conversions/${this.state.GPAConversions[i].id}`, this.state.GPAConversions[i]).then((response) => {
-          console.log(response.data);
-          console.log(response.status);
-          console.log(response.statusText);
-          console.log(response.headers);
-          console.log(response.config);
-        }, (error) => {
-          console.log(error.request);
-          console.log(error);
-        });
-    }
+      console.log(update_Django(this.state));
+
     }
 
     handleGPAConversionTable(evt) {
@@ -286,11 +280,11 @@ class GPAConversions extends React.Component {
   
       return (
         <div>
-          <GPAConversionTable onGPAConversionTableUpdate={this.handleGPAConversionTable.bind(this)} onRowUpdate={this.handleSend.bind(this)} onRowAdd={this.handleAddEvent.bind(this)} onRowDel={this.handleRowDel.bind(this)} GPAConversions={this.state.GPAConversions} filterText={this.state.filterText}/>
+          <GPAConversionTable onGPAConversionTableUpdate={this.handleGPAConversionTable.bind(this)} onRowUpdate={this.handleSend.bind(this)}  GPAConversions={this.state.GPAConversions} filterText={this.state.filterText}/>
           <br></br>
           <button
         className="button is-rounded is-warning is-medium"
-        onClick={this.props.onRowUpdate}
+        onClick={this.handleSend.bind(this)}
       >
         Update Form
       </button>
@@ -316,7 +310,7 @@ class GPAConversions extends React.Component {
         if (GPAConversion.name.indexOf(filterText) === -1) {
           return;
         }
-        return (<GPAConversionRow onGPAConversionTableUpdate={onGPAConversionTableUpdate} GPAConversion={GPAConversion} onDelEvent={rowDel.bind(this)} key={GPAConversion.id}/>)
+        return (<GPAConversionRow onGPAConversionTableUpdate={onGPAConversionTableUpdate} GPAConversion={GPAConversion} key={GPAConversion.id}/>)
       });
       return (
         <div>

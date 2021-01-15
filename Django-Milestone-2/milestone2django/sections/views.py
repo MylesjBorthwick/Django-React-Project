@@ -11,7 +11,7 @@ from .models import Sections
 @api_view(['GET', 'POST','DELETE'])
 def Sections_list(request):
     if request.method == 'GET':
-        data = Sections.objects.filter(id<100)
+        data = Sections.objects.filter(id__lt=100)
 
         serializer = Sections_Serializer(data, context={'request': request}, many=True)
 

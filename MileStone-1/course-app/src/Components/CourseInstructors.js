@@ -3,6 +3,40 @@ import React, { useState, useEffect , Component} from 'react'
 import './Components.css';
 import axios from "axios";
 
+async function update_Django_backend(state) {
+  var API_URL = "http://localhost:8000/api/instructors/";
+
+  var arrayLength = state.instructors.length;
+  for (var i = 0; i < arrayLength; i++) {
+    
+    axios.post(API_URL, state.instructors[i]).then((response) => {
+      console.log(response.data);
+      console.log(response.status);
+      console.log(response.statusText);
+      console.log(response.headers);
+      console.log(response.config);
+    }, (error) => {
+      console.log(error.request);
+      console.log(error);
+    });
+    
+    //may somehow get away with doing it without duplicates
+    axios.put(`http://localhost:8000/api/instructors/${state.instructors[i].id}`, state.instructors[i]).then((response) => {
+      console.log(response.data);
+      console.log(response.status);
+      console.log(response.statusText);
+      console.log(response.headers);
+      console.log(response.config);
+    }, (error) => {
+      console.log(error.request);
+      console.log(error);
+    });
+}}
+
+async function update_Django(state) {
+  const response = await update_Django_backend(state);
+  return response;
+}
 
 class CourseInstructors extends React.Component {
 
@@ -33,7 +67,7 @@ class CourseInstructors extends React.Component {
     }
 
     componentDidUpdate(prevProps){
-      if(this.props.isClicked !== prevProps.isClicked){
+      if(this.props.isClicked !== prevProps.isClicked || this.state.instructors.length< 1){
          this.setState({
           filterText : '',
           instructors:[
@@ -49,8 +83,10 @@ class CourseInstructors extends React.Component {
             }
           ]
        });
+      console.log(update_Django(this.state));
+
       }
-   
+
     }
 
 
@@ -72,41 +108,20 @@ class CourseInstructors extends React.Component {
       });
 
       this.state.instructors.splice(index, 1);
-      this.setState(this.state.instructors);
+      var temp_state = this.state.instructors;
+      var arrayLength = temp_state.length;
+      for (var i = 0; i < arrayLength; i++) {
+        temp_state[i].id = i+1;
+      }
+  
+      this.setState(temp_state);
 
     };
 
     handleSend(evt){
       console.log(this.state.instructors);
-      var API_URL = "http://localhost:8000/api/instructors/";
-
-      var arrayLength = this.state.instructors.length;
-      for (var i = 0; i < arrayLength; i++) {
-        console.log(this.state.instructors[i]);
-        
-        axios.post(API_URL, this.state.instructors[i]).then((response) => {
-          console.log(response.data);
-          console.log(response.status);
-          console.log(response.statusText);
-          console.log(response.headers);
-          console.log(response.config);
-        }, (error) => {
-          console.log(error.request);
-          console.log(error);
-        });
-        
-        //may somehow get away with doing it without duplicates
-        axios.put(`http://localhost:8000/api/instructors/${this.state.instructors[i].id}`, this.state.instructors[i]).then((response) => {
-          console.log(response.data);
-          console.log(response.status);
-          console.log(response.statusText);
-          console.log(response.headers);
-          console.log(response.config);
-        }, (error) => {
-          console.log(error.request);
-          console.log(error);
-        });
-    }}
+      console.log(update_Django(this.state));
+    }
   
     handleAddEvent(evt) {
       var id = this.state.instructors.length + 1;

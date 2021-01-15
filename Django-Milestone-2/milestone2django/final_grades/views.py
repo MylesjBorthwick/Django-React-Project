@@ -11,7 +11,7 @@ from .models import Final_Grades
 @api_view(['GET', 'POST','DELETE'])
 def Final_Grades_list(request):
     if request.method == 'GET':
-        data = Final_Grades.objects.filter(id<100)
+        data = Final_Grades.objects.filter(id__lt=100)
 
         serializer = Final_Grades_Serializer(data, context={'request': request}, many=True)
 

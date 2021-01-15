@@ -11,7 +11,7 @@ from .models import Course_Objectives
 @api_view(['GET', 'POST','DELETE'])
 def Course_Objectives_list(request):
     if request.method == 'GET':
-        data = Course_Objectives.objects.filter(id<100)
+        data = Course_Objectives.objects.filter(id__lt=100)
 
         serializer = Course_Objectives_Serializer(data, context={'request': request}, many=True)
 

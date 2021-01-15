@@ -3,11 +3,44 @@ import React, { useState, useEffect, Component } from "react";
 import "./Components.css";
 import axios from "axios";
 
+async function update_Django_backend(state) {
+  var API_URL = "http://localhost:8000/api/final_grades/";
+
+  var arrayLength = state.finalGrades.length;
+  for (var i = 0; i < arrayLength; i++) {
+    
+    axios.post(API_URL, state.finalGrades[i]).then((response) => {
+      console.log(response.data);
+      console.log(response.status);
+      console.log(response.statusText);
+      console.log(response.headers);
+      console.log(response.config);
+    }, (error) => {
+      console.log(error.request);
+      console.log(error);
+    });
+    
+    //may somehow get away with doing it without duplicates
+    axios.put(`http://localhost:8000/api/final_grades/${state.finalGrades[i].id}`, state.finalGrades[i]).then((response) => {
+      console.log(response.data);
+      console.log(response.status);
+      console.log(response.statusText);
+      console.log(response.headers);
+      console.log(response.config);
+    }, (error) => {
+      console.log(error.request);
+      console.log(error);
+    });
+}}
+
+async function update_Django(state) {
+  const response = await update_Django_backend(state);
+  return response;
+}
 
 class FinalGradeDeterminations extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
 
     this.state = {
       filterText: "",
@@ -30,7 +63,7 @@ class FinalGradeDeterminations extends React.Component {
   }
 
   componentDidUpdate(prevProps){
-    if(this.props.isClicked !== prevProps.isClicked){
+    if(this.props.isClicked !== prevProps.isClicked || this.state.finalGrades.length < 1){
        this.setState({
         filterText : '',
         finalGrades:[
@@ -44,8 +77,9 @@ class FinalGradeDeterminations extends React.Component {
           }
         ]
      });
+     console.log(update_Django(this.state));
     }
- 
+  
   }
 
   handleUserInput(filterText) {
@@ -64,7 +98,14 @@ class FinalGradeDeterminations extends React.Component {
       console.log(error);
     });
     this.state.finalGrades.splice(index, 1);
-    this.setState(this.state.finalGrades);
+
+    var temp_state = this.state.finalGrades
+    var arrayLength = temp_state.length;
+    for (var i = 0; i < arrayLength; i++) {
+      temp_state[i].id = i+1;
+    }
+
+    this.setState(temp_state);  
   }
 
   handleAddEvent(evt) {
@@ -82,34 +123,8 @@ class FinalGradeDeterminations extends React.Component {
 
   handleSend(evt) {
     console.log(this.state.finalGrades);
-    var API_URL = "http://localhost:8000/api/final_grades/";
+    console.log(update_Django(this.state));
 
-    var arrayLength = this.state.finalGrades.length;
-    for (var i = 0; i < arrayLength; i++) {
-      
-      axios.post(API_URL, this.state.finalGrades[i]).then((response) => {
-        console.log(response.data);
-        console.log(response.status);
-        console.log(response.statusText);
-        console.log(response.headers);
-        console.log(response.config);
-      }, (error) => {
-        console.log(error.request);
-        console.log(error);
-      });
-      
-      //may somehow get away with doing it without duplicates
-      axios.put(`http://localhost:8000/api/final_grades/${this.state.finalGrades[i].id}`, this.state.finalGrades[i]).then((response) => {
-        console.log(response.data);
-        console.log(response.status);
-        console.log(response.statusText);
-        console.log(response.headers);
-        console.log(response.config);
-      }, (error) => {
-        console.log(error.request);
-        console.log(error);
-      });
-  }
   }
 
   handleFinalGradesTable(evt) {

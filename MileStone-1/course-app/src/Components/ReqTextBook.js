@@ -3,6 +3,42 @@ import React, { useState, useEffect, Component } from 'react'
 import './Components.css';
 import axios from "axios";
 
+async function update_Django_backend(state) {
+    var API_URL = "http://localhost:8000/api/required_textbooks/";
+
+    var arrayLength = state.textbooks.length;
+    for (var i = 0; i < arrayLength; i++) {
+      
+      axios.post(API_URL, state.textbooks[i]).then((response) => {
+        console.log(response.data);
+        console.log(response.status);
+        console.log(response.statusText);
+        console.log(response.headers);
+        console.log(response.config);
+      }, (error) => {
+        console.log(error.request);
+        console.log(error);
+      });
+      
+      //may somehow get away with doing it without duplicates
+      axios.put(`http://localhost:8000/api/required_textbooks/${state.textbooks[i].id}`, state.textbooks[i]).then((response) => {
+        console.log(response.data);
+        console.log(response.status);
+        console.log(response.statusText);
+        console.log(response.headers);
+        console.log(response.config);
+      }, (error) => {
+        console.log(error.request);
+        console.log(error);
+      });
+  }
+  }
+  
+  async function update_Django(state) {
+    const response = await update_Django_backend(state);
+    return response;
+  }
+
 
 class ReqTextBook extends React.Component {
 
@@ -29,7 +65,7 @@ class ReqTextBook extends React.Component {
     }
 
     componentDidUpdate(prevProps){
-        if(this.props.isClicked !== prevProps.isClicked){
+        if(this.props.isClicked !== prevProps.isClicked || this.state.textbooks.length< 1){
            this.setState({
             filterText : '',
             textbooks:[
@@ -43,40 +79,14 @@ class ReqTextBook extends React.Component {
               }
             ]
          });
+          console.log(update_Django(this.state));
         }
-     
       }
 
     handleSend(evt){
         console.log(this.state.textbooks);
-        var API_URL = "http://localhost:8000/api/required_textbooks/";
+        console.log(update_Django(this.state));
 
-        var arrayLength = this.state.textbooks.length;
-        for (var i = 0; i < arrayLength; i++) {
-          
-          axios.post(API_URL, this.state.textbooks[i]).then((response) => {
-            console.log(response.data);
-            console.log(response.status);
-            console.log(response.statusText);
-            console.log(response.headers);
-            console.log(response.config);
-          }, (error) => {
-            console.log(error.request);
-            console.log(error);
-          });
-          
-          //may somehow get away with doing it without duplicates
-          axios.put(`http://localhost:8000/api/required_textbooks/${this.state.textbooks[i].id}`, this.state.textbooks[i]).then((response) => {
-            console.log(response.data);
-            console.log(response.status);
-            console.log(response.statusText);
-            console.log(response.headers);
-            console.log(response.config);
-          }, (error) => {
-            console.log(error.request);
-            console.log(error);
-          });
-      }
       }
 
     handleUserInput(filterText) {
@@ -95,7 +105,13 @@ class ReqTextBook extends React.Component {
             console.log(error);
           });
         this.state.textbooks.splice(index, 1);
-        this.setState(this.state.textbooks);
+        var temp_state = this.state.textbooks;
+        var arrayLength = temp_state.length;
+        for (var i = 0; i < arrayLength; i++) {
+          temp_state[i].id = i+1;
+        }
+    
+        this.setState(temp_state);    
     };
 
     handleAddEvent(evt) {

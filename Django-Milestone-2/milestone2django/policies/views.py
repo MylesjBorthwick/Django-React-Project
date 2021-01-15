@@ -11,8 +11,8 @@ from .models import Policies
 @api_view(['GET', 'POST','DELETE'])
 def Policies_list(request):
     if request.method == 'GET':
-        data = Policies.objects.filter(id<100)
-
+        data = Policies.objects.filter(id__lt=100)
+        
         serializer = Policies_Serializer(data, context={'request': request}, many=True)
 
         return Response(serializer.data)

@@ -11,7 +11,7 @@ from .models import Examinations
 @api_view(['GET', 'POST','DELETE'])
 def Examinations_list(request):
     if request.method == 'GET':
-        data = Examinations.objects.filter(id<100)
+        data = Examinations.objects.filter(id__lt=100)
 
         serializer = Examinations_Serializer(data, context={'request': request}, many=True)
 

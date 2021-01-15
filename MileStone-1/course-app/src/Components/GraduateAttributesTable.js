@@ -3,6 +3,41 @@ import React, { useState, useEffect , Component} from 'react'
 import './Components.css';
 import axios from "axios";
 
+async function update_Django_backend(state) {
+  var API_URL = "http://localhost:8000/api/graduate_attributes/";
+
+  var arrayLength = state.attributes.length;
+  for (var i = 0; i < arrayLength; i++) {
+    console.log(state.attributes[i]);
+    
+    axios.post(API_URL, state.attributes[i]).then((response) => {
+      console.log(response.data);
+      console.log(response.status);
+      console.log(response.statusText);
+      console.log(response.headers);
+      console.log(response.config);
+    }, (error) => {
+      console.log(error.request);
+      console.log(error);
+    });
+    
+    //may somehow get away with doing it without duplicates
+    axios.put(`http://localhost:8000/api/graduate_attributes/${state.attributes[i].id}`, state.attributes[i]).then((response) => {
+      console.log(response.data);
+      console.log(response.status);
+      console.log(response.statusText);
+      console.log(response.headers);
+      console.log(response.config);
+    }, (error) => {
+      console.log(error.request);
+      console.log(error);
+    });
+}}
+
+async function update_Django(state) {
+  const response = await update_Django_backend(state);
+  return response;
+}
 
 class GraduateAttributesTable extends React.Component {
 
@@ -28,7 +63,7 @@ class GraduateAttributesTable extends React.Component {
     }
 
     componentDidUpdate(prevProps){
-      if(this.props.isClicked !== prevProps.isClicked){
+      if(this.props.isClicked !== prevProps.isClicked || this.state.attributes.length< 1){
          this.setState({
           filterText : '',
           attributes:[
@@ -41,8 +76,8 @@ class GraduateAttributesTable extends React.Component {
             }
           ]
        });
+        console.log(update_Django(this.state));
       }
-   
     }
 
     handleUserInput(filterText) {
@@ -61,7 +96,15 @@ class GraduateAttributesTable extends React.Component {
         console.log(error);
       });
       this.state.attributes.splice(index, 1);
-      this.setState(this.state.attributes);
+
+      var temp_state = this.state.attributes;
+      var arrayLength = temp_state.length;
+      for (var i = 0; i < arrayLength; i++) {
+        temp_state[i].id = i+1;
+        temp_state[i].publicID = i+1;
+      }
+  
+      this.setState(temp_state);
     };
   
     handleAddEvent(evt) {
@@ -81,34 +124,8 @@ class GraduateAttributesTable extends React.Component {
 
     handleSend(evt){
       console.log(this.state.attributes);
-      var API_URL = "http://localhost:8000/api/graduate_attributes/";
+      console.log(update_Django(this.state));
 
-      var arrayLength = this.state.attributes.length;
-      for (var i = 0; i < arrayLength; i++) {
-        
-        axios.post(API_URL, this.state.attributes[i]).then((response) => {
-          console.log(response.data);
-          console.log(response.status);
-          console.log(response.statusText);
-          console.log(response.headers);
-          console.log(response.config);
-        }, (error) => {
-          console.log(error.request);
-          console.log(error);
-        });
-        
-        //may somehow get away with doing it without duplicates
-        axios.put(`http://localhost:8000/api/graduate_attributes/${this.state.attributes[i].id}`, this.state.attributes[i]).then((response) => {
-          console.log(response.data);
-          console.log(response.status);
-          console.log(response.statusText);
-          console.log(response.headers);
-          console.log(response.config);
-        }, (error) => {
-          console.log(error.request);
-          console.log(error);
-        });
-    }
     }
   
     handleAttributesTable(evt) {
