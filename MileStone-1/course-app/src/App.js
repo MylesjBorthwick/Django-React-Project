@@ -5,6 +5,7 @@ import "./App.scss";
 
 import Collapsible from "./Components/Collapsible";
 import axios from "axios";
+import CourseSelector from "./Components/CourseSelector";
 
 const App =()=> {
 
@@ -47,7 +48,12 @@ const App =()=> {
           <div class="container">
             <h1 class="title is-1">Course Creation Form</h1>
             <h2 class="subtitle">Edit form by section or create new form</h2>
+            <div className="container is full-width">
 
+            <CourseSelector/>
+            <br></br>
+
+            </div>
             
             <div className="container is full-width">
               <Collapsible isClicked={isClicked}/>
