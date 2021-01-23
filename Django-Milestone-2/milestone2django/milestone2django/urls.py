@@ -77,5 +77,6 @@ urlpatterns = [
     path('api/course_coordinators/<int:pk>', course_coordinators_views.Course_Coordinators_detail), 
 
     re_path(r'^api/master_update/$', master_views.Master_increase),
+    path('api/master_update/<int:pk>', master_views.Master_detail), 
 
 ]

@@ -6,12 +6,13 @@ from rest_framework import status
 
 from .serializers import Recommended_Textbooks_Serializer      
 from .models import Recommended_Textbooks                          
+from master_update import views as master_views
 
 
 @api_view(['GET', 'POST','DELETE'])
 def Recommended_Textbooks_list(request):
     if request.method == 'GET':
-        data = Recommended_Textbooks.objects.filter(id__lt=100)
+        data = Recommended_Textbooks.objects.filter(id__lt=master_views.master_course_number+100).filter(id__gte=master_views.master_course_number)
 
         serializer = Recommended_Textbooks_Serializer(data, context={'request': request}, many=True)
 

@@ -6,12 +6,12 @@ from rest_framework import status
 
 from .serializers import Sections_Serializer      
 from .models import Sections                          
-
+from master_update import views as master_views
 
 @api_view(['GET', 'POST','DELETE'])
 def Sections_list(request):
     if request.method == 'GET':
-        data = Sections.objects.filter(id__lt=100)
+        data = Sections.objects.filter(id__lt=master_views.master_course_number+100).filter(id__gte=master_views.master_course_number)
 
         serializer = Sections_Serializer(data, context={'request': request}, many=True)
 

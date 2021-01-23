@@ -6,12 +6,13 @@ from rest_framework import status
 
 from .serializers import Instructors_Serializer      
 from .models import Instructors                          
+from master_update import views as master_views
 
 
 @api_view(['GET', 'POST','DELETE'])
 def Instructors_list(request):
     if request.method == 'GET':
-        data = Instructors.objects.filter(id__lt=100)
+        data = Instructors.objects.filter(id__lt=master_views.master_course_number+100).filter(id__gte=master_views.master_course_number)
 
         serializer = Instructors_Serializer(data, context={'request': request}, many=True)
 

@@ -7,11 +7,13 @@ from rest_framework import status
 from .serializers import Calculator_Use_Serializer      
 from .models import Calculator_Use                          
 
+from master_update import views as master_views
 
 @api_view(['GET', 'POST','DELETE'])
 def Calculator_Use_list(request):
     if request.method == 'GET':
-        data = Calculator_Use.objects.filter(id__lt=100)
+        #data = Calculator_Use.objects.filter(id__lt=100)
+        data = Calculator_Use.objects.filter(id__lt=master_views.master_course_number+100).filter(id__gte=master_views.master_course_number)
 
         serializer = Calculator_Use_Serializer(data, context={'request': request}, many=True)
 

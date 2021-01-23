@@ -6,12 +6,13 @@ from rest_framework import status
 
 from .serializers import Policies_Serializer      
 from .models import Policies                          
+from master_update import views as master_views
 
 
 @api_view(['GET', 'POST','DELETE'])
 def Policies_list(request):
     if request.method == 'GET':
-        data = Policies.objects.filter(id__lt=100)
+        data = Policies.objects.filter(id__lt=master_views.master_course_number+100).filter(id__gte=master_views.master_course_number)
         
         serializer = Policies_Serializer(data, context={'request': request}, many=True)
 

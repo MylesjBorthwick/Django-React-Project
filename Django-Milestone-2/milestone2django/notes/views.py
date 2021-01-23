@@ -6,12 +6,13 @@ from rest_framework import status
 
 from .serializers import Notes_Serializer      
 from .models import Notes                          
+from master_update import views as master_views
 
 
 @api_view(['GET', 'POST','DELETE'])
 def Notes_list(request):
     if request.method == 'GET':
-        data = Notes.objects.filter(id__lt=100)
+        data = Notes.objects.filter(id__lt=master_views.master_course_number+100).filter(id__gte=master_views.master_course_number)
 
         serializer = Notes_Serializer(data, context={'request': request}, many=True)
 

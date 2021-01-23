@@ -23,12 +23,16 @@ from policies import models as policies_models
 from graduate_attributes import models as graduate_attributes_models
 
 from datetime import datetime
-
+from calendar_information import serializers as calendar_information_serializers
 
 import time
 
+master_course_number = 0
+
 @api_view(['GET', 'DELETE'])
 def Master_increase(request):
+    master_course_number = 0
+
     if request.method == 'DELETE':
         now_str = str(datetime.now())
         now_str= now_str.replace('-','').replace(' ','').replace(':','').replace('.','')
@@ -161,7 +165,33 @@ def Master_increase(request):
 
 
 
+    elif request.method == 'GET':
+        data = calendar_information_models.Calendar_Information.objects.all()
+
+        serializer = calendar_information_serializers.Calendar_Information_Serializer(data, context={'request': request}, many=True)
+
+        return Response(serializer.data)
+
+
+
+
+@api_view(['GET', 'DELETE'])
+def Master_detail(request, pk):
+    try:
+        datum = calendar_information_models.Calendar_Information.objects.filter(id=pk)
+        datum.get(id=pk)
+    except:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
+
+    if request.method == 'DELETE':
+        datum.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
     elif request.method == 'GET':
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        serializer = calendar_information_serializers.Calendar_Information_Serializer(datum, context={'request': request}, many=True)
+        master_course_number = pk
+        if master_course_number%100 == 1:
+            master_course_number = master_course_number - 1
+        return Response(serializer.data)
 
