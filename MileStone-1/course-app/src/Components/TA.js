@@ -93,26 +93,40 @@ class TA extends React.Component {
       this.setState({filterText: filterText});
     };
     handleRowDel(instructor) {
-      var index = this.state.instructors.indexOf(instructor);
-      axios.delete(`http://localhost:8000/api/teaching_assistants/${this.state.instructors[index].id}`).then((response) => {
-        console.log(response.data);
-        console.log(response.status);
-        console.log(response.statusText);
-        console.log(response.headers);
-        console.log(response.config);
-      }, (error) => {
-        console.log(error.request);
-        console.log(error);
-      });
-
-      this.state.instructors.splice(index, 1);
-      var temp_state = this.state.instructors;
-      var arrayLength = temp_state.length;
-      for (var i = 0; i < arrayLength; i++) {
-        temp_state[i].id = i+1;
+      if(this.state.instructors.length< 2){
+        var tem_state = this.state.instructors;
+        tem_state[0].section= '';
+        tem_state[0].fname= '';
+        tem_state[0].lname= '';
+        tem_state[0].phone= '';
+        tem_state[0].office= '';
+        tem_state[0].email= '';
+        tem_state[0].section= '';
+        this.setState(tem_state);
       }
+      else{
+        var index = this.state.instructors.indexOf(instructor);
+        axios.delete(`http://localhost:8000/api/teaching_assistants/${this.state.instructors[index].id}`).then((response) => {
+          console.log(response.data);
+          console.log(response.status);
+          console.log(response.statusText);
+          console.log(response.headers);
+          console.log(response.config);
+        }, (error) => {
+          console.log(error.request);
+          console.log(error);
+        });
   
-      this.setState(temp_state);  
+        this.state.instructors.splice(index, 1);
+        var temp_state = this.state.instructors;
+        var arrayLength = temp_state.length;
+        var id_start = this.state.instructors[0].course_outline_id;
+        for (var i = 0; i < arrayLength; i++) {
+          temp_state[i].id = id_start+ i+1;
+        }
+        this.setState(temp_state); 
+      }
+ 
     };
 
     handleSend(evt){
@@ -121,10 +135,10 @@ class TA extends React.Component {
     }
   
     handleAddEvent(evt) {
-      var id = this.state.instructors.length + 1;
+      var id = this.state.instructors[this.state.instructors.length-1].id + 1;
       var instructor = {
         id: id,
-        course_outline_id: 101,
+        course_outline_id: this.state.instructors[0].course_outline_id,
         section: '',
         fname: '',
         lname: '',

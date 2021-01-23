@@ -88,36 +88,47 @@ class Sections extends React.Component {
       this.setState({filterText: filterText});
     };
     handleRowDel(section) {
-      var index = this.state.sections.indexOf(section);
-      axios.delete(`http://localhost:8000/api/sections/${this.state.sections[index].id}`).then((response) => {
-        console.log(response.data);
-        console.log(response.status);
-        console.log(response.statusText);
-        console.log(response.headers);
-        console.log(response.config);
-      }, (error) => {
-        console.log(error.request);
-        console.log(error);
-      });
-      this.state.sections.splice(index, 1);
-      var temp_state = this.state.sections;
-      var arrayLength = temp_state.length;
-      for (var i = 0; i < arrayLength; i++) {
-        temp_state[i].id = i+1;
+      if(this.state.sections.length< 2){
+        var tem_state = this.state.sections;
+        tem_state[0].name= '';
+        tem_state[0].days= '';
+        tem_state[0].time= '';
+        tem_state[0].location= '';
+        this.setState(tem_state);
       }
-  
-      this.setState(temp_state);      
+      else{
+        var index = this.state.sections.indexOf(section);
+        axios.delete(`http://localhost:8000/api/sections/${this.state.sections[index].id}`).then((response) => {
+          console.log(response.data);
+          console.log(response.status);
+          console.log(response.statusText);
+          console.log(response.headers);
+          console.log(response.config);
+        }, (error) => {
+          console.log(error.request);
+          console.log(error);
+        });
+        this.state.sections.splice(index, 1);
+        var temp_state = this.state.sections;
+        var arrayLength = temp_state.length;
+        var id_start = this.state.sections[0].course_outline_id;
+        for (var i = 0; i < arrayLength; i++) {
+            temp_state[i].id = id_start+ i+1;
+        }        
+        this.setState(temp_state);  
+      }
+    
     };
   
     handleAddEvent(evt) {
-      var id = this.state.sections.length+1 ;
+      var id = this.state.sections[this.state.sections.length-1].id + 1;
       var section = {
         id: id,
         name: '',
         days: '',
         time: '',
         location: '',
-        course_outline_id: 101,
+        course_outline_id: this.state.sections[0].course_outline_id,
         
       }
       this.state.sections.push(section);

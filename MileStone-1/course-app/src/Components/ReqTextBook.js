@@ -93,37 +93,47 @@ class ReqTextBook extends React.Component {
         this.setState({ filterText: filterText });
     };
     handleRowDel(textbook) {
-        var index = this.state.textbooks.indexOf(textbook);
-        axios.delete(`http://localhost:8000/api/required_textbooks/${this.state.textbooks[index].id}`).then((response) => {
-            console.log(response.data);
-            console.log(response.status);
-            console.log(response.statusText);
-            console.log(response.headers);
-            console.log(response.config);
-          }, (error) => {
-            console.log(error.request);
-            console.log(error);
-          });
-        this.state.textbooks.splice(index, 1);
-        var temp_state = this.state.textbooks;
-        var arrayLength = temp_state.length;
-        for (var i = 0; i < arrayLength; i++) {
-          temp_state[i].id = i+1;
-        }
-    
-        this.setState(temp_state);    
+        if(this.state.textbooks.length< 2){
+            var tem_state = this.state.textbooks;
+            tem_state[0].title= '';
+            tem_state[0].author= '';
+            tem_state[0].edition= '';
+            tem_state[0].publisher= '';
+            this.setState(tem_state);
+          }
+          else{
+            var index = this.state.textbooks.indexOf(textbook);
+            axios.delete(`http://localhost:8000/api/required_textbooks/${this.state.textbooks[index].id}`).then((response) => {
+                console.log(response.data);
+                console.log(response.status);
+                console.log(response.statusText);
+                console.log(response.headers);
+                console.log(response.config);
+              }, (error) => {
+                console.log(error.request);
+                console.log(error);
+              });
+            this.state.textbooks.splice(index, 1);
+            var temp_state = this.state.textbooks;
+            var arrayLength = temp_state.length;
+            var id_start = this.state.textbooks[0].course_outline_id;
+            for (var i = 0; i < arrayLength; i++) {
+                temp_state[i].id = id_start+ i+1;
+            }
+            this.setState(temp_state);  
+          }
+  
     };
 
     handleAddEvent(evt) {
-        var id = this.state.textbooks.length+1;
+        var id = this.state.textbooks[this.state.textbooks.length-1].id + 1;
         var textbook = {
             id: id,
             title: "",
             author: "",
             edition: "",
             publisher: "",
-            course_outline_id:101,
-           
+            course_outline_id: this.state.textbooks[0].course_outline_id,
         }
         this.state.textbooks.push(textbook);
         this.setState(this.state.textbooks);

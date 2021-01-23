@@ -49,13 +49,13 @@ class CourseObjectives extends React.Component {
         {
           id: 1,
           publicID: 1,
-          course_outline_id: 101,
+          course_outline_id: 1,
           name: "",
         },
         {
           id: 2,
           publicID: 2,
-          course_outline_id: 101,
+          course_outline_id: 1,
           name: "",
         },
       ],
@@ -77,7 +77,7 @@ class CourseObjectives extends React.Component {
           {
           id: 1,
           publicID: 1,
-          course_outline_id: 101,
+          course_outline_id: 1,
           name: "",
           }
         ]
@@ -91,37 +91,44 @@ class CourseObjectives extends React.Component {
     this.setState({ filterText: filterText });
   }
   handleRowDel(courseObjective) {
-    var index = this.state.courseObjectives.indexOf(courseObjective);
-    axios.delete(`http://localhost:8000/api/course_objectives/${this.state.courseObjectives[index].id}`).then((response) => {
-      console.log(response.data);
-      console.log(response.status);
-      console.log(response.statusText);
-      console.log(response.headers);
-      console.log(response.config);
-    }, (error) => {
-      console.log(error.request);
-      console.log(error);
-    });
-    this.state.courseObjectives.splice(index, 1);
-
-
-    var temp_state = this.state.courseObjectives;
-    var arrayLength = temp_state.length;
-    for (var i = 0; i < arrayLength; i++) {
-      temp_state[i].id = i+1;
-      temp_state[i].publicID = i+1;
+    if(this.state.courseObjectives.length< 2){
+      var temp_state = this.state.courseObjectives;
+      temp_state[0].publicID = 1;
+      temp_state[0].name= '';
+      this.setState(temp_state);
     }
-
-    this.setState(temp_state);
+    else{
+      var index = this.state.courseObjectives.indexOf(courseObjective);
+      axios.delete(`http://localhost:8000/api/course_objectives/${this.state.courseObjectives[index].id}`).then((response) => {
+        console.log(response.data);
+        console.log(response.status);
+        console.log(response.statusText);
+        console.log(response.headers);
+        console.log(response.config);
+      }, (error) => {
+        console.log(error.request);
+        console.log(error);
+      });
+      this.state.courseObjectives.splice(index, 1);
+  
+      var temp_states = this.state.courseObjectives;
+      var arrayLength = temp_states.length;
+      var id_start = this.state.courseObjectives[0].course_outline_id;
+      for (var i = 0; i < arrayLength; i++) {
+        temp_states[i].id = id_start+ i+1;
+        temp_states[i].publicID = i+1;
+      }
+      this.setState(temp_states);
+    }
   }
 
   handleAddEvent(evt) {
-    var id = this.state.courseObjectives.length + 1;
+    var id = this.state.courseObjectives[this.state.courseObjectives.length-1].id + 1;
     var courseObjective = {
       id: id,
       name: "",
-      course_outline_id: 101,
-      publicID: id,
+      course_outline_id: this.state.courseObjectives[0].course_outline_id,
+      publicID: 1 + this.state.courseObjectives.length,
     };
     this.state.courseObjectives.push(courseObjective);
     this.setState(this.state.courseObjectives);

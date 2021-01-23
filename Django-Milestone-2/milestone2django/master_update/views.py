@@ -179,7 +179,10 @@ def Master_increase(request):
 def Master_detail(request, pk):
     try:
         datum = calendar_information_models.Calendar_Information.objects.filter(id=pk)
-        datum.get(id=pk)
+        if len(datum) < 1:
+            datum = calendar_information_models.Calendar_Information.objects.filter(course_outline_id=pk)
+        if len(datum) < 1:
+            datum.get(id=pk)
     except:
         return Response(status=status.HTTP_404_NOT_FOUND)
     
@@ -190,8 +193,10 @@ def Master_detail(request, pk):
 
     elif request.method == 'GET':
         serializer = calendar_information_serializers.Calendar_Information_Serializer(datum, context={'request': request}, many=True)
+        global master_course_number
         master_course_number = pk
         if master_course_number%100 == 1:
             master_course_number = master_course_number - 1
+        print(master_course_number)
         return Response(serializer.data)
 

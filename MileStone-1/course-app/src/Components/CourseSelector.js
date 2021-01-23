@@ -9,16 +9,17 @@ class CourseSelector extends React.Component {
     var API_URL = "http://localhost:8000/api/master_update/";
 
     this.state = {
+      filterText : '',
       values: [
           {
       id: 1,
       num: '',
+      course_outline_id:101,
       course_name: "",
       description: "",
       hours: "",
       credit: "",
       link: "",
-      course_outline_id:101,
     }
       ],
     };
@@ -33,7 +34,23 @@ class CourseSelector extends React.Component {
   
 
   handleChange = (e) => {
-    console.log(e.target.value)
+    console.log(this.state.values); //for some reason id and course_id are always the same
+
+    var index = 0;
+    var arrayLength = this.state.values.length;
+    for (var i = 0; i < arrayLength; i++) {
+      if(this.state.values[i].course_name == e.target.value){
+        index = i;
+      }
+    }
+
+    //None of this works, course_outline_id is fine in the backend, but id is equal to it here for some reason
+    //this function call doesn't work, the +1 is being completely ignored for some reason. 
+
+    console.log(this.state.values[index].id+1);
+    axios
+    .get(`http://localhost:8000/api/master_update/${this.state.values[index].id}`) //because id is wrong, this call doesn't work
+    .catch(err => console.log(err));   
   };
 
   render() {

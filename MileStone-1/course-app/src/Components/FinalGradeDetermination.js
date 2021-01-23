@@ -69,7 +69,7 @@ class FinalGradeDeterminations extends React.Component {
         finalGrades:[
           {
             id: 1,
-            course_outline_id: 101,
+            course_outline_id: 1,
             weight: "",
             learningOutcome: "",
             finalGrade: "",
@@ -86,33 +86,44 @@ class FinalGradeDeterminations extends React.Component {
     this.setState({ filterText: filterText });
   }
   handleRowDel(finalGrade) {
-    var index = this.state.finalGrades.indexOf(finalGrade);
-    axios.delete(`http://localhost:8000/api/final_grades/${this.state.finalGrades[index].id}`).then((response) => {
-      console.log(response.data);
-      console.log(response.status);
-      console.log(response.statusText);
-      console.log(response.headers);
-      console.log(response.config);
-    }, (error) => {
-      console.log(error.request);
-      console.log(error);
-    });
-    this.state.finalGrades.splice(index, 1);
-
-    var temp_state = this.state.finalGrades
-    var arrayLength = temp_state.length;
-    for (var i = 0; i < arrayLength; i++) {
-      temp_state[i].id = i+1;
+    if(this.state.finalGrades.length< 2){
+      var temp_states = this.state.finalGrades;
+      temp_states[0].publicID= 1;
+      temp_states[0].weight= '';
+      temp_states[0].learningOutcome= '';
+      temp_states[0].finalGrade= '';
+      temp_states[0].name= '';
+      this.setState(temp_states);
     }
-
-    this.setState(temp_state);  
+    else{
+      var index = this.state.finalGrades.indexOf(finalGrade);
+      axios.delete(`http://localhost:8000/api/final_grades/${this.state.finalGrades[index].id}`).then((response) => {
+        console.log(response.data);
+        console.log(response.status);
+        console.log(response.statusText);
+        console.log(response.headers);
+        console.log(response.config);
+      }, (error) => {
+        console.log(error.request);
+        console.log(error);
+      });
+      this.state.finalGrades.splice(index, 1);
+  
+      var temp_state = this.state.finalGrades
+      var arrayLength = temp_state.length;
+      var id_start = this.state.finalGrades[0].course_outline_id;
+      for (var i = 0; i < arrayLength; i++) {
+        temp_state[i].id = id_start+ i+1;
+      }
+      this.setState(temp_state); 
+    }
   }
 
   handleAddEvent(evt) {
-    var id = this.state.finalGrades.length+1;
+    var id = this.state.finalGrades[this.state.finalGrades.length-1].id + 1;
     var finalGrade = {
       id: id,
-      course_outline_id: 101,
+      course_outline_id: this.state.finalGrades[0].course_outline_id,
       name: "",
       learningOutcome: "",
       weight: "",

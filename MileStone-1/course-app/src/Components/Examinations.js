@@ -48,13 +48,13 @@ class Examinations extends React.Component {
     this.state.examinations = [
       {
         id: 1,
-        course_outline_id: 101,
+        course_outline_id: 1,
         publicID: 1,
         name: "",
       },
       {
         id: 2,
-        course_outline_id: 101,
+        course_outline_id: 1,
         publicID: 2,
         name: "",
       },
@@ -73,7 +73,7 @@ class Examinations extends React.Component {
         examinations: [
           {
             id: 1,
-            course_outline_id: 101,
+            course_outline_id: 1,
             publicID: 1,
             name: "",
           },
@@ -95,43 +95,52 @@ class Examinations extends React.Component {
   }
 
   handleRowDel(examinations) {
-    var index = this.state.examinations.indexOf(examinations);
-    axios
-      .delete(
-        `http://localhost:8000/api/examinations/${this.state.examinations[index].id}`
-      )
-      .then(
-        (response) => {
-          console.log(response.data);
-          console.log(response.status);
-          console.log(response.statusText);
-          console.log(response.headers);
-          console.log(response.config);
-        },
-        (error) => {
-          console.log(error.request);
-          console.log(error);
-        }
-      );
-    this.state.examinations.splice(index, 1);
-
-    var temp_state = this.state.examinations
-    var arrayLength = temp_state.length;
-    for (var i = 0; i < arrayLength; i++) {
-      temp_state[i].id = i+1;
-      temp_state[i].publicID = i+1;
+    if(this.state.examinations.length< 2){
+      var temp_states = this.state.examinations;
+      temp_states[0].publicID= 1;
+      temp_states[0].name= '';
+      this.setState(temp_states);
+    }
+    else{
+      var index = this.state.examinations.indexOf(examinations);
+      axios
+        .delete(
+          `http://localhost:8000/api/examinations/${this.state.examinations[index].id}`
+        )
+        .then(
+          (response) => {
+            console.log(response.data);
+            console.log(response.status);
+            console.log(response.statusText);
+            console.log(response.headers);
+            console.log(response.config);
+          },
+          (error) => {
+            console.log(error.request);
+            console.log(error);
+          }
+        );
+      this.state.examinations.splice(index, 1);
+  
+      var temp_state = this.state.examinations
+      var arrayLength = temp_state.length;
+      var id_start = this.state.examinations[0].course_outline_id;
+      for (var i = 0; i < arrayLength; i++) {
+        temp_state[i].id = id_start+ i+1;
+        temp_state[i].publicID = i+1;
+      }
+      this.setState(temp_state);
     }
 
-    this.setState(temp_state);
   }
 
   handleAddEvent(evt) {
-    var id = 1 + this.state.examinations.length;
+    var id = this.state.examinations[this.state.examinations.length-1].id + 1;
     var examinations = {
       id: id,
-      course_outline_id: 101,
+      course_outline_id: this.state.examinations[0].course_outline_id,
       name: "",
-      publicID: id,
+      publicID: 1 + this.state.examinations.length,
     };
     this.state.examinations.push(examinations);
     this.setState(this.state.examinations);

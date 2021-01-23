@@ -13,7 +13,7 @@ from master_update import views as master_views
 def Notes_list(request):
     if request.method == 'GET':
         data = Notes.objects.filter(id__lt=master_views.master_course_number+100).filter(id__gte=master_views.master_course_number)
-
+        print(master_views.master_course_number)
         serializer = Notes_Serializer(data, context={'request': request}, many=True)
 
         return Response(serializer.data)
@@ -62,10 +62,3 @@ def Notes_detail(request, pk):
 
         return Response(serializer.data)
 
-
-
-
-        
-class Notes_View(viewsets.ModelViewSet):       # add this
-  serializer_class = Notes_Serializer          # add this
-  queryset = Notes.objects.all()              # add this

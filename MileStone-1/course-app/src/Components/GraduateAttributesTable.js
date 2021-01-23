@@ -84,37 +84,46 @@ class GraduateAttributesTable extends React.Component {
       this.setState({filterText: filterText});
     };
     handleRowDel(attribute) {
-      var index = this.state.attributes.indexOf(attribute);
-      axios.delete(`http://localhost:8000/api/graduate_attributes/${this.state.attributes[index].id}`).then((response) => {
-        console.log(response.data);
-        console.log(response.status);
-        console.log(response.statusText);
-        console.log(response.headers);
-        console.log(response.config);
-      }, (error) => {
-        console.log(error.request);
-        console.log(error);
-      });
-      this.state.attributes.splice(index, 1);
-
-      var temp_state = this.state.attributes;
-      var arrayLength = temp_state.length;
-      for (var i = 0; i < arrayLength; i++) {
-        temp_state[i].id = i+1;
-        temp_state[i].publicID = i+1;
+      if(this.state.attributes.length< 2){
+        var tem_state = this.state.attributes;
+        tem_state[0].grad= '';
+        tem_state[0].instruct= '';
+        tem_state[0].publicID= 1;
+        this.setState(tem_state);
       }
+      else{
+        var index = this.state.attributes.indexOf(attribute);
+        axios.delete(`http://localhost:8000/api/graduate_attributes/${this.state.attributes[index].id}`).then((response) => {
+          console.log(response.data);
+          console.log(response.status);
+          console.log(response.statusText);
+          console.log(response.headers);
+          console.log(response.config);
+        }, (error) => {
+          console.log(error.request);
+          console.log(error);
+        });
+        this.state.attributes.splice(index, 1);
   
-      this.setState(temp_state);
+        var temp_state = this.state.attributes;
+        var arrayLength = temp_state.length;
+        var id_start = this.state.attributes[0].course_outline_id;
+        for (var i = 0; i < arrayLength; i++) {
+          temp_state[i].id = id_start+ i+1;
+          temp_state[i].publicID = i+1;
+        }  
+        this.setState(temp_state);
+      }
     };
   
     handleAddEvent(evt) {
-      var id = 1+this.state.attributes.length;
+      var id = this.state.attributes[this.state.attributes.length-1].id + 1;
       var attribute = {
         id: id,
-        publicID: id,
+        publicID: 1+this.state.attributes.length,
         grad: '',
         instruct: '',
-        course_outline_id: 101,
+        course_outline_id: this.state.attributes[0].course_outline_id,
 
       }
       this.state.attributes.push(attribute);
