@@ -39,6 +39,7 @@ const App =()=> {
 
     console.log('button pressed');
     console.log(response);
+    window.location.reload()
   };
 
   return (

@@ -6,16 +6,31 @@ import axios from "axios";
 class CourseSelector extends React.Component {
   constructor(props) {
     super(props);
+    var API_URL = "http://localhost:8000/api/master_update/";
 
     this.state = {
       values: [
-        { name: "One", id: 1 },
-        { name: "Two", id: 2 },
-        { name: "Three", id: 3 },
-        { name: "Four", id: 4 },
+          {
+      id: 1,
+      num: '',
+      course_name: "",
+      description: "",
+      hours: "",
+      credit: "",
+      link: "",
+      course_outline_id:101,
+    }
       ],
     };
+
+      axios
+      .get(API_URL)
+      .then(res => this.setState({ values: res.data }))
+      .catch(err => console.log(err));   
+
   }
+
+  
 
   handleChange = (e) => {
     console.log(e.target.value)
@@ -23,7 +38,7 @@ class CourseSelector extends React.Component {
 
   render() {
     let optionTemplate = this.state.values.map((v) => (
-      <option value={v.name}>{v.name}</option>
+      <option value={v.course_name}>{v.course_name}</option>
     ));
     return (
       <div>
