@@ -17,15 +17,18 @@ class CourseSelector extends React.Component {
     };
   }
 
+  handleChange = (e) => {
+    console.log(e.target.value)
+  };
+
   render() {
     let optionTemplate = this.state.values.map((v) => (
-      <option value={v.id}>{v.name}</option>
+      <option value={v.name}>{v.name}</option>
     ));
     return (
       <div>
-        <label>Select Course</label>
-        <br></br>
-        <select value={this.state.value} onChange={this.handleChange}>
+        <h1 className= 'title is-3'>Select Course</h1>
+        <select value={this.state.value} onChange={this.handleChange} >
           {optionTemplate}
         </select>
         
