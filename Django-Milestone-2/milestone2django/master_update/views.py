@@ -119,13 +119,17 @@ def Master_increase(request):
         data = course_objectives_models.Course_Objectives.objects.filter(id__lt=100)
         data.delete()
 
+        
         data = calendar_information_models.Calendar_Information.objects.filter(id__lt=100)
         for datum in data:
-            datum.id = datum.id + increase_num
-            datum.course_outline_id = increase_num
-            datum.save()
+            if datum.course_name is not None and not datum.course_name:
+                datum.id = datum.id + increase_num
+                datum.course_outline_id = increase_num
+                datum.save()
         data = calendar_information_models.Calendar_Information.objects.filter(id__lt=100)
         data.delete()
+        data = calendar_information_models.Calendar_Information.objects.create(pk=1)
+        data.save()
 
         data = calculator_use_models.Calculator_Use.objects.filter(id__lt=100)
         for datum in data:
