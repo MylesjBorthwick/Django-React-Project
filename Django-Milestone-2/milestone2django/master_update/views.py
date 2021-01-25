@@ -31,9 +31,12 @@ master_course_number = 0
 
 @api_view(['GET', 'DELETE'])
 def Master_increase(request):
-    master_course_number = 0
+
 
     if request.method == 'DELETE':
+        global master_course_number
+        master_course_number = 0
+
         now_str = str(datetime.now())
         now_str= now_str.replace('-','').replace(' ','').replace(':','').replace('.','')
         increase_num = (int(int(now_str)/1000)-20000000000000000)*100
@@ -120,16 +123,18 @@ def Master_increase(request):
         data.delete()
 
         
-        data = calendar_information_models.Calendar_Information.objects.filter(id__lt=100)
+        data = calendar_information_models.Calendar_Information.objects.filter(id__lt=100).filter(id__gt=1)
         for datum in data:
-            if datum.course_name is not None and not datum.course_name:
+            if datum.course_name is not None:
                 datum.id = datum.id + increase_num
                 datum.course_outline_id = increase_num
                 datum.save()
         data = calendar_information_models.Calendar_Information.objects.filter(id__lt=100)
         data.delete()
-        data = calendar_information_models.Calendar_Information.objects.create(pk=1)
+        data = calendar_information_models.Calendar_Information.objects.create(pk=2)
         data.save()
+        data = calendar_information_models.Calendar_Information.objects.filter(id__lte=1)
+        data.delete()
 
         data = calculator_use_models.Calculator_Use.objects.filter(id__lt=100)
         for datum in data:
@@ -185,8 +190,8 @@ def Master_detail(request, pk):
         datum = calendar_information_models.Calendar_Information.objects.filter(id=pk)
         if len(datum) < 1:
             datum = calendar_information_models.Calendar_Information.objects.filter(course_outline_id=pk)
-        if len(datum) < 1:
-            datum.get(id=pk)
+        if len(datum) != 1:
+            datum = datum.get(id=pk)
     except:
         return Response(status=status.HTTP_404_NOT_FOUND)
     
@@ -201,6 +206,15 @@ def Master_detail(request, pk):
         master_course_number = pk
         if master_course_number%100 == 1:
             master_course_number = master_course_number - 1
-        print(master_course_number)
+
+        try:
+            delete_datum = calendar_information_models.Calendar_Information.objects.get(id=1)
+            delete_datum.delete()
+        except:
+            pass
+
+        new_datum = datum.first()
+        new_datum.id = 1
+        new_datum.save()
         return Response(serializer.data)
 
