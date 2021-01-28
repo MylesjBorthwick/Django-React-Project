@@ -206,6 +206,8 @@ def Master_detail(request, pk):
         master_course_number = pk
         if master_course_number%100 == 1:
             master_course_number = master_course_number - 1
+        elif master_course_number%100 == 2:
+            master_course_number = master_course_number - 2
 
         try:
             delete_datum = calendar_information_models.Calendar_Information.objects.get(id=1)
