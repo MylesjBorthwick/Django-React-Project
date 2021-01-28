@@ -113,14 +113,14 @@ class FinalGradeDeterminations extends React.Component {
       var arrayLength = temp_state.length;
       var id_start = this.state.finalGrades[0].course_outline_id;
       for (var i = 0; i < arrayLength; i++) {
-        temp_state[i].id = id_start+ i+1;
+        temp_state[i].id =  i+1 + id_start;
       }
       this.setState(temp_state); 
     }
   }
 
   handleAddEvent(evt) {
-    var id = this.state.finalGrades[this.state.finalGrades.length-1].id + 1;
+    var id = 1+this.state.finalGrades[this.state.finalGrades.length-1].id ;
     var finalGrade = {
       id: id,
       course_outline_id: this.state.finalGrades[0].course_outline_id,

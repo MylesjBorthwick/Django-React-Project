@@ -124,7 +124,7 @@ class CourseInstructors extends React.Component {
         var arrayLength = temp_states.length;
         var id_start = this.state.instructors[0].course_outline_id;
         for (var i = 0; i < arrayLength; i++) {
-          temp_states[i].id = id_start+ i+1;
+          temp_states[i].id = i+1 +id_start;
         }
         this.setState(temp_states);
       }
@@ -136,7 +136,7 @@ class CourseInstructors extends React.Component {
     }
   
     handleAddEvent(evt) {
-      var id = this.state.instructors[this.state.instructors.length-1].id + 1;
+      var id = 1+ this.state.instructors[this.state.instructors.length-1].id;
       var instructor = {
         id: id,
         course_outline_id: this.state.instructors[0].course_outline_id,

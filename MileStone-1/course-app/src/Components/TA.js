@@ -122,7 +122,7 @@ class TA extends React.Component {
         var arrayLength = temp_state.length;
         var id_start = this.state.instructors[0].course_outline_id;
         for (var i = 0; i < arrayLength; i++) {
-          temp_state[i].id = id_start+ i+1;
+          temp_state[i].id =i+1+ id_start ;
         }
         this.setState(temp_state); 
       }
@@ -135,7 +135,7 @@ class TA extends React.Component {
     }
   
     handleAddEvent(evt) {
-      var id = this.state.instructors[this.state.instructors.length-1].id + 1;
+      var id = 1+ this.state.instructors[this.state.instructors.length-1].id ;
       var instructor = {
         id: id,
         course_outline_id: this.state.instructors[0].course_outline_id,

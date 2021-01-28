@@ -47,10 +47,13 @@ class CourseSelector extends React.Component {
     //None of this works, course_outline_id is fine in the backend, but id is equal to it here for some reason
     //this function call doesn't work, the +1 is being completely ignored for some reason. 
 
-    console.log(this.state.values[index].id+1);
+    console.log(1+this.state.values[index].course_outline_id);
+
     axios
     .get(`http://localhost:8000/api/master_update/${this.state.values[index].id}`) //because id is wrong, this call doesn't work
-    .catch(err => console.log(err));   
+    .catch(err => console.log(err)); 
+
+    window.location.reload();  
   };
 
   render() {

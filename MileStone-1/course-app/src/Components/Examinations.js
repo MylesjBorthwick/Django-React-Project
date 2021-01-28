@@ -126,7 +126,7 @@ class Examinations extends React.Component {
       var arrayLength = temp_state.length;
       var id_start = this.state.examinations[0].course_outline_id;
       for (var i = 0; i < arrayLength; i++) {
-        temp_state[i].id = id_start+ i+1;
+        temp_state[i].id =  i+1+id_start;
         temp_state[i].publicID = i+1;
       }
       this.setState(temp_state);
@@ -135,7 +135,7 @@ class Examinations extends React.Component {
   }
 
   handleAddEvent(evt) {
-    var id = this.state.examinations[this.state.examinations.length-1].id + 1;
+    var id = 1+ this.state.examinations[this.state.examinations.length-1].id ;
     var examinations = {
       id: id,
       course_outline_id: this.state.examinations[0].course_outline_id,
